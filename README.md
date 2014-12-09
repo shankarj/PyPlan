@@ -8,4 +8,4 @@ Basic Architecture
 
 <i>(First draft)</i>
 
-![archimage]: (https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/updated.png "Architecture of PyPlan")
+[archimage]: (https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/updated.png "Architecture of PyPlan")
