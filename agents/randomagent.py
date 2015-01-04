@@ -6,16 +6,16 @@ class RandomAgentClass(absagent.AbstractAgent):
 
 	myname = "RANDOM"
 
-	def __init__(self, agentid, simulator, rollout_policy = None, heuristic = 0):
+	def __init__(self, agentid, rollout_policy = None, heuristic = 0):
 		self.agentid = agentid
-		self.agentname = str(aid) + myname
-		self.simulator = deepcopy(simulator)
-		self.agentclass = rollout_policy
+		self.agentname = str(agentid) + self.myname
+		self.rollout_agent = rollout_policy
 		self.heuristicvalue = heuristic
-		self.playerturn = agentturn
 
-	def select_action(self):
-		valid_actions = self.simulator.valid_actions()
+	def select_action(self, simulator):
+		self.simulator = deepcopy(simulator)
+		
+		valid_actions = self.simulator.get_valid_actions()
 		actions_count = len(valid_actions)
 
 		if actions_count == 1:
@@ -23,7 +23,7 @@ class RandomAgentClass(absagent.AbstractAgent):
 		else:
 			choice = random.randrange(actions_count)
 		
-		return actions[choice]
+		return valid_actions[choice]
 
 
 

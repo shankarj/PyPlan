@@ -36,7 +36,11 @@ class AbstractSimulator:
 		raise NotImplementedError
 
 	@abc.abstractmethod
-	def get_next_turn(self):
+	def get_current_turn(self):
+		raise NotImplementedError
+
+	@abc.abstractmethod
+	def change_turn(self):
 		raise NotImplementedError
 
 	@abc.abstractmethod

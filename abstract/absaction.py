@@ -5,9 +5,5 @@ class AbstractAction:
 	__metaclass__ = ABCMeta
 
 	@abc.abstractmethod
-	def set_action(self, **action):
-		raise NotImplementedError
-
-	@abc.abstractmethod
-	def valid_actions(self):
+	def get_action(self):
 		raise NotImplementedError

@@ -12,37 +12,42 @@ NOTE :
 							    Otherwise this variable holds the winning player's number.
 								Player number 1 for X. 2 for O.
 """
-class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
-	def __init__ (self, playerturn, numplayers = 2):
+
+class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
+	def __init__(self, playerturn, numplayers=2):
 		self.playerturn = playerturn
 		self.numplayers = numplayers
 		self.winningplayer = None
 
-	def get_next_turn(self):
+	def get_current_turn(self):
+		return self.playerturn
+
+	def change_turn(self):
 		self.playerturn += 1
 		self.playerturn = self.playerturn % self.numplayers
 
 		if self.playerturn == 0:
 			self.playerturn = self.numplayers
 
-		return self.playerturn
-	
 	def take_action(self, action):
 		actionvalue = action.get_action()
 		position = actionvalue['position']
 		value = actionvalue['value']
 		self.current_state[position[0]][position[1]] = value
-	
+
 	def get_valid_actions(self):
 		actions_list = []
 
 		for x in xrange(len(self.current_state)):
 			for y in xrange(len(self.current_state[0])):
 				if self.current_state[x][y] == 0:
+					action = {}
 					action['position'] = [x, y]
 					action['value'] = self.playerturn
 					actions_list.append(tictactoeaction.TicTacToeActionClass(action))
+
+		return actions_list
 
 
 	def set_state(self, state):
@@ -51,7 +56,7 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 	def get_winning_player(self):
 		return self.winningplayer
 
-	def is_terminal(self):		
+	def is_terminal(self):
 		xcount = 0
 		ocount = 0
 
@@ -65,7 +70,7 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 			if xcount == 3:
 				self.winningplayer = 1
-			elif ycount == 3:
+			elif ocount == 3:
 				self.winningplayer = 2
 			else:
 				xcount = 0
@@ -82,7 +87,7 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 				if xcount == 3:
 					self.winningplayer = 1
-				elif ycount == 3:
+				elif ocount == 3:
 					self.winningplayer = 2
 				else:
 					xcount = 0
@@ -106,7 +111,7 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 				if xcount == 3:
 					self.winningplayer = 1
-				elif ycount == 3:
+				elif ocount == 3:
 					self.winningplayer = 2
 				else:
 					xcount = 0
@@ -114,7 +119,7 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 		# Diagonal Two Check for Hit
 		x = 0
-		y = len(self.current_state[0])
+		y = len(self.current_state[0]) - 1
 		xcount = 0
 		ocount = 0
 
@@ -130,14 +135,28 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 				if xcount == 3:
 					self.winningplayer = 1
-				elif ycount == 3:
+				elif ocount == 3:
 					self.winningplayer = 2
 				else:
 					xcount = 0
 				ocount = 0
 
 		if self.winningplayer == None:
-			return False
+			#CHECK IF THE BOARD IS FULL
+			x = 0
+			y = 0
+			game_over = True
+
+			for x in xrange(len(self.current_state)):
+				for y in xrange(len(self.current_state[0])):
+					if self.current_state[x][y] == 0:
+						game_over = False
+						break
+
+			if game_over == True:
+				return True
+			else:
+				return False
 		else:
 			return True
 
