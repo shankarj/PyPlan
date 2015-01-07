@@ -9,3 +9,14 @@ Basic Architecture
 <i>(First draft)</i>
 
 ![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/updated.png "Architecture of PyPlan")
+
+Usage
+=====
+
+The DealerClass initiates a simulation between a given number of agents for the chosen simulator. The constructor is given below.
+
+```
+def __init__(self, agents_list, simulator_type, **other_args):
+```
+
+Input the list of agents, Simulator's id, other_args such as rollout_policy. (Revision needed).
