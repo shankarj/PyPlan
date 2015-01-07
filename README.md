@@ -22,11 +22,15 @@ def __init__(self, agents_list, simulator_type, **other_args):
 Input the list of agent ids, simulator's id, other_args including rollout_policy, heuristic value. (Revision needed).
 
 Agent IDs:
+
 1 - Random agent
+
 2 - Uniform agent
 
 Simulator IDs:
+
 1 - TicTacToe
+
 2 - Backgammon (Not yet finished)
 
 other_args["rollout_policy"] = AGENT_ID
