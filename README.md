@@ -23,12 +23,12 @@ Input the list of agent ids, simulator's id, other_args including rollout_policy
 
 Agent IDs:
 
-1 - Random agent
- 2 - Uniform agent
+1 - Random agent  
+2 - Uniform agent
 
 Simulator IDs:
 
-1 - TicTacToe
- 2 - Backgammon (Not yet finished)
+1 - TicTacToe  
+2 - Backgammon (Not yet finished)
 
 other_args["rollout_policy"] = AGENT_ID
