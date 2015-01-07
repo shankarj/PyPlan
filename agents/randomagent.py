@@ -9,7 +9,7 @@ class RandomAgentClass(absagent.AbstractAgent):
 	def __init__(self, agentid, rollout_policy = None, heuristic = 0):
 		self.agentid = agentid
 		self.agentname = str(agentid) + self.myname
-		self.rollout_agent = rollout_policy
+		self.rollout_policy = rollout_policy
 		self.heuristicvalue = heuristic
 
 	def select_action(self, simulator):

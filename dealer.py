@@ -14,7 +14,16 @@ class DealerClass:
 
 		for agent_type in agents_list:
 			agent_id += 1
-			temp_agent = agentfactory.create_agent(agent_type, agent_id, None, 0)
+
+			# BY DEFAULT THE ROLLOUT AGENT IS SET TO BE THE RANDOM AGENT HERE FOR TESTING
+
+			if (agent_type == 2):
+				rollout_policy = agentfactory.create_agent(1, agent_id, None, 0)
+				agent_id += 1
+			else:
+				rollout_policy = None
+
+			temp_agent = agentfactory.create_agent(agent_type, agent_id, rollout_policy, 0)
 			
 			#ADD NEEDED OTHER ARGS TO TEMP_AGENT HERE AND THEN APPEND TO PLAYERLIST			
 			self.playerlist.append(temp_agent)
@@ -23,7 +32,7 @@ class DealerClass:
 
 	def start_simulation(self):
 		while self.simulator.is_terminal() == False:
-			actual_agent_id = self.playerturn - 1
+			actual_agent_id = self.simulator.playerturn - 1
 			action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator)
 			self.simulator.take_action(action_to_take)
 			self.simulator.change_turn()
