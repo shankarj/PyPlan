@@ -5,11 +5,19 @@ class AbstractSimulator:
 	__metaclass__ = ABCMeta
 	
 	@abc.abstractmethod
-	def __init__ (self, playerturn, numplayers = 2):
+	def __init__ (self, player_turn, num_players):
 		raise NotImplementedError
 
 	@abc.abstractmethod
-	def take_action(self):
+	def reset_simulator(self):
+		raise NotImplementedError
+
+	@abc.abstractmethod
+	def change_simulator_values(self, current_state, player_turn):
+		raise NotImplementedError
+
+	@abc.abstractmethod
+	def take_action(self, action):
 		"""
 		
 		This method takes the specified action over the current state
@@ -32,19 +40,8 @@ class AbstractSimulator:
 		raise NotImplementedError
 
 	@abc.abstractmethod
-	def get_current_state(self):
-		raise NotImplementedError
-
-	@abc.abstractmethod
-	def get_current_turn(self):
-		raise NotImplementedError
-
-	@abc.abstractmethod
 	def change_turn(self):
 		raise NotImplementedError
 
-	@abc.abstractmethod
-	def get_winning_player(self):
-		raise NotImplementedError
 
 

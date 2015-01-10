@@ -18,22 +18,24 @@ Method:
 
 '''
 
-class UniformAgentClass(absagent.AbstractAgent):
+class UniformRolloutAgentClass(absagent.AbstractAgent):
     myname = "UNIFORM"
 
-    def __init__(self, agentid, rollout_policy=None, heuristic=0):
-        self.agentid = agentid
-        self.agentname = str(agentid) + self.myname
+    def __init__(self, simulator, rollout_policy, pull_count, heuristic=0):
+        self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic
         self.pull_count = 3
+        self.simulator = deepcopy(simulator)
+
+    def get_agent_name(self):
+		return self.agentname
 
     def set_num_pulls(self, pull_count=3):
         self.pull_count = pull_count
 
-    def select_action(self, simulator):
-        self.simulator = deepcopy(simulator)
-
+    def select_action(self, current_state, current_turn):
+        self.simulator.change_simulator_values(current_state, current_turn)
         valid_actions = self.simulator.get_valid_actions()
         actions_count = len(valid_actions)
 
@@ -42,17 +44,20 @@ class UniformAgentClass(absagent.AbstractAgent):
         for arm in xrange(actions_count):
             for pull in xrange(self.pull_count):
                 player_number = self.simulator.playerturn
+
+                # TAKE THE ACTION i.e., CREATE THE ARM
                 current_arm = deepcopy(self.simulator)
                 current_arm.take_action(valid_actions[arm])
                 current_arm.change_turn()
 
+                # PLAY TILL GAME END
                 while current_arm.is_terminal() == False:
                     actual_agent_id = current_arm.playerturn - 1
-                    action_to_take = self.rollout_policy.select_action(current_arm)
+                    action_to_take = self.rollout_policy.select_action(current_arm.current_state, current_arm.playerturn)
                     current_arm.take_action(action_to_take)
                     current_arm.change_turn()
 
-                winner = current_arm.get_winning_player()
+                winner = current_arm.winningplayer
 
                 if winner == player_number:
                     arm_rewards[arm] += 1

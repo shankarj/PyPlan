@@ -3,19 +3,19 @@ import random
 from copy import deepcopy
 
 class RandomAgentClass(absagent.AbstractAgent):
-
 	myname = "RANDOM"
 
-	def __init__(self, agentid, rollout_policy = None, heuristic = 0):
-		self.agentid = agentid
-		self.agentname = str(agentid) + self.myname
-		self.rollout_policy = rollout_policy
-		self.heuristicvalue = heuristic
-
-	def select_action(self, simulator):
+	def __init__(self, simulator, rollout_policy = None, heuristic = None):
+		self.agentname = self.myname
 		self.simulator = deepcopy(simulator)
-		
-		valid_actions = self.simulator.get_valid_actions()
+		self.rollout_policy = None
+
+	def get_agent_name(self):
+		return self.agentname
+
+	def select_action(self, current_state, current_turn):
+		self.simulator.change_simulator_values(current_state, current_turn)
+		valid_actions =self.simulator.get_valid_actions()
 		actions_count = len(valid_actions)
 
 		if actions_count == 1:

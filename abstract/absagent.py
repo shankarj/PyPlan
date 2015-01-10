@@ -5,5 +5,9 @@ class AbstractAgent:
 	__metaclass__ = ABCMeta
 
 	@abc.abstractmethod
-	def select_action(self, simulator):
+	def select_action(self, current_state, current_turn):
+		raise NotImplementedError
+
+	@abc.abstractmethod
+	def get_agent_name(self):
 		raise NotImplementedError
