@@ -19,7 +19,7 @@ The DealerClass initiates a simulation between a given number of agents for the 
 def __init__(self, agents_list, simulator, num_simulations):
 ```
 
-Input the list of agent objects, simulator object, and the number of simulations(int). A sample usage example is given as follows :
+Input the list of agent objects, simulator object, and the number of simulations(int). A sample usage is given as follows :
 
 Create the simulator object
 
