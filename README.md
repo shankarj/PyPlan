@@ -6,9 +6,9 @@ PyPlan is a set of modular Monte-Carlo planning libraries for Python. The main g
 Basic Architecture
 ==================
 
-<i>(First draft)</i>
+<i>(Second draft. Frozen 1/9/15.)</i>
 
-![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/updated.png "Architecture of PyPlan")
+![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/second.png "Architecture of PyPlan")
 
 Usage
 =====
@@ -16,19 +16,32 @@ Usage
 The DealerClass initiates a simulation between a given number of agents for the chosen simulator. The constructor is given below.
 
 ```
-def __init__(self, agents_list, simulator_type, **other_args):
+def __init__(self, agents_list, simulator, num_simulations):
 ```
 
-Input the list of agent ids, simulator's id, other_args including rollout_policy, heuristic value. (Revision needed).
+Input the list of agent objects, simulator object, and the number of simulations(int). 
 
-Agent IDs:
+1. Create the simulator object.
 
-1 - Random agent  
-2 - Uniform agent
+```
+simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(starting_player = 1, num_players = 2)
+```
 
-Simulator IDs:
+2. Create agents.
 
-1 - TicTacToe  
-2 - Backgammon (Not yet finished)
+```
+agent_one = randomagent.RandomAgentClass(simulator = simulator_obj)
+agent_two = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_one, pull_count = 3)
+agent_three = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_two, pull_count = 3)
 
-other_args["rollout_policy"] = AGENT_ID
+agents_list = [agent_three, agent_two]
+```
+
+You can see that the first agent (agent_three) is a nested uniform rollout agent. The second agent (agent_two) is a simple random agent.
+
+3. Create dealer object and start simulation.
+
+```
+dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations = 1)
+dealer_object.start_simulation()
+```
