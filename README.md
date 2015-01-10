@@ -19,15 +19,15 @@ The DealerClass initiates a simulation between a given number of agents for the 
 def __init__(self, agents_list, simulator, num_simulations):
 ```
 
-Input the list of agent objects, simulator object, and the number of simulations(int). 
+Input the list of agent objects, simulator object, and the number of simulations(int). A sample usage example is given as follows :
 
-1. Create the simulator object
+Create the simulator object
 
 ```
 simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(starting_player = 1, num_players = 2)
 ```
 
-2. Create agents
+Create agents
 
 ```
 agent_one = randomagent.RandomAgentClass(simulator = simulator_obj)
@@ -39,7 +39,7 @@ agents_list = [agent_three, agent_two]
 
 You can see that the first agent (agent_three) is a nested uniform rollout agent. The second agent (agent_two) is a simple random agent.
 
-3. Create dealer object and start simulation
+Create dealer object and start simulation
 
 ```
 dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations = 1)
