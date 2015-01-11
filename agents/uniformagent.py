@@ -39,41 +39,51 @@ class UniformRolloutAgentClass(absagent.AbstractAgent):
         valid_actions = self.simulator.get_valid_actions()
         actions_count = len(valid_actions)
 
-        arm_rewards = [0] * actions_count
+        arm_rewards = [[0.0] * self.simulator.numplayers] * actions_count
 
         for arm in xrange(actions_count):
+            current_arm_rewards = []
+
             for pull in xrange(self.pull_count):
                 player_number = self.simulator.playerturn
 
-                # TAKE THE ACTION i.e., CREATE THE ARM
-                current_arm = deepcopy(self.simulator)
-                current_arm.take_action(valid_actions[arm])
-                current_arm.change_turn()
+                # TAKE THE ACTION i.e., CREATE THE ARM TO DO ROLLOUT
+                current_pull = deepcopy(self.simulator)
+                actual_reward = current_pull.take_action(valid_actions[arm])
+                current_pull.change_turn()
+
+                playout_rewards = []
 
                 # PLAY TILL GAME END
-                while current_arm.is_terminal() == False:
-                    actual_agent_id = current_arm.playerturn - 1
-                    action_to_take = self.rollout_policy.select_action(current_arm.current_state, current_arm.playerturn)
-                    current_arm.take_action(action_to_take)
-                    current_arm.change_turn()
+                while current_pull.gameover == False:
+                    actual_agent_id = current_pull.playerturn - 1
+                    action_to_take = self.rollout_policy.select_action(current_pull.current_state, current_pull.playerturn)
+                    reward = current_pull.take_action(action_to_take)
+                    playout_rewards.append(reward)
+                    current_pull.change_turn()
 
-                winner = current_arm.winningplayer
+                # ADD ACTUAL REWARD + BACKTRACK REWARDS TO THE CURRENT PULL'S REWARD AND ADD TO CURRENT ARM'S REWARD VECTOR
+                current_pull_reward = [0] * self.simulator.numplayers
+                current_pull_reward = [x + y for x, y in zip(actual_reward, current_pull_reward)]
+                for value in xrange(len(playout_rewards)):
+                    current_pull_reward = [x + y for x, y in zip(playout_rewards[value], current_pull_reward)]
 
-                if winner == player_number:
-                    arm_rewards[arm] += 1
-                elif winner == None:
-                    pass
-                else:
-                    arm_rewards[arm] -= 1
+                current_arm_rewards.append(current_pull_reward)
 
-                del current_arm
+                del current_pull
+
+            # AVERAGE ALL THE PULL REWARDS FOR THE CURRENT ARM
+            for pull in xrange(self.pull_count):
+                arm_rewards[arm] = [x + y for x, y in zip(current_arm_rewards[pull], arm_rewards[arm])]
+            for player in xrange(self.simulator.numplayers):
+                arm_rewards[arm][player] = arm_rewards[arm][player] / self.pull_count
 
         best_arm = 0
-        best_reward = arm_rewards[0]
+        best_reward = arm_rewards[0][current_turn - 1]
 
         for arm in xrange(len(arm_rewards)):
-            if arm_rewards[arm] > best_reward:
-                best_reward = arm_rewards[arm]
+            if arm_rewards[arm][current_turn - 1] > best_reward:
+                best_reward = arm_rewards[arm][current_turn - 1]
                 best_arm = arm
 
         return valid_actions[best_arm]
