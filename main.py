@@ -16,7 +16,8 @@ def call_dealer():
 	agents_list = [agent_one,agent_two]
 	dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations = simulation_count)
 	dealer_object.start_simulation()
-	results = dealer_object.simulation_stats()
+	results = dealer_object.simulation_stats()[0]
+	winner_list = dealer_object.simulation_stats()[1]
 
 	# RESULTS CALCULATION
 	overall_reward = []
@@ -40,8 +41,17 @@ def call_dealer():
 	for x in xrange(len(overall_reward_avg)):
 		overall_reward_avg[x] = overall_reward_avg[x] / simulation_count
 
-	print "REWARD AVG FOR OVERALL SIMULATION : "
+	print "\nREWARD AVG FOR OVERALL SIMULATION : "
 	print overall_reward_avg
+
+	win_counts = [0.0] * players_count
+
+	for val in xrange(len(winner_list)):
+		if winner_list[val] is not None:
+			win_counts[winner_list[val] - 1] += 1.0
+
+	for val in xrange(players_count):
+		print "AVG WINS FOR AGENT {0} : {1}".format(val + 1, win_counts[val]/simulation_count)
 
 if __name__ == "__main__":
 	call_dealer()
