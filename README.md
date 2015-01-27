@@ -45,3 +45,6 @@ Create dealer object and start simulation
 dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations = 1)
 dealer_object.start_simulation()
 ```
+Note
+====
+starting_player, playerturn are One based indexes.
