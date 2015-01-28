@@ -6,9 +6,9 @@ PyPlan is a set of modular Monte-Carlo planning libraries for Python. The main g
 Basic Architecture
 ==================
 
-<i>(Second draft. Frozen 1/9/15.)</i>
+<i>(Third draft. Frozen 1/27/15.)</i>
 
-![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/second.png "Architecture of PyPlan")
+![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/updated_3.png "Architecture of PyPlan")
 
 Usage
 =====
