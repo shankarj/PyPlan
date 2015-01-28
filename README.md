@@ -45,9 +45,10 @@ Create dealer object and start simulation
 dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations = 1)
 dealer_object.start_simulation()
 ```
-List
-====
- 
+Modules available
+=================
+<i>(Available as of now)</i>  
+
 Agents:  
 1. Uniform Rollout  
 2. Incremental Uniform Rollout  
