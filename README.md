@@ -60,4 +60,5 @@ Simulators:
 2. Connect4  
 Note
 ====
-starting_player, playerturn are One based indexes.
+1. starting_player, playerturn are One based indexes.
+2. Bitboard representation is used for Connect4. Runs pretty good.
