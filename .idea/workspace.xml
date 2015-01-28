@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9ea01e4d-1ce1-4dda-9917-9bd9e141a304" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actions/__init__.py" afterPath="$PROJECT_DIR$/actions/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/__init__.py" afterPath="$PROJECT_DIR$/agents/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulators/__init__.py" afterPath="$PROJECT_DIR$/simulators/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/states/__init__.py" afterPath="$PROJECT_DIR$/states/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dealer.py" afterPath="$PROJECT_DIR$/dealer.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/simulatortest.py" afterPath="$PROJECT_DIR$/tests/simulatortest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simulators/tictactoesimulator.py" afterPath="$PROJECT_DIR$/simulators/tictactoesimulator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/uniformagent.py" afterPath="$PROJECT_DIR$/agents/uniformagent.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="9ea01e4d-1ce1-4dda-9917-9bd9e141a304" name="Default" comment="" />
     <ignored path="PyPlan.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,10 +24,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="uniformagent.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="uniformagent.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/agents/uniformagent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1485">
+            <state vertical-scroll-proportion="0.33870968" vertical-offset="0" max-vertical-offset="1485">
               <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
@@ -57,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61290324" vertical-offset="0" max-vertical-offset="960">
-              <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="960">
+              <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -119,14 +108,10 @@
       <file leaf-file-name="connect4simulator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simulators/connect4simulator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.777779" vertical-offset="1842" max-vertical-offset="2475">
-              <caret line="153" column="8" selection-start-line="153" selection-start-column="8" selection-end-line="153" selection-end-column="8" />
+            <state vertical-scroll-proportion="-72.77778" vertical-offset="0" max-vertical-offset="2475">
+              <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
-                <marker date="1422410462000" expanded="true" signature="191:5766" placeholder="..." />
-                <marker date="1422410462000" expanded="true" signature="1871:3036" placeholder="..." />
-                <marker date="1422410462000" expanded="true" signature="3142:4872" placeholder="..." />
-                <marker date="1422410462000" expanded="true" signature="4900:5766" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -135,8 +120,8 @@
       <file leaf-file-name="dealer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dealer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.11111" vertical-offset="0" max-vertical-offset="1020">
-              <caret line="29" column="53" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
+            <state vertical-scroll-proportion="-11.111111" vertical-offset="0" max-vertical-offset="1020">
+              <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -1037,42 +1022,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulators/connect4simulator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.777779" vertical-offset="1842" max-vertical-offset="2475">
-          <caret line="153" column="8" selection-start-line="153" selection-start-column="8" selection-end-line="153" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-            <marker date="1422410462000" expanded="true" signature="191:5766" placeholder="..." />
-            <marker date="1422410462000" expanded="true" signature="1871:3036" placeholder="..." />
-            <marker date="1422410462000" expanded="true" signature="3142:4872" placeholder="..." />
-            <marker date="1422410462000" expanded="true" signature="4900:5766" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/agents/randomagent.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dealer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.11111" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="29" column="53" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/uniformagent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1485">
-          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
@@ -1109,10 +1062,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61290324" vertical-offset="0" max-vertical-offset="960">
-          <caret line="38" column="44" selection-start-line="38" selection-start-column="44" selection-end-line="38" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="960">
+          <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulators/connect4simulator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-72.77778" vertical-offset="0" max-vertical-offset="2475">
+          <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dealer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.111111" vertical-offset="0" max-vertical-offset="1020">
+          <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/uniformagent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33870968" vertical-offset="0" max-vertical-offset="1485">
+          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
