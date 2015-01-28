@@ -48,7 +48,7 @@ dealer_object.start_simulation()
 List
 ====
  
-Agents: 
+Agents:  
 1. Uniform Rollout 
 2. Incremental Uniform Rollout 
 3. e-Greedy Rollout 
