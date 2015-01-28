@@ -21,11 +21,11 @@ Method:
 class UniformRolloutAgentClass(absagent.AbstractAgent):
     myname = "UNIFORM"
 
-    def __init__(self, simulator, rollout_policy, pull_count, heuristic=0):
+    def __init__(self, simulator, rollout_policy, pull_count = 5, heuristic=0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic
-        self.pull_count = 3
+        self.pull_count = pull_count
         self.simulator = deepcopy(simulator)
 
     def get_agent_name(self):
@@ -39,10 +39,12 @@ class UniformRolloutAgentClass(absagent.AbstractAgent):
         valid_actions = self.simulator.get_valid_actions()
         actions_count = len(valid_actions)
 
-        arm_rewards = [[0.0] * self.simulator.numplayers] * actions_count
+        arm_rewards = [[0.0] * self.simulator.numplayers] * actions_count #REWARD PER PLAYER PER ACTION
+        if actions_count <= 1:
+            return valid_actions[0]
 
         for arm in xrange(actions_count):
-            current_arm_rewards = []
+            current_arm_rewards = [] #THIS STORES REWARDS FOR ALL PULLS OF CURRENT ARM
 
             for pull in xrange(self.pull_count):
                 player_number = self.simulator.playerturn

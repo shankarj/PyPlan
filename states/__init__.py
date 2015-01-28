@@ -1,1 +1,1 @@
-__all__ = ["tictactoestate"]
+__all__ = ["tictactoestate", "connect4state"]

@@ -13,7 +13,7 @@ NOTE :
 							    Otherwise this variable holds the winning player's number.
 								Player number 1 for X. 2 for O.
 
-2. Reward scheme : Win = +1. Lose = -1. Draw = 0.
+2. Reward scheme : Win = +3.0. Lose = -3.0. Draw = 0. Every move = -1
 """
 
 

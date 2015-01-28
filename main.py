@@ -5,15 +5,17 @@ from simulators import *
 
 def call_dealer():
 	players_count = 2
-	simulation_count = 10
+	simulation_count = 5
 
-	simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players = players_count)
+	simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
 
 	agent_one = randomagent.RandomAgentClass(simulator = simulator_obj)
-	agent_two = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_one, pull_count = 5)
-	#agent_three = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_two, pull_count = 3)
+	agent_two = egreedyagent.EGreedyAgentClass(simulator = simulator_obj, rollout_policy = agent_one, pull_count = 20, epsilon = 0.3)
+	agent_three = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_one, pull_count = 5)
+	agent_four = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_three, pull_count = 5)
+	agent_five = incuniformagent.IncUniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_one, pull_count = 15)
 
-	agents_list = [agent_one,agent_two]
+	agents_list = [agent_two, agent_five]
 	dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations = simulation_count)
 	dealer_object.start_simulation()
 	results = dealer_object.simulation_stats()[0]
