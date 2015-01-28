@@ -34,10 +34,10 @@ agent_one = randomagent.RandomAgentClass(simulator = simulator_obj)
 agent_two = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_one, pull_count = 3)
 agent_three = uniformagent.UniformRolloutAgentClass(simulator = simulator_obj, rollout_policy = agent_two, pull_count = 3)
 
-agents_list = [agent_three, agent_two]
+agents_list = [agent_three, agent_one]
 ```
 
-You can see that the first agent (agent_three) is a nested uniform rollout agent. The second agent (agent_two) is a simple random agent.
+You can see that the first agent (agent_three) is a nested uniform rollout agent. The second agent (agent_one) is a simple random agent.
 
 Create dealer object and start simulation
 
