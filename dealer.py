@@ -32,8 +32,8 @@ class DealerClass:
 			game_history = []
 
 			while self.simulator.gameover == False:
-				actual_agent_id = self.simulator.playerturn - 1
-				action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state, self.simulator.playerturn)
+				actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
+				action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
 				#print "TURN : " + str(action_to_take.get_action()["value"])
 				#print "ACTION : " + str(action_to_take.get_action()["position"])
 				reward = self.simulator.take_action(action_to_take)
@@ -43,7 +43,7 @@ class DealerClass:
 			winner = self.simulator.winningplayer
 			self.game_winner_list.append(winner)
 			self.write_simulation_history(game_history)
-			#print_output += "\n" + str(self.simulator.current_state.get_current_state())
+			#print_output += "\n" + str(self.simulator.current_state.get_current_state()["state_val"])
 			print_output += "\n" + self.simulator.print_board()
 			print_output += "\nWINNER : " + str(winner)
 			print_output += "\n----------------------------------"

@@ -19,41 +19,37 @@ NOTE :
 
 class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 	def __init__(self, num_players):
-		self.playerturn = 1
 		self.current_state = tictactoestate.TicTacToeStateClass()
 		self.numplayers = num_players
-
-		self.starting_player = 1
 		self.winningplayer = None
 		self.gameover = False
 
 	def reset_simulator(self):
-		self.playerturn = self.starting_player
 		self.winningplayer = None
 		self.current_state = tictactoestate.TicTacToeStateClass()
 		self.gameover = False
 
-	def change_simulator_values(self, current_state, player_turn):
-		self.playerturn = player_turn
-		self.winningplayer = None
-		self.set_state(current_state)
+	def change_simulator_state(self, current_state):
+		self.current_state = deepcopy(current_state)
 
 	def change_turn(self):
-		self.playerturn += 1
-		self.playerturn = self.playerturn % self.numplayers
+		new_turn = self.current_state.get_current_state()["current_player"] + 1
+		new_turn %= self.numplayers
 
-		if self.playerturn == 0:
-			self.playerturn = self.numplayers
+		if new_turn == 0:
+			self.current_state.get_current_state()["current_player"] = self.numplayers
+		else:
+			self.current_state.get_current_state()["current_player"] = new_turn
 
 	def take_action(self, action):
 		actionvalue = action.get_action()
 		position = actionvalue['position']
 		value = actionvalue['value']
-		self.current_state.get_current_state()[position[0]][position[1]] = value
+		self.current_state.get_current_state()["state_val"][position[0]][position[1]] = value
 		self.gameover = self.is_terminal()
 
 		reward = [0.0] * self.numplayers
-		reward[self.playerturn - 1] -= 1.0
+		reward[self.current_state.get_current_state()["current_player"] - 1] -= 1.0
 
 		if self.winningplayer is not None:
 			for player in xrange(self.numplayers):
@@ -67,29 +63,29 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 	def get_valid_actions(self):
 		actions_list = []
 
-		for x in xrange(len(self.current_state.get_current_state())):
-			for y in xrange(len(self.current_state.get_current_state()[0])):
-				if self.current_state.get_current_state()[x][y] == 0:
+		for x in xrange(len(self.current_state.get_current_state()["state_val"])):
+			for y in xrange(len(self.current_state.get_current_state()["state_val"][0])):
+				if self.current_state.get_current_state()["state_val"][x][y] == 0:
 					action = {}
 					action['position'] = [x, y]
-					action['value'] = self.playerturn
+					action['value'] = self.current_state.get_current_state()["current_player"]
 					actions_list.append(tictactoeaction.TicTacToeActionClass(action))
 
 		return actions_list
-
-	def set_state(self, state):
-		self.current_state = deepcopy(state)
 
 	def is_terminal(self):
 		xcount = 0
 		ocount = 0
 
+		current_state_val = self.current_state.get_current_state()["state_val"]
+		current_player = self.current_state.get_current_state()["current_player"]
+
 		# Horizontal check for hit
-		for x in xrange(len(self.current_state.get_current_state())):
-			for y in xrange(len(self.current_state.get_current_state()[0])):
-				if self.current_state.get_current_state()[x][y] == 1:
+		for x in xrange(len(current_state_val)):
+			for y in xrange(len(current_state_val[0])):
+				if current_state_val[x][y] == 1:
 					xcount += 1
-				elif self.current_state.get_current_state()[x][y] == 2:
+				elif current_state_val[x][y] == 2:
 					ocount += 1
 
 			if xcount == 3:
@@ -104,11 +100,11 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 		# Vertical check for hit
 		if self.winningplayer == None:
-			for y in xrange(len(self.current_state.get_current_state()[0])):
-				for x in xrange(len(self.current_state.get_current_state())):
-					if self.current_state.get_current_state()[x][y] == 1:
+			for y in xrange(len(current_state_val[0])):
+				for x in xrange(len(current_state_val)):
+					if current_state_val[x][y] == 1:
 						xcount += 1
-					elif self.current_state.get_current_state()[x][y] == 2:
+					elif current_state_val[x][y] == 2:
 						ocount += 1
 
 				if xcount == 3:
@@ -128,10 +124,10 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 		ocount = 0
 
 		if self.winningplayer == None:
-			while x < len(self.current_state.get_current_state()):
-				if self.current_state.get_current_state()[x][y] == 1:
+			while x < len(current_state_val):
+				if current_state_val[x][y] == 1:
 					xcount += 1
-				elif self.current_state.get_current_state()[x][y] == 2:
+				elif current_state_val[x][y] == 2:
 					ocount += 1
 
 				x += 1
@@ -147,15 +143,15 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 
 		# Diagonal Two Check for Hit
 		x = 0
-		y = len(self.current_state.get_current_state()[0]) - 1
+		y = len(current_state_val[0]) - 1
 		xcount = 0
 		ocount = 0
 
 		if self.winningplayer == None:
-			while x < len(self.current_state.get_current_state()):
-				if self.current_state.get_current_state()[x][y] == 1:
+			while x < len(current_state_val):
+				if current_state_val[x][y] == 1:
 					xcount += 1
-				elif self.current_state.get_current_state()[x][y] == 2:
+				elif current_state_val[x][y] == 2:
 					ocount += 1
 
 				x += 1
@@ -175,9 +171,9 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 			y = 0
 			game_over = True
 
-			for x in xrange(len(self.current_state.get_current_state())):
-				for y in xrange(len(self.current_state.get_current_state()[0])):
-					if self.current_state.get_current_state()[x][y] == 0:
+			for x in xrange(len(current_state_val)):
+				for y in xrange(len(current_state_val[0])):
+					if current_state_val[x][y] == 0:
 						game_over = False
 						break
 

@@ -13,8 +13,9 @@ class RandomAgentClass(absagent.AbstractAgent):
 	def get_agent_name(self):
 		return self.agentname
 
-	def select_action(self, current_state, current_turn):
-		self.simulator.change_simulator_values(current_state, current_turn)
+	def select_action(self, current_state):
+		current_turn = current_state.get_current_state()["current_player"]
+		self.simulator.change_simulator_state(current_state)
 		valid_actions =self.simulator.get_valid_actions()
 		actions_count = len(valid_actions)
 

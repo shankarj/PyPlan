@@ -3,17 +3,13 @@ from abc import ABCMeta
 
 class AbstractSimulator:
 	__metaclass__ = ABCMeta
-	
-	@abc.abstractmethod
-	def __init__ (self, player_turn, num_players):
-		raise NotImplementedError
 
 	@abc.abstractmethod
 	def reset_simulator(self):
 		raise NotImplementedError
 
 	@abc.abstractmethod
-	def change_simulator_values(self, current_state, player_turn):
+	def change_simulator_state(self, current_state):
 		raise NotImplementedError
 
 	@abc.abstractmethod
@@ -29,10 +25,6 @@ class AbstractSimulator:
 
 	@abc.abstractmethod
 	def get_valid_actions(self):
-		raise NotImplementedError
-
-	@abc.abstractmethod
-	def set_state(self, state):
 		raise NotImplementedError
 
 	@abc.abstractmethod

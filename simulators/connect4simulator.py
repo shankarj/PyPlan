@@ -5,33 +5,31 @@ from states import connect4state
 
 
 class Connect4SimulatorClass(abssimulator.AbstractSimulator):
-    def __init__(self, num_players, boardwidth = 7, boardheight = 6):
-        self.playerturn = 1
+    def __init__(self, num_players, boardwidth=7, boardheight=6):
         self.current_state = connect4state.Connect4StateClass(num_players)
         self.numplayers = num_players
-        self.starting_player = 1
         self.winningplayer = None
         self.gameover = False
-        self.board_width = boardwidth
         self.board_height = boardheight
+        self.board_width = boardwidth
 
     def reset_simulator(self):
-        self.playerturn = self.starting_player
         self.winningplayer = None
         self.current_state = connect4state.Connect4StateClass(self.numplayers)
         self.gameover = False
 
-    def change_simulator_values(self, current_state, player_turn):
-        self.playerturn = player_turn
-        self.winningplayer = None
-        self.set_state(current_state)
+    def change_simulator_state(self, current_state):
+        self.current_state = deepcopy(current_state)
 
     def change_turn(self):
-        self.playerturn += 1
-        self.playerturn = self.playerturn % self.numplayers
+        new_turn = self.current_state.get_current_state()["current_player"] + 1
+        new_turn %= self.numplayers
 
-        if self.playerturn == 0:
-            self.playerturn = self.numplayers
+        if new_turn == 0:
+            self.current_state.get_current_state()["current_player"] = self.numplayers
+        else:
+            self.current_state.get_current_state()["current_player"] = new_turn
+
 
     def take_action(self, action):
         # CHANGE NEEDED
@@ -39,11 +37,11 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         position = actionvalue['position']
         value = actionvalue['value']
 
-        self.current_state.get_current_state()[value - 1] |= 1 << position
+        self.current_state.get_current_state()["state_val"][value - 1] |= 1 << position
         self.gameover = self.is_terminal()
 
         reward = [0.0] * self.numplayers
-        reward[self.playerturn - 1] -= 1.0
+        reward[self.current_state.get_current_state()["current_player"]- 1] -= 1.0
 
         if self.winningplayer is not None:
             for player in xrange(self.numplayers):
@@ -59,7 +57,7 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         current_board = 0
 
         for player_board in xrange(self.numplayers):
-            current_board |= self.current_state.get_current_state()[player_board]
+            current_board |= self.current_state.get_current_state()["state_val"][player_board]
 
         board_size = ((self.board_height + 1) * self.board_width)
         current_board = bin(current_board)[2:].zfill(board_size)[::-1]
@@ -74,7 +72,7 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
                     else:
                         action = {}
                         action['position'] = curr_val
-                        action['value'] = self.playerturn
+                        action['value'] = self.current_state.get_current_state()["current_player"]
 
                     if (curr_val == self.board_width * column):
                         actions_list.append(connect4action.Connect4ActionClass(action))
@@ -83,15 +81,12 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
 
         return actions_list
 
-    def set_state(self, state):
-        self.current_state = deepcopy(state)
-
     def is_terminal(self):
         for player in xrange(self.numplayers):
-            curr_board = self.current_state.get_current_state()[player]
+            curr_board = self.current_state.get_current_state()["state_val"][player]
             temp = bin(curr_board)
 
-            #LEFT DIAGONAL
+            # LEFT DIAGONAL
             transform = curr_board & (curr_board >> self.board_height)
             if transform & (transform >> (2 * self.board_height)):
                 self.winningplayer = player + 1
@@ -115,11 +110,11 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
                 self.winningplayer = player + 1
                 return True
 
-        #NO WINS BUT CHECK FOR DRAW
+        # NO WINS BUT CHECK FOR DRAW
         current_board = 0
 
         for player_board in xrange(self.numplayers):
-            current_board |= self.current_state.get_current_state()[player_board]
+            current_board |= self.current_state.get_current_state()["state_val"][player_board]
 
         board_size = (self.board_height * self.board_width) + self.board_height
         current_board = bin(current_board)[2:].zfill(board_size)[::-1]
@@ -142,7 +137,7 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
                 board_size = ((self.board_height + 1) * self.board_width)
                 player_num = 1
                 is_printed = False
-                for player_board in self.current_state.get_current_state():
+                for player_board in self.current_state.get_current_state()["state_val"]:
                     curr_board = bin(player_board)[2:].zfill(board_size)[::-1]
                     if int(curr_board[curr_row + ((self.board_height + 1) * curr_col)]) == 1:
                         output += str(player_num) + ""

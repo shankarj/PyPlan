@@ -40,8 +40,9 @@ class EGreedyAgentClass(absagent.AbstractAgent):
     def set_num_pulls(self, pull_count=3):
         self.pull_count = pull_count
 
-    def select_action(self, current_state, current_turn):
-        self.simulator.change_simulator_values(current_state, current_turn)
+    def select_action(self, current_state):
+        current_turn = current_state.get_current_state()["current_player"]
+        self.simulator.change_simulator_state(current_state)
         valid_actions = self.simulator.get_valid_actions()
         actions_count = len(valid_actions)
 
@@ -76,8 +77,6 @@ class EGreedyAgentClass(absagent.AbstractAgent):
             else:
                 chosen_arm = current_pull
 
-            player_number = self.simulator.playerturn
-
             # TAKE THE ACTION i.e., CREATE THE CHOSEN ARM TO DO ROLLOUT
             current_pull = deepcopy(self.simulator)
             actual_reward = current_pull.take_action(valid_actions[chosen_arm])
@@ -86,7 +85,7 @@ class EGreedyAgentClass(absagent.AbstractAgent):
             # PLAY TILL GAME END
             playout_rewards = []
             while current_pull.gameover == False:
-                action_to_take = self.rollout_policy.select_action(current_pull.current_state, current_pull.playerturn)
+                action_to_take = self.rollout_policy.select_action(current_pull.current_state)
                 reward = current_pull.take_action(action_to_take)
                 playout_rewards.append(reward)
                 current_pull.change_turn()
