@@ -58,7 +58,6 @@ class UniformRolloutAgentClass(absagent.AbstractAgent):
 
                 # PLAY TILL GAME END
                 while current_pull.gameover == False:
-                    actual_agent_id = current_pull.playerturn - 1
                     action_to_take = self.rollout_policy.select_action(current_pull.current_state, current_pull.playerturn)
                     reward = current_pull.take_action(action_to_take)
                     playout_rewards.append(reward)

@@ -48,9 +48,9 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         if self.winningplayer is not None:
             for player in xrange(self.numplayers):
                 if player == self.winningplayer - 1:
-                    reward[player] += 3.0
+                    reward[player] += 20.0
                 else:
-                    reward[player] -= 3.0
+                    reward[player] -= 20.0
 
         return reward
 
@@ -130,6 +130,7 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
                 if int(current_board[val]) == 0:
                     return False
 
+        self.winningplayer = None
         return True
 
     def print_board(self):

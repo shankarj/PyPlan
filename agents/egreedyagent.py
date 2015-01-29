@@ -50,28 +50,31 @@ class EGreedyAgentClass(absagent.AbstractAgent):
 
         arm_rewards = [[0.0] * self.simulator.numplayers] * actions_count #REWARD VECTOR(EACH PLAYER) PER ACTION
         arm_pull_count = [0] * actions_count
+        hitcount = 0
 
         for current_pull in xrange(self.pull_count):
-            best_arm = 0
-            best_avg = 0.0
+            if current_pull >= actions_count:
+                best_arm = 0
+                best_avg = arm_rewards[0][current_turn - 1] / arm_pull_count[0]
 
-            # CALCULATE ARM WITH BEST AVERAGE
-            for arm in xrange(len(arm_rewards)):
-                if arm_pull_count[arm] == 0:
-                    curr_avg = 0
-                else:
+                # CALCULATE ARM WITH BEST AVERAGE
+                for arm in xrange(len(arm_rewards)):
                     curr_avg = arm_rewards[arm][current_turn - 1] / arm_pull_count[arm]
 
-                if curr_avg > best_avg:
-                    best_arm = arm
-                    best_avg = curr_avg
+                    if curr_avg > best_avg:
+                        best_arm = arm
+                        best_avg = curr_avg
 
-            #E - GREEDY APPLIED HERE.
-            chosen_arm = best_arm
-            if (random.random() < self.epsilon):
-                while chosen_arm is best_arm:
-                    chosen_arm = random.randrange(actions_count)
-                    break
+                #E - GREEDY APPLIED HERE.
+                chosen_arm = best_arm
+                rand_val = random.random()
+                if (rand_val > self.epsilon):
+                    hitcount += 1
+                    while chosen_arm is best_arm:
+                        chosen_arm = random.randrange(actions_count)
+                        break
+            else:
+                chosen_arm = current_pull
 
             player_number = self.simulator.playerturn
 
@@ -83,7 +86,6 @@ class EGreedyAgentClass(absagent.AbstractAgent):
             # PLAY TILL GAME END
             playout_rewards = []
             while current_pull.gameover == False:
-                actual_agent_id = current_pull.playerturn - 1
                 action_to_take = self.rollout_policy.select_action(current_pull.current_state, current_pull.playerturn)
                 reward = current_pull.take_action(action_to_take)
                 playout_rewards.append(reward)
@@ -102,7 +104,7 @@ class EGreedyAgentClass(absagent.AbstractAgent):
 
         # CALCULATE ARM WITH BEST AVERAGE AND RETURN IT
         bestarm = 0
-        best_avg = 0.0
+        best_avg = arm_rewards[0][current_turn - 1] / arm_pull_count[0]
         for arm in xrange(len(arm_rewards)):
             if arm_pull_count[arm] == 0:
                 curr_avg = 0

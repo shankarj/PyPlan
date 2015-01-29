@@ -45,7 +45,6 @@ class DealerClass:
 			self.write_simulation_history(game_history)
 			#print_output += "\n" + str(self.simulator.current_state.get_current_state())
 			print_output += "\n" + self.simulator.print_board()
-			self.simulator.print_board()
 			print_output += "\nWINNER : " + str(winner)
 			print_output += "\n----------------------------------"
 			self.simulator.reset_simulator()

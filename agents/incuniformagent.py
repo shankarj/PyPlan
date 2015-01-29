@@ -44,18 +44,13 @@ class IncUniformRolloutAgentClass(absagent.AbstractAgent):
         if actions_count <= 1:
             return valid_actions[0]
 
-        arm_rewards = [[0.0] * self.simulator.numplayers] * actions_count #REWARD VECTOR(EACH PLAYER) PER ACTION
+        arm_rewards = [[0.0] * self.simulator.numplayers] * actions_count  # REWARD VECTOR(EACH PLAYER) PER ACTION
         arm_pull_count = [0] * actions_count
 
         for current_pull in xrange(self.pull_count):
-            best_arm = 0
-            best_avg = 0.0
-
             chosen_arm = current_pull % actions_count
 
-            player_number = self.simulator.playerturn
-
-            # TAKE THE ACTION i.e., CREATE THE CHOSEN ARM TO DO ROLLOUT
+            # TAKE THE ACTION i.e., CREATE THE CHOSEN ARM TO DO ROLL OUT
             current_pull = deepcopy(self.simulator)
             actual_reward = current_pull.take_action(valid_actions[chosen_arm])
             current_pull.change_turn()
@@ -63,7 +58,6 @@ class IncUniformRolloutAgentClass(absagent.AbstractAgent):
             # PLAY TILL GAME END
             playout_rewards = []
             while current_pull.gameover == False:
-                actual_agent_id = current_pull.playerturn - 1
                 action_to_take = self.rollout_policy.select_action(current_pull.current_state, current_pull.playerturn)
                 reward = current_pull.take_action(action_to_take)
                 playout_rewards.append(reward)
@@ -81,8 +75,8 @@ class IncUniformRolloutAgentClass(absagent.AbstractAgent):
             del current_pull
 
         # CALCULATE ARM WITH BEST AVERAGE AND RETURN IT
-        bestarm = 0
-        best_avg = 0.0
+        best_arm = 0
+        best_avg = arm_rewards[0][current_turn - 1] / arm_pull_count[0]
         for arm in xrange(len(arm_rewards)):
             if arm_pull_count[arm] == 0:
                 curr_avg = 0
