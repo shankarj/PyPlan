@@ -1,1 +1,1 @@
-__all__ = ["randomagent", "uniformagent", "egreedyagent", "incuniformagent"]
+__all__ = ["randomagent", "uniformagent", "egreedyagent", "incuniformagent", "uctagent"]

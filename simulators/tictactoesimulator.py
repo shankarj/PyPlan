@@ -29,6 +29,9 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 		self.current_state = tictactoestate.TicTacToeStateClass()
 		self.gameover = False
 
+	def get_simulator_state(self):
+		return self.current_state
+
 	def change_simulator_state(self, current_state):
 		self.current_state = deepcopy(current_state)
 
@@ -40,6 +43,9 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 			self.current_state.get_current_state()["current_player"] = self.numplayers
 		else:
 			self.current_state.get_current_state()["current_player"] = new_turn
+
+	def print_board(self):
+		return str(self.current_state.get_current_state()["state_val"])
 
 	def take_action(self, action):
 		actionvalue = action.get_action()

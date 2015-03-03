@@ -18,6 +18,9 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         self.current_state = connect4state.Connect4StateClass(self.numplayers)
         self.gameover = False
 
+    def get_simulator_state(self):
+		return self.current_state
+
     def change_simulator_state(self, current_state):
         self.current_state = deepcopy(current_state)
 
@@ -41,14 +44,14 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         self.gameover = self.is_terminal()
 
         reward = [0.0] * self.numplayers
-        reward[self.current_state.get_current_state()["current_player"]- 1] -= 1.0
+        #reward[self.current_state.get_current_state()["current_player"]- 1] -= 1.0
 
         if self.winningplayer is not None:
             for player in xrange(self.numplayers):
                 if player == self.winningplayer - 1:
-                    reward[player] += 20.0
+                    reward[player] += 1.0
                 else:
-                    reward[player] -= 20.0
+                    reward[player] -= 1.0
 
         return reward
 
