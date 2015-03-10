@@ -8,8 +8,8 @@ current_roll - 1 - 3. One based index.
 
 class YahtzeeStateClass(absstate.AbstractState):
     def __init__(self):
-        self.score_sheet = [[None, None]] * 13
-        self.current_roll = 1
+        self.score_sheet = [[None] * 2 for _ in xrange(13)]
+        self.current_roll = 0
         self.starting_player = 1
         self.dice_config = [1] * 5
         self.state_val = {"current_roll": self.current_roll,

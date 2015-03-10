@@ -30,8 +30,11 @@ class DealerClass:
 			print "CURRENT SIMULATION : " + str(count)
 			print_output += "\nSIMULATION NUMBER : " + str(count)
 			game_history = []
+			current_play = 0
 
 			while self.simulator.gameover == False:
+				current_play += 1
+				current_dice = self.simulator.current_state.get_current_state()["state_val"]["dice_config"]
 				actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
 				action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
 				#print "TURN : " + str(action_to_take.get_action()["value"])

@@ -102,7 +102,7 @@ class EGreedyAgentClass(absagent.AbstractAgent):
             del current_pull
 
         # CALCULATE ARM WITH BEST AVERAGE AND RETURN IT
-        bestarm = 0
+        best_arm = 0
         best_avg = arm_rewards[0][current_turn - 1] / arm_pull_count[0]
         for arm in xrange(len(arm_rewards)):
             if arm_pull_count[arm] == 0:

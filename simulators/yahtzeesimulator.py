@@ -45,37 +45,8 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
 
     def print_board(self):
         score_sheet = self.current_state.get_current_state()["state_val"]["score_sheet"]
-        dice_vals = self.current_state.get_current_state()["state_val"]["dice_config"]
-        return str("SCORE SHEET : \n" + str(score_sheet) + "\n" + "DICE VALUES : \n" + str(dice_vals))
-
-    #YAHTZEE SPECIFIC FUNCTION
-    def get_category_max(self, category):
-        if category == 0:
-            return 5.0
-        elif category == 1:
-            return 10.0
-        elif category == 2:
-            return 15.0
-        elif category == 3:
-            return 20.0
-        elif category == 4:
-            return 25.0
-        elif category == 5:
-            return 30.0
-        elif category == 6:
-            return 30.0
-        elif category == 7:
-            return 30.0
-        elif category == 8:
-            return 25.0
-        elif category == 9:
-            return 30.0
-        elif category == 10:
-            return 40.0
-        elif category == 11:
-            return 30.0
-        elif category == 12:
-            return 50.0
+        totals = self.total_scores(score_sheet)
+        return str("SCORE SHEET : \n" + str(score_sheet) + "\n" + "PLAYER TOTALS IN THIS PLAY : " + str(totals))
 
     #YAHTZEE SPECIFIC FUNCTION
     def get_category_points(self, dice_faces, category_num):
@@ -84,17 +55,17 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
             counts[face] += 1
 
         if category_num == 0:
-            return float(counts[1])
+            return float(counts[1] * 1)
         elif category_num == 1:
-            return float(counts[2])
+            return float(counts[2] * 2)
         elif category_num == 2:
-            return float(counts[3])
+            return float(counts[3] * 3)
         elif category_num == 3:
-            return float(counts[4])
+            return float(counts[4] * 4)
         elif category_num == 4:
-            return float(counts[5])
+            return float(counts[5] * 5)
         elif category_num == 5:
-            return float(counts[6])
+            return float(counts[6] * 6)
         elif category_num == 6:
             hit = False
             for vals in counts:
@@ -151,7 +122,7 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
             while pointer1 <= 2:
                 if counts[pointer1] == 1:
                     count = 1
-                    for pointer2 in xrange(pointer1 + 1, pointer1 + 4):
+                    for pointer2 in xrange(pointer1 + 1, pointer1 + 5):
                         if counts[pointer2] == 1:
                             count += 1
                         else:
@@ -175,17 +146,14 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
         return 0.0
 
     #YAHTZEE SPECIFIC FUNCTION
-    def normalize(self, current_scores):
-        #INPUT CURRENT SCORE SHEET. RETURNS A VECTOR OF NORMALIZED
+    def total_scores(self, current_scores):
+        #INPUT CURRENT SCORE SHEET. RETURNS A VECTOR OF
         #CURRENT TOTAL SCORES FOR ALL PLAYERS.
         totals = [0.0] * self.numplayers
         for category in current_scores:
             for player in xrange(self.numplayers):
                 if category[player] is not None:
                     totals[player] += category[player]
-
-        for player in xrange(self.numplayers):
-            totals[player] = totals[player] / 340
 
         return totals
 
@@ -202,48 +170,46 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
                 dice_config = self.current_state.get_current_state()["state_val"]["dice_config"]
                 category_points = self.get_category_points(dice_config, value)
                 player_num = self.current_state.get_current_state()["current_player"] - 1
-                self.current_state.get_current_state()["state_val"]["score_sheet"][value][player_num] = category_points
-                reward_vector = self.normalize(self.current_state.get_current_state()["state_val"]["score_sheet"])
+                score_sheet = self.current_state.get_current_state()["state_val"]["score_sheet"]
+                score_sheet[value][player_num] = category_points
+                reward_vector = self.total_scores(self.current_state.get_current_state()["state_val"]["score_sheet"])
         elif type == "ROLL":
             for dice in xrange(len(value)):
                 new_roll = random.randrange(1,7)
-                self.current_state.get_current_state()["state_val"]["dice_config"][dice] = new_roll
+                self.current_state.get_current_state()["state_val"]["dice_config"][value[dice] - 1] = new_roll
+
 
         return reward_vector
 
     def get_valid_actions(self):
         actions_list = []
         current_player = self.current_state.get_current_state()["current_player"]
-        dice_values = self.current_state.get_current_state()["state_val"]["dice_config"]
 
-        #FIRST : SELECTING THE BEST ACTION AT THAT STATE.
-        #THE BEST ACTION IS HARD CODED. MIN(CATEGORY_MAX - CATEGORY_VAL)
-        possible_categories_scores = {}
-        for category in xrange(0, 13):
-            if self.current_state.get_current_state()["state_val"]["score_sheet"][category][current_player - 1] == None:
-                possible_categories_scores[category] = 0
+        if self.current_state.get_current_state()["state_val"]["current_roll"] == 0:
+            action = {}
+            action['type'] = "ROLL"
+            action['value'] = (1,2,3,4,5)
+            actions_list.append(yahtzeeaction.YahtzeeActionClass(action))
+        else:
+            #FIRST : SELECTING ONE OF THE POSSIBLE CATEGORIES AT THAT STATE.
+            for category in xrange(0, 13):
+                if self.current_state.get_current_state()["state_val"]["score_sheet"][category][current_player - 1] == None:
+                    action = {}
+                    action['type'] = "NOOP"
+                    action['value'] = category
+                    actions_list.append(yahtzeeaction.YahtzeeActionClass(action))
 
-        minimum_val = 50
-        minimum_action = 0
-        for actions in possible_categories_scores:
-            possible_categories_scores[actions] = float(self.get_category_max(actions) - self.get_category_points(dice_values, actions))
-            if (possible_categories_scores[actions] < minimum_val):
-                minimum_val = possible_categories_scores[actions]
-                minimum_action = actions
-
-        action = {}
-        action['type'] = "NOOP"
-        action['value'] = minimum_action
-        actions_list.append(yahtzeeaction.YahtzeeActionClass(action))
-
-        #SECOND : ROLLING ALL POSSIBLE COMBINATIONS
-        for vals in xrange(1,6):
-            #5C1, 5C2, 5C3, 5C4, 5C5
-            for comb in combinations(dice_values, vals):
-                action = {}
-                action['type'] = "ROLL"
-                action['value'] = comb
-                actions_list.append(yahtzeeaction.YahtzeeActionClass(action))
+            if self.current_state.get_current_state()["state_val"]["current_roll"] < 3:
+                #SECOND : ROLLING ALL POSSIBLE COMBINATIONS
+                for vals in xrange(1,6):
+                    #5C1, 5C2, 5C3, 5C4, 5C5
+                    #DICE NUMBER IS ZERO BASED INDEX
+                    dice_values = [0,1,2,3,4]
+                    for comb in combinations(dice_values, vals):
+                        action = {}
+                        action['type'] = "ROLL"
+                        action['value'] = comb
+                        actions_list.append(yahtzeeaction.YahtzeeActionClass(action))
 
         return actions_list
 
@@ -267,6 +233,5 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
                     max_val = totals[vals]
                     max_player = vals
             self.winningplayer = max_player + 1
-
 
         return game_done

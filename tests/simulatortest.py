@@ -1,5 +1,31 @@
 from simulators import *
 from states import *
+from agents import *
+
+def check_yahtzee():
+    sim = yahtzeesimulator.YahtzeeSimulatorClass(num_players = 2)
+    score_sheet = [[None] * 2 for _ in xrange(13)]
+    current_roll = 3
+    starting_player = 1
+    dice_config = [6,6,6,4,5]
+    state_val = {"current_roll": current_roll,
+                          "dice_config": dice_config,
+                          "score_sheet": score_sheet}
+    current_state = {"state_val": state_val,
+                              "current_player": starting_player}
+    stateobj = yahtzeestate.YahtzeeStateClass()
+    stateobj.set_current_state(current_state)
+    sim.change_simulator_state(stateobj)
+
+    agent_one = randomagent.RandomAgentClass(simulator=sim)
+    agent_two = uniformagent.UniformRolloutAgentClass(simulator=sim, rollout_policy=agent_one, pull_count=1)
+
+    action = agent_two.select_action(sim.current_state)
+    print action.get_action()["type"]
+    print action.get_action()["value"]
+    print sim.take_action(action)
+
+
 
 def check_terminal_function():
     sim = tictactoesimulator.TicTacToeSimulatorClass(2)
@@ -8,6 +34,7 @@ def check_terminal_function():
     sim.set_state(stateobj)
     assert sim.is_terminal(), "Failed"
     print "SUCCESS. WINNER : " + str(sim.winningplayer)
+
 
 def connect4_get_valid_actions():
     sim = connect4simulator.Connect4SimulatorClass(2)
@@ -45,4 +72,4 @@ def connect4_is_terminal():
     print(sim.print_board())
 
 if __name__ == "__main__":
-    connect4_is_terminal()
+    check_yahtzee()

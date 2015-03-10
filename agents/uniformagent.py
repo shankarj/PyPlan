@@ -48,7 +48,7 @@ class UniformRolloutAgentClass(absagent.AbstractAgent):
             current_arm_rewards = [] #THIS STORES REWARDS FOR ALL PULLS OF CURRENT ARM
 
             for pull in xrange(self.pull_count):
-                player_number = self.simulator.playerturn
+                player_number = self.simulator.current_state.get_current_state()["current_player"]
 
                 # TAKE THE ACTION i.e., CREATE THE ARM TO DO ROLLOUT
                 current_pull = deepcopy(self.simulator)
