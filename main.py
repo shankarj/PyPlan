@@ -5,7 +5,7 @@ from simulators import *
 
 def call_dealer():
     players_count = 2
-    simulation_count = 1
+    simulation_count = 5
 
     #simulator_obj = connect4simulator.Connect4SimulatorClass(num_players=players_count)
     simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
@@ -29,7 +29,7 @@ def call_dealer():
     agent_uct_2 = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                          num_simulations=10, uct_constant=5)
 
-    agents_list = [agent_three, agent_one]
+    agents_list = [agent_three, agent_uct]
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count)
     dealer_object.start_simulation()
     results = dealer_object.simulation_stats()[0]

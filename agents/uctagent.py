@@ -16,24 +16,27 @@ class uctnode:
 class UCTAgentClass(absagent.AbstractAgent):
     myname = "UCT"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = deepcopy(simulator)
         self.tree_policy = tree_policy
         self.uct_constant = uct_constant
         self.simulation_count = num_simulations
+        self.horizon = horizon
 
     def get_agent_name(self):
         return self.agentname
 
     def _simulate_game(self, current_pull):
         sim_reward = [0.0] * current_pull.numplayers
-        while current_pull.gameover == False:
+        h = 0
+        while current_pull.gameover == False and h <= self.horizon:
             action_to_take = self.rollout_policy.select_action(current_pull.current_state)
             current_pull_reward = current_pull.take_action(action_to_take)
             sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
             current_pull.change_turn()
+            h += 1
 
         return sim_reward
 

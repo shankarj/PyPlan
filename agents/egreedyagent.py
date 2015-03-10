@@ -26,13 +26,14 @@ Method:
 class EGreedyAgentClass(absagent.AbstractAgent):
     myname = "E-GREEDY"
 
-    def __init__(self, simulator, rollout_policy, pull_count = 5, epsilon = 0.8, heuristic=0):
+    def __init__(self, simulator, rollout_policy, pull_count = 5, epsilon = 0.8, horizon=0, heuristic=0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic
         self.pull_count = pull_count
         self.simulator = deepcopy(simulator)
         self.epsilon = epsilon
+        self.horizon = horizon
 
     def get_agent_name(self):
 		return self.agentname
@@ -84,11 +85,13 @@ class EGreedyAgentClass(absagent.AbstractAgent):
 
             # PLAY TILL GAME END
             playout_rewards = []
-            while current_pull.gameover == False:
+            h = 0
+            while current_pull.gameover == False and h <= self.horizon:
                 action_to_take = self.rollout_policy.select_action(current_pull.current_state)
                 reward = current_pull.take_action(action_to_take)
                 playout_rewards.append(reward)
                 current_pull.change_turn()
+                h += 1
 
             # ADD ACTUAL REWARD + BACKTRACK REWARDS TO THE CURRENT PULL'S REWARD AND ADD TO CURRENT ARM'S REWARD VECTOR
             # INCREMENT THE CHOSEN ARM'S PULL COUNT
