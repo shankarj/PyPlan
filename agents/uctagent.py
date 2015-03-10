@@ -4,7 +4,7 @@ from copy import deepcopy
 import sys
 
 class uctnode:
-    def __init__(self, node_state, action_list, is_root, ):
+    def __init__(self, node_state, action_list, is_root):
         self.state_value = node_state
         self.state_visit = 0
         self.valid_actions = action_list
@@ -77,6 +77,7 @@ class UCTAgentClass(absagent.AbstractAgent):
                 #SEE IF THE CURRENT NODE IS A TERMINAL NODE. IF YES, JUST RETURN ITS Q VALUE TO BE BACKTRACKED.
                 current_node.state_visit += 1
                 self.simulator.change_simulator_state(current_node.state_value)
+                sim_count += 1
 
                 if current_node.is_terminal:
                     q_vals = current_node.reward
@@ -88,7 +89,6 @@ class UCTAgentClass(absagent.AbstractAgent):
                     new_state = current_pull.get_simulator_state()
 
                     ##SIMULATE TILL END AND GET THE REWARD.
-                    sim_count += 1
                     sim_reward = self._simulate_game(deepcopy(current_pull))
                     q_vals = [x+y for x,y in zip(actual_reward, sim_reward)]
 
