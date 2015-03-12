@@ -56,10 +56,13 @@ Agents:
 2. Incremental Uniform Rollout  
 3. e-Greedy Rollout  
 4. Random  
+5. UCT
 
 Simulators:  
 1. Tic Tac Toe  
 2. Connect4  
+3. Yahtzee  
+
 Note
 ====
 1. starting_player, playerturn are One based indexes.
