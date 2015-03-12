@@ -1,1 +1,1 @@
-__all__ = ["tictactoesimulator", "connect4simulator", "yahtzeesimulator"]
+__all__ = ["tictactoesimulator", "connect4simulator", "yahtzeesimulator", "tetrissimulator"]

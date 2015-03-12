@@ -2,6 +2,27 @@ from simulators import *
 from states import *
 from agents import *
 
+def check_tetris():
+    sim = tetrissimulator.TetrisSimulatorClass(1)
+    sim.current_state.get_current_state()["state_val"]["current_board"][0] = [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+    sim.current_state.get_current_state()["state_val"]["current_board"][1] = [1, 1, 1, 1, 1, 1, 1, 0, 0, 1]
+    sim.current_state.get_current_state()["state_val"]["current_board"][2] = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    #sim.current_state.get_current_state()["state_val"]["current_piece"] = 1
+    #sim.current_state.get_current_state()["state_val"]["next_piece"] = 4
+    agent_one = randomagent.RandomAgentClass(simulator=sim)
+    agent_three = uniformagent.UniformRolloutAgentClass(simulator=sim, rollout_policy=agent_one,
+                                                        pull_count=1)
+    agent_three.select_action(sim.current_state)
+    # print sim.is_terminal()
+    # #sim.get_valid_actions()
+    # # action = {}
+    # # action["position"] = [18, 0]
+    # # action["piece_number"] = 2
+    # # action["rot_number"] = 1
+    # # print "REWARD : " + str(sim.take_action(action))
+    # print sim.print_board()
+
+
 def check_yahtzee():
     sim = yahtzeesimulator.YahtzeeSimulatorClass(num_players = 2)
     score_sheet = [[None] * 2 for _ in xrange(13)]
@@ -72,4 +93,4 @@ def connect4_is_terminal():
     print(sim.print_board())
 
 if __name__ == "__main__":
-    check_yahtzee()
+    check_tetris()

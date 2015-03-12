@@ -21,7 +21,7 @@ Method:
 class UniformRolloutAgentClass(absagent.AbstractAgent):
     myname = "UNIFORM"
 
-    def __init__(self, simulator, rollout_policy, pull_count = 5, horizon=0, heuristic=0):
+    def __init__(self, simulator, rollout_policy, pull_count = 5, horizon=5, heuristic=0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic

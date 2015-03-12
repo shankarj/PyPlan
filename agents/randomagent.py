@@ -19,6 +19,9 @@ class RandomAgentClass(absagent.AbstractAgent):
 		valid_actions =self.simulator.get_valid_actions()
 		actions_count = len(valid_actions)
 
+		if actions_count == 0:
+			raise ValueError("Action count cannot be zero.")
+
 		if actions_count == 1:
 			choice = 0
 		else:

@@ -10,8 +10,8 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         self.numplayers = num_players
         self.winningplayer = None
         self.gameover = False
-        self.board_height = boardheight
-        self.board_width = boardwidth
+        self.board_height = 6
+        self.board_width = 7
 
     def reset_simulator(self):
         self.winningplayer = None
