@@ -62,6 +62,7 @@ Simulators:
 1. Tic Tac Toe  
 2. Connect4  
 3. Yahtzee  
+4. Tetris  
 
 Note
 ====
