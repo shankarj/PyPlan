@@ -1,7 +1,6 @@
 from abstract import abssimulator
 from actions import yahtzeeaction
 from states import yahtzeestate
-from copy import deepcopy
 import random
 from itertools import combinations
 
@@ -32,7 +31,7 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
         return self.current_state
 
     def change_simulator_state(self, current_state):
-        self.current_state = deepcopy(current_state)
+        self.current_state = current_state.create_copy()
 
     def change_turn(self):
         current_roll = self.current_state.get_current_state()["state_val"]["current_roll"]
