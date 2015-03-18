@@ -16,9 +16,6 @@ class RandomAgentClass(absagent.AbstractAgent):
     def get_agent_name(self):
         return self.agentname
 
-    def create_copy(self):
-        pass
-
     def select_action(self, current_state):
         current_turn = current_state.get_current_state()["current_player"]
         self.simulator.change_simulator_state(current_state)

@@ -17,18 +17,22 @@ class DealerClass:
         print_output += "\nAGENTS LIST :"
 
         for count in xrange(len(self.playerlist)):
-            print_output += "\nAGENT {0} : ".format(count) + self.playerlist[count].agentname
+            print_output += "\n\nAGENT {0} : ".format(count) + self.playerlist[count].agentname
             current_rollout = self.playerlist[count].rollout_policy
 
             while current_rollout is not None:
                 print_output += "\nIt's Rollout policy is : " + current_rollout.agentname
                 current_rollout = current_rollout.rollout_policy
 
-        print_output += "\nSIMULATION RESULTS :"
+            if self.playerlist[count].agentname == "EnsembleUCT":
+                print_output += "\nEnsemble Count : " + str(self.playerlist[count].ensemble_count)
+                print_output += "\nRun in Parallel : " + str(self.playerlist[count].is_parallel)
+
+        print_output += "\n" + str("-" * 50) + "\nSIMULATION RESULTS :"
 
         for count in xrange(self.simulation_count):
             print "CURRENT SIMULATION : " + str(count)
-            print_output += "\nSIMULATION NUMBER : " + str(count)
+            print_output += "\n\nSIMULATION NUMBER : " + str(count)
             game_history = []
             current_play = 0
 

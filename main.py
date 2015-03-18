@@ -2,7 +2,6 @@ import dealer
 from agents import *
 from simulators import *
 
-
 def call_dealer():
     players_count = 2
     simulation_count = 10
@@ -29,8 +28,12 @@ def call_dealer():
 
     agent_uct_2 = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                          num_simulations=10, uct_constant=5, horizon=10)
+    agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                         num_simulations=20, uct_constant=5, ensembles=10, horizon=10, parallel=True,
+                                         ensemble_method=1)
 
-    agents_list = [agent_one, agent_uct]
+    agents_list = [agent_ensemble, agent_one]
+
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count)
     dealer_object.start_simulation()
     results = dealer_object.simulation_stats()[0]
