@@ -11,3 +11,7 @@ class AbstractState:
 	@abc.abstractmethod
 	def set_current_state(self):
 		raise NotImplementedError
+
+	@abc.abstractmethod
+	def create_copy(self):
+		raise NotImplementedError

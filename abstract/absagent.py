@@ -11,3 +11,7 @@ class AbstractAgent:
 	@abc.abstractmethod
 	def get_agent_name(self):
 		raise NotImplementedError
+
+	@abc.abstractmethod
+	def create_copy(self):
+		raise NotImplementedError

@@ -25,7 +25,7 @@ class UCTAgentClass(absagent.AbstractAgent):
         self.horizon = horizon
 
     def create_copy(self):
-        return UCTAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy.create_copy(), self.simulation_count, self.uct_constant, self.horizon)
+        return UCTAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
 
     def get_agent_name(self):
         return self.agentname

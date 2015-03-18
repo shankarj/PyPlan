@@ -13,6 +13,10 @@ class AbstractSimulator:
 		raise NotImplementedError
 
 	@abc.abstractmethod
+	def get_simulator_state(self):
+		raise NotImplementedError
+
+	@abc.abstractmethod
 	def take_action(self, action):
 		"""
 		
@@ -25,6 +29,10 @@ class AbstractSimulator:
 
 	@abc.abstractmethod
 	def get_valid_actions(self):
+		raise NotImplementedError
+
+	@abc.abstractmethod
+	def create_copy(self):
 		raise NotImplementedError
 
 	@abc.abstractmethod
