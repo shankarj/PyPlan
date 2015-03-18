@@ -4,12 +4,12 @@ from simulators import *
 
 
 def call_dealer():
-    players_count = 1
-    simulation_count = 1
+    players_count = 2
+    simulation_count = 23
 
-    #simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
+    simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
     #simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
-    simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)
+    #simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)
 
     agent_one = randomagent.RandomAgentClass(simulator=simulator_obj)
     agent_temp = egreedyagent.EGreedyAgentClass(simulator=simulator_obj, rollout_policy=agent_one, pull_count=20,
@@ -30,7 +30,7 @@ def call_dealer():
     agent_uct_2 = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                          num_simulations=10, uct_constant=5)
 
-    agents_list = [agent_four]
+    agents_list = [agent_one, agent_one]
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count)
     dealer_object.start_simulation()
     results = dealer_object.simulation_stats()[0]
@@ -44,10 +44,10 @@ def call_dealer():
         for move in xrange(len(results[game])):
             game_reward_sum = [x + y for x, y in zip(game_reward_sum, results[game][move][0])]
 
-        # for x in xrange(len(reward_sum)):
-        #     reward_sum[x] = reward_sum[x] / len(results[game])
+        # for x in xrange(len(game_reward_sum)):
+        #      game_reward_sum[x] = game_reward_sum[x] / len(results[game])
 
-        print "REWARD TOTALS IN GAME {0} : ".format(game)
+        print "REWARD OF PLAYERS IN GAME {0} : ".format(game)
         print game_reward_sum
         overall_reward.append(game_reward_sum)
 
@@ -58,7 +58,7 @@ def call_dealer():
     for x in xrange(len(overall_reward_avg)):
         overall_reward_avg[x] = overall_reward_avg[x] / simulation_count
 
-    print "\nAVG OF TOTAL REWARDS PER GAME (FOR OVERALL SIMULATION) : "
+    print "\nAVG OF REWARDS (FOR OVERALL SIMULATION) : "
     print overall_reward_avg
 
     win_counts = [0.0] * players_count

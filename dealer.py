@@ -35,14 +35,14 @@ class DealerClass:
             while self.simulator.gameover == False:
                 actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
-                print self.simulator.print_board()
-                print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
-                print "ROT : " + str(action_to_take.get_action()["rot_number"])
-                print "POSITION : " + str(action_to_take.get_action()["position"])
-                print "---------------------------------------------------------"
+                # print self.simulator.print_board()
+                # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
+                # print "ROT : " + str(action_to_take.get_action()["rot_number"])
+                # print "POSITION : " + str(action_to_take.get_action()["position"])
+                # print "---------------------------------------------------------"
                 reward = self.simulator.take_action(action_to_take)
-                if reward[0] > 0.0:
-                    print "something"
+                # if reward[0] > 0.0:
+                #     print "something"
                 game_history.append([reward, action_to_take])
                 self.simulator.change_turn()
 

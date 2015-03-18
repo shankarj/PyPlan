@@ -172,7 +172,11 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
                 player_num = self.current_state.get_current_state()["current_player"] - 1
                 score_sheet = self.current_state.get_current_state()["state_val"]["score_sheet"]
                 score_sheet[value][player_num] = category_points
-                reward_vector = self.total_scores(self.current_state.get_current_state()["state_val"]["score_sheet"])
+
+                if score_sheet[value][player_num] is not None:
+                    reward_vector[player_num] = score_sheet[value][player_num]
+
+                #reward_vector = self.total_scores(self.current_state.get_current_state()["state_val"]["score_sheet"])
         elif type == "ROLL":
             for dice in xrange(len(value)):
                 new_roll = random.randrange(1,7)

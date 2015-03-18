@@ -55,14 +55,13 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 		self.gameover = self.is_terminal()
 
 		reward = [0.0] * self.numplayers
-		reward[self.current_state.get_current_state()["current_player"] - 1] -= 1.0
 
 		if self.winningplayer is not None:
 			for player in xrange(self.numplayers):
 				if player == self.winningplayer - 1:
-					reward[player] += 10.0
+					reward[player] += 2.0
 				else:
-					reward[player] -= 10.0
+					reward[player] -= 2.0
 
 		return reward
 
