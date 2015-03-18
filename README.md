@@ -56,7 +56,7 @@ Agents:
 2. Incremental Uniform Rollout  
 3. e-Greedy Rollout  
 4. Random  
-5. UCT
+5. UCT  
 6. Ensemble UCT  
 
 Simulators:  
