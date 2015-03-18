@@ -57,6 +57,7 @@ Agents:
 3. e-Greedy Rollout  
 4. Random  
 5. UCT
+6. Ensemble UCT  
 
 Simulators:  
 1. Tic Tac Toe  
