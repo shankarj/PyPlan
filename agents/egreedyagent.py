@@ -1,5 +1,4 @@
 from abstract import absagent
-from copy import deepcopy
 import random
 
 '''
@@ -26,14 +25,17 @@ Method:
 class EGreedyAgentClass(absagent.AbstractAgent):
     myname = "E-GREEDY"
 
-    def __init__(self, simulator, rollout_policy, pull_count = 5, epsilon = 0.8, horizon=0, heuristic=0):
+    def __init__(self, simulator, rollout_policy, pull_count = 5, epsilon = 0.8, horizon=10, heuristic=0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic
         self.pull_count = pull_count
-        self.simulator = deepcopy(simulator)
+        self.simulator = simulator.create_copy()
         self.epsilon = epsilon
         self.horizon = horizon
+
+    def create_copy(self):
+        return EGreedyAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.pull_count, self.epsilon, self.horizon, self.heuristicvalue)
 
     def get_agent_name(self):
 		return self.agentname
@@ -79,7 +81,7 @@ class EGreedyAgentClass(absagent.AbstractAgent):
                 chosen_arm = current_pull
 
             # TAKE THE ACTION i.e., CREATE THE CHOSEN ARM TO DO ROLLOUT
-            current_pull = deepcopy(self.simulator)
+            current_pull = self.simulator.create_copy()
             actual_reward = current_pull.take_action(valid_actions[chosen_arm])
             current_pull.change_turn()
 

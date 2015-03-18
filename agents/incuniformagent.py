@@ -1,5 +1,4 @@
 from abstract import absagent
-from copy import deepcopy
 
 '''
 At n, pull arm n mod k. k - Total actions available.
@@ -28,8 +27,11 @@ class IncUniformRolloutAgentClass(absagent.AbstractAgent):
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic
         self.pull_count = pull_count
-        self.simulator = deepcopy(simulator)
+        self.simulator = simulator.create_copy()
         self.horizon = horizon
+
+    def create_copy(self):
+        return IncUniformRolloutAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.pull_count, self.horizon, self.heuristicvalue)
 
     def get_agent_name(self):
 		return self.agentname
@@ -53,7 +55,7 @@ class IncUniformRolloutAgentClass(absagent.AbstractAgent):
             chosen_arm = current_pull % actions_count
 
             # TAKE THE ACTION i.e., CREATE THE CHOSEN ARM TO DO ROLL OUT
-            current_pull = deepcopy(self.simulator)
+            current_pull = self.simulator.create_copy()
             actual_reward = current_pull.take_action(valid_actions[chosen_arm])
             current_pull.change_turn()
 

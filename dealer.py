@@ -56,7 +56,7 @@ class DealerClass:
             self.simulator.reset_simulator()
 
         stop_time = timeit.default_timer()
-        print_output += "\nTOTAL TIME : " + str(stop_time - start_time)
+        print_output += "\nTOTAL TIME : " + str(stop_time - start_time) + "\n\n"
 
         if self.verbose:
             print print_output

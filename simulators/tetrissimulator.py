@@ -1,5 +1,4 @@
 from abstract import abssimulator
-from copy import deepcopy
 from actions import tetrisaction
 from states import tetrisstate
 import random
@@ -15,6 +14,13 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
         self.winningplayer = None
         self.gameover = False
 
+    def create_copy(self):
+        new_sim_obj = TetrisSimulatorClass(self.numplayers)
+        new_sim_obj.change_simulator_state(self.current_state.create_copy())
+        new_sim_obj.winningplayer = self.winningplayer
+        new_sim_obj.gameover = self.gameover
+        return new_sim_obj
+
     def reset_simulator(self):
         self.winningplayer = None
         self.current_state = tetrisstate.TetrisStateClass()
@@ -24,7 +30,7 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
 		return self.current_state
 
     def change_simulator_state(self, current_state):
-        self.current_state = deepcopy(current_state)
+        self.current_state = current_state.create_copy()
 
     def change_turn(self):
         self.current_state.get_current_state()["state_val"]["current_piece"] = self.current_state.get_current_state()["state_val"]["next_piece"]
@@ -89,7 +95,7 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
             for y in xrange(len(piece[0])):
                 current_board[x_position+x][y_position+y] = piece[x][y]
 
-        reward = [0.0] * self.numplayers
+        reward = [5.0] * self.numplayers
 
         # UPDATE THE BOARD
         for x in xrange(19, -1, -1):

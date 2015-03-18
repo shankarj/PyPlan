@@ -1,29 +1,31 @@
 from abstract import absagent
 import math
-from copy import deepcopy
 import sys
 
 class uctnode:
     def __init__(self, node_state, action_list, is_root):
         self.state_value = node_state
-        self.state_visit = 0
         self.valid_actions = action_list
+        self.is_root = is_root
+        self.state_visit = 0
         self.children_list = []
         self.reward = []
-        self.is_root = is_root
         self.is_terminal = False
 
 class UCTAgentClass(absagent.AbstractAgent):
     myname = "UCT"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=0):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=10):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
-        self.simulator = deepcopy(simulator)
+        self.simulator = simulator.create_copy()
         self.tree_policy = tree_policy
         self.uct_constant = uct_constant
         self.simulation_count = num_simulations
         self.horizon = horizon
+
+    def create_copy(self):
+        return UCTAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy.create_copy(), self.simulation_count, self.uct_constant, self.horizon)
 
     def get_agent_name(self):
         return self.agentname
@@ -38,6 +40,7 @@ class UCTAgentClass(absagent.AbstractAgent):
             current_pull.change_turn()
             h += 1
 
+        del current_pull
         return sim_reward
 
     def select_action(self, current_state):
@@ -86,26 +89,23 @@ class UCTAgentClass(absagent.AbstractAgent):
                     q_vals = current_node.reward
                 else:
                     #PULL A NEW ACTION ARM AND CREATE THE NEW STATE.
-                    current_pull = deepcopy(self.simulator)
+                    current_pull = self.simulator.create_copy()
                     actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
                     current_pull.change_turn()
-                    new_state = current_pull.get_simulator_state()
 
                     ##SIMULATE TILL END AND GET THE REWARD.
-                    sim_reward = self._simulate_game(deepcopy(current_pull))
+                    sim_reward = self._simulate_game(current_pull.create_copy())
                     q_vals = [x+y for x,y in zip(actual_reward, sim_reward)]
 
                     ##CREATE NEW NODE AND APPEND TO CURRENT NODE.
                     global uctnode
-                    child_node = uctnode(new_state, current_pull.get_valid_actions(), False)
+                    child_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(), False)
                     child_node.reward = q_vals
                     child_node.state_visit += 1
                     child_node.is_terminal = current_pull.gameover
-                    current_node.children_list.append(deepcopy(child_node))
+                    current_node.children_list.append(child_node)
 
-                    del child_node
                     del current_pull
-                    del new_state
 
                 ##BACKTRACK REWARDS UNTIL ROOT NODE
                 for node in xrange(len(visit_stack) - 1, -1, -1):

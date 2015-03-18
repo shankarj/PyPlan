@@ -1,5 +1,4 @@
 from abstract import abssimulator
-from copy import deepcopy
 from actions import connect4action
 from states import connect4state
 
@@ -13,6 +12,13 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
         self.board_height = 6
         self.board_width = 7
 
+    def create_copy(self):
+        new_sim_obj = Connect4SimulatorClass(self.numplayers, self.board_width, self.board_height)
+        new_sim_obj.change_simulator_state(self.current_state.create_copy())
+        new_sim_obj.winningplayer = self.winningplayer
+        new_sim_obj.gameover = self.gameover
+        return new_sim_obj
+
     def reset_simulator(self):
         self.winningplayer = None
         self.current_state = connect4state.Connect4StateClass(self.numplayers)
@@ -22,7 +28,7 @@ class Connect4SimulatorClass(abssimulator.AbstractSimulator):
 		return self.current_state
 
     def change_simulator_state(self, current_state):
-        self.current_state = deepcopy(current_state)
+        self.current_state = current_state.create_copy()
 
     def change_turn(self):
         new_turn = self.current_state.get_current_state()["current_player"] + 1

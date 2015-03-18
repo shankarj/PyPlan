@@ -1,7 +1,6 @@
 from abstract import abssimulator
 from actions import tictactoeaction
 from states import tictactoestate
-from copy import deepcopy
 
 """
 Simulator Class for TicTacToe
@@ -24,6 +23,13 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 		self.winningplayer = None
 		self.gameover = False
 
+	def create_copy(self):
+		new_sim_obj = TicTacToeSimulatorClass(self.numplayers)
+		new_sim_obj.change_simulator_state(self.current_state.create_copy())
+		new_sim_obj.winningplayer = self.winningplayer
+		new_sim_obj.gameover = self.gameover
+		return new_sim_obj
+
 	def reset_simulator(self):
 		self.winningplayer = None
 		self.current_state = tictactoestate.TicTacToeStateClass()
@@ -33,7 +39,7 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 		return self.current_state
 
 	def change_simulator_state(self, current_state):
-		self.current_state = deepcopy(current_state)
+		self.current_state = current_state.create_copy()
 
 	def change_turn(self):
 		new_turn = self.current_state.get_current_state()["current_player"] + 1
@@ -45,7 +51,11 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 			self.current_state.get_current_state()["current_player"] = new_turn
 
 	def print_board(self):
-		return str(self.current_state.get_current_state()["state_val"])
+		curr_state = self.current_state.get_current_state()["state_val"]
+		outp = "CURRENT BOARD : "
+		for elem in curr_state:
+			outp += "\n" + str(elem)
+		return outp
 
 	def take_action(self, action):
 		actionvalue = action.get_action()

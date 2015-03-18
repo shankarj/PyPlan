@@ -16,6 +16,13 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
         self.winningplayer = None
         self.gameover = False
 
+    def create_copy(self):
+        new_sim_obj = YahtzeeSimulatorClass(self.numplayers)
+        new_sim_obj.change_simulator_state(self.current_state.create_copy())
+        new_sim_obj.winningplayer = self.winningplayer
+        new_sim_obj.gameover = self.gameover
+        return new_sim_obj
+
     def reset_simulator(self):
         self.winningplayer = None
         self.current_state = yahtzeestate.YahtzeeStateClass()

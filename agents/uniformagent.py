@@ -1,5 +1,4 @@
 from abstract import absagent
-from copy import deepcopy
 
 '''
 Uniformly pull each arm w number of times
@@ -26,8 +25,11 @@ class UniformRolloutAgentClass(absagent.AbstractAgent):
         self.rollout_policy = rollout_policy
         self.heuristicvalue = heuristic
         self.pull_count = pull_count
-        self.simulator = deepcopy(simulator)
+        self.simulator = simulator.create_copy()
         self.horizon = horizon
+
+    def create_copy(self):
+        return UniformRolloutAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.pull_count, self.horizon, self.heuristicvalue)
 
     def get_agent_name(self):
 		return self.agentname
@@ -52,7 +54,7 @@ class UniformRolloutAgentClass(absagent.AbstractAgent):
                 player_number = self.simulator.current_state.get_current_state()["current_player"]
 
                 # TAKE THE ACTION i.e., CREATE THE ARM TO DO ROLLOUT
-                current_pull = deepcopy(self.simulator)
+                current_pull = self.simulator.create_copy()
                 actual_reward = current_pull.take_action(valid_actions[arm])
                 current_pull.change_turn()
 

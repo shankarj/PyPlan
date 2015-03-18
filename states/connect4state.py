@@ -1,18 +1,26 @@
 from abstract import absstate
 
+
 class Connect4StateClass(absstate.AbstractState):
+    def __init__(self, num_players):
+        self.current_state = {
+            "state_val": [0] * num_players,
+            "current_player": 1
+        }
 
-	def __init__(self, num_players):
-		self.current_state = {}
-		self.current_state["state_val"] = []
+    def set_current_state(self, state):
+        self.current_state = state
 
-		for player in xrange(num_players):
-			self.current_state["state_val"].append(0)
+    def get_current_state(self):
+        return self.current_state
 
-		self.current_state["current_player"] = 1
+    # RETURNS A NEW DEEP COPY OF THIS STATE CLASS.
+    def create_copy(self):
+        new_state = {
+            "state_val": list(self.current_state["state_val"]),
+            "current_player": self.current_state["current_player"]
+        }
 
-	def set_current_state(self, state):
-		self.current_state = state
-
-	def get_current_state(self):
-		return self.current_state
+        new_state_obj = Connect4StateClass(len(self.current_state["state_val"]))
+        new_state_obj.set_current_state(new_state)
+        return new_state_obj
