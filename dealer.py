@@ -1,5 +1,5 @@
 import timeit
-
+import multiprocessing
 
 class DealerClass:
     def __init__(self, agents_list, simulator, num_simulations, verbose=True):
@@ -27,6 +27,8 @@ class DealerClass:
             if self.playerlist[count].agentname == "EnsembleUCT":
                 print_output += "\nEnsemble Count : " + str(self.playerlist[count].ensemble_count)
                 print_output += "\nRun in Parallel : " + str(self.playerlist[count].is_parallel)
+                if self.playerlist[count].is_parallel:
+                    print_output += "\nCores in Machine : " + str(multiprocessing.cpu_count())
 
         print_output += "\n" + str("-" * 50) + "\nSIMULATION RESULTS :"
 

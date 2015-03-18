@@ -24,6 +24,8 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
     def reset_simulator(self):
         self.winningplayer = None
         self.current_state = tetrisstate.TetrisStateClass()
+        self.current_state.get_current_state()["state_val"]["current_piece"] = random.randrange(1, 6)
+        self.current_state.get_current_state()["state_val"]["next_piece"] = random.randrange(1, 6)
         self.gameover = False
 
     def get_simulator_state(self):

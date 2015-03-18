@@ -167,7 +167,6 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
         '''
         best_arm = 0
         if self.method == 1:
-            cpu_cores = multiprocessing.cpu_count()
             reward_values = []
             visit_counts = []
             output_que = Queue(self.ensemble_count)
