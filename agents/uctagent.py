@@ -110,7 +110,9 @@ class UCTAgentClass(absagent.AbstractAgent):
                 ##BACKTRACK REWARDS UNTIL ROOT NODE
                 for node in xrange(len(visit_stack) - 1, -1, -1):
                     if visit_stack[node].is_root == False:
-                        visit_stack[node].reward = [x+y for x,y in zip(visit_stack[node].reward, q_vals)]
+                        temp_diff =  [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
+                        temp_qterm =  [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
+                        visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
 
                 ##REVERT BACK TO ROOT
                 current_node = root_node

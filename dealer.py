@@ -2,13 +2,14 @@ import timeit
 import multiprocessing
 
 class DealerClass:
-    def __init__(self, agents_list, simulator, num_simulations, verbose=True):
+    def __init__(self, agents_list, simulator, num_simulations, sim_horizon, verbose=True):
         self.simulator = simulator
         self.playerlist = agents_list
         self.playercount = len(agents_list)
         self.simulation_count = num_simulations
         self.simulationhistory = []
         self.verbose = verbose
+        self.simulation_horizon = sim_horizon
 
     def start_simulation(self):
         print_output = ""
@@ -37,8 +38,9 @@ class DealerClass:
             print_output += "\n\nSIMULATION NUMBER : " + str(count)
             game_history = []
             current_play = 0
+            h = 0
 
-            while self.simulator.gameover == False:
+            while self.simulator.gameover == False and h < self.simulation_horizon:
                 actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
                 # print self.simulator.print_board()
@@ -51,6 +53,7 @@ class DealerClass:
                 #     print "something"
                 game_history.append([reward, action_to_take])
                 self.simulator.change_turn()
+                h += 1
 
             winner = self.simulator.winningplayer
             self.game_winner_list.append(winner)

@@ -95,10 +95,13 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
 
                 del current_pull
 
-            ##BACKTRACK REWARDS UNTIL ROOT NODE
+            ## BACKTRACK REWARDS UNTIL ROOT NODE
+            ## Q-VALUE UPDATED BASED ON THE ENSEMBLE PAPER.
             for node in xrange(len(visit_stack) - 1, -1, -1):
                 if visit_stack[node].is_root == False:
-                    visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, q_vals)]
+                    temp_diff =  [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
+                    temp_qterm =  [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
+                    visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
 
             ##REVERT BACK TO ROOT
             current_node = root_node
@@ -163,7 +166,6 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
 
         '''
         METHOD 1 - ROOT PARALLELIZATION
-        METHOD 2 - PLURALITY VOTE
         '''
         best_arm = 0
         if self.method == 1:
@@ -209,21 +211,26 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
             # WHILE CREATING UCT AGENT AND WE RETRIEVE ONLY THE PLAYER OF INTEREST'S
             # REWARD.
             best_avg = 0.0
-            for ensemble in xrange(self.ensemble_count):
-                best_avg += reward_values[ensemble][0] / visit_counts[ensemble][0]
-
             # COMPARE FOR BEST AVG
             for arm in xrange(1, actions_count):
                 curr_avg = 0.0
+                numer = 0.0
+                denom = 0.0
                 for ensemble in xrange(self.ensemble_count):
-                    curr_avg += reward_values[ensemble][arm] / visit_counts[ensemble][arm]
+                    numer += reward_values[ensemble][arm] * visit_counts[ensemble][arm]
+                    denom += visit_counts[ensemble][arm]
 
-                if curr_avg > best_avg:
+                curr_avg = numer / denom
+
+                if arm == 1:
                     best_avg = curr_avg
-                    best_arm = arm
+                else:
+                    if curr_avg > best_avg:
+                        best_avg = curr_avg
+                        best_arm = arm
 
-        elif self.method == 2:
-            pass
+        else:
+            raise ValueError("Method number not valid.")
 
         return valid_actions[best_arm]
 
