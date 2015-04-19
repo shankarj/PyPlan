@@ -2,6 +2,8 @@ from abstract import absagent
 import math
 import sys
 import timeit
+import multiprocessing
+from multiprocessing import Process, Queue
 
 class uctnode:
     def __init__(self, node_state, action_list, is_root):
@@ -13,10 +15,23 @@ class uctnode:
         self.reward = []
         self.is_terminal = False
 
-class UCTAgentClass(absagent.AbstractAgent):
-    myname = "UCT"
+def _simulate_game(rollout_policy, current_pull, horizon, out_q):
+    sim_reward = [0.0] * current_pull.numplayers
+    h = 0
+    while current_pull.gameover == False and h <= horizon:
+        action_to_take = rollout_policy.select_action(current_pull.current_state)
+        current_pull_reward = current_pull.take_action(action_to_take)
+        sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
+        current_pull.change_turn()
+        h += 1
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=10):
+    del current_pull
+    out_q.put(sim_reward)
+
+class ParallelUCTLPClass(absagent.AbstractAgent):
+    myname = "UCT-LP"
+
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, num_threads = 5, uct_constant=1, horizon=10):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -24,25 +39,13 @@ class UCTAgentClass(absagent.AbstractAgent):
         self.uct_constant = uct_constant
         self.simulation_count = num_simulations
         self.horizon = horizon
+        self.threadcount = num_threads
 
     def create_copy(self):
-        return UCTAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
+        return ParallelUCTLPClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
 
     def get_agent_name(self):
         return self.agentname
-
-    def _simulate_game(self, current_pull):
-        sim_reward = [0.0] * current_pull.numplayers
-        h = 0
-        while current_pull.gameover == False and h <= self.horizon:
-            action_to_take = self.rollout_policy.select_action(current_pull.current_state)
-            current_pull_reward = current_pull.take_action(action_to_take)
-            sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
-            current_pull.change_turn()
-            h += 1
-
-        del current_pull
-        return sim_reward
 
     def select_action(self, current_state):
         current_turn = current_state.get_current_state()["current_player"]
@@ -98,8 +101,28 @@ class UCTAgentClass(absagent.AbstractAgent):
                     actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
                     current_pull.change_turn()
 
-                    ##SIMULATE TILL END AND GET THE REWARD.
-                    sim_reward = self._simulate_game(current_pull.create_copy())
+                    ## SIMULATE TILL END AND GET THE REWARD.
+                    ## HERE SIMULATION TAKES PLACE PARALLELY.
+                    process_list = []
+                    output_que = Queue(self.threadcount)
+                    for proc in xrange(self.threadcount):
+                        worker_proc = Process(target=_simulate_game, args=(self.rollout_policy.create_copy(),
+                                                                           current_pull.create_copy(), self.horizon,
+                                                                           output_que,))
+                        worker_proc.daemon = True
+                        process_list.append(worker_proc)
+                        worker_proc.start()
+
+                    for worker in process_list:
+                        worker.join()
+
+                    # AVERAGE THE REWARDS FROM PARALLEL SIMULATIONS
+                    sim_reward = [0.0] * current_pull.numplayers
+                    for thread in xrange(self.threadcount):
+                        temp_reward = output_que.get()
+                        sim_reward = [x+y for x,y in zip(temp_reward, sim_reward)]
+
+                    sim_reward = [float(x / self.threadcount) for x in sim_reward]
                     q_vals = [x+y for x,y in zip(actual_reward, sim_reward)]
 
                     ##CREATE NEW NODE AND APPEND TO CURRENT NODE.

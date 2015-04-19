@@ -1,49 +1,56 @@
-import multiprocessing as mp
-from multiprocessing import Lock
-import timeit
+import multiprocessing
+from multiprocessing import Process, Lock, Manager, Event
+import time
 
+class uctnode:
+    def __init__(self, val):
+        self.locked = False
+        self.testval = val
 
-# def subtract(num, ids, full_arr, lk):
-#     for x in xrange(num):
-#         continue
-#
-#     lk.acquire()
-#     full_arr.append(ids)
-#     print "HERE " + str(ids)
-#     lk.release()
-#
-#     return x
-#
-# overall = []
-# cpu_cores = mp.cpu_count()
-# pool = mp.Pool(processes = cpu_cores)
-#
-# start_time = timeit.default_timer()
-# result = []
-# manager = mp.Manager()
-# my_lock = manager.Lock()
-#
-# for a in xrange(10):
-#     print "PUSHING " + str(a)
-#     result.append(pool.apply_async(subtract,(10, a, overall, my_lock,)))
-#
-# pool.close()
-# pool.join()
-#
-# end_time = timeit.default_timer()
-#
-# print "TOTAL TIME : " + str(end_time - start_time)
-#
-# print overall
+    def lock_me(self):
+        if self.locked == True:
+            pass
 
-class A:
-	def msg(self):
-		print "hello"
+def worker_code(currnode, process_name, loc):
+    printed = False
+    with loc:
+        while currnode.root.locked:
+            if printed == False:
+                printed = True
+                print "PROCESS", process_name, "WAITING."
 
-	def create(self):
-		a = A()
-		print self is a
-		a.msg()
+    print currnode.root
+    temp = currnode.root
+    temp.locked = True
+    currnode.root = temp
 
-b = A()
-b.create()
+    print "STARTING PROCESS", process_name
+    temp = currnode.root
+    temp.testval += 1
+    currnode.root = temp
+    time.sleep(1)
+    print "ENDING PROCESS", process_name
+
+    temp = currnode.root
+    temp.locked = False
+    currnode.root = temp
+
+if __name__ == "__main__":
+    temp_mgr = Manager()
+    work_space = temp_mgr.Namespace()
+    temp_root = uctnode(0)
+    work_space.root = temp_root
+
+    plock = Lock()
+    process_q = []
+    for proc in xrange(5):
+        print "PROCESS KICK"
+        worker_process = Process (target=worker_code, args=(work_space, str(proc), plock))
+        process_q.append(worker_process)
+        worker_process.daemon = True
+        worker_process.start()
+
+    for elem in process_q:
+        elem.join()
+
+    print work_space.root.testval

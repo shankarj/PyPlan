@@ -39,7 +39,7 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
         if current_roll == 3:
             new_turn = self.current_state.get_current_state()["current_player"] + 1
             new_turn %= self.numplayers
-            self.current_state.get_current_state()["state_val"]["current_roll"] = 1
+            self.current_state.get_current_state()["state_val"]["current_roll"] = 0
         else:
             self.current_state.get_current_state()["state_val"]["current_roll"] += 1
             new_turn = self.current_state.get_current_state()["current_player"]
@@ -118,7 +118,6 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
                             break
                     if count == 4:
                         return 30.0
-
                 pointer1 += 1
         elif category_num == 10:
             #LARGE STRAIGHT
@@ -172,22 +171,22 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
         reward_vector = [0.0] * self.numplayers
 
         if type == "NOOP":
-            if current_roll == 3:
-                dice_config = self.current_state.get_current_state()["state_val"]["dice_config"]
-                category_points = self.get_category_points(dice_config, value)
-                player_num = self.current_state.get_current_state()["current_player"] - 1
-                score_sheet = self.current_state.get_current_state()["state_val"]["score_sheet"]
-                score_sheet[value][player_num] = category_points
+            dice_config = self.current_state.get_current_state()["state_val"]["dice_config"]
+            category_points = self.get_category_points(dice_config, value)
+            player_num = self.current_state.get_current_state()["current_player"] - 1
+            score_sheet = self.current_state.get_current_state()["state_val"]["score_sheet"]
+            score_sheet[value][player_num] = category_points
 
-                if score_sheet[value][player_num] is not None:
-                    reward_vector[player_num] = score_sheet[value][player_num]
-
+            if score_sheet[value][player_num] is not None:
+                reward_vector[player_num] = score_sheet[value][player_num]
                 #reward_vector = self.total_scores(self.current_state.get_current_state()["state_val"]["score_sheet"])
+
+            # SET CURRENT ROLL TO 3 TO END THE TURNS
+            self.current_state.get_current_state()["state_val"]["current_roll"] = 3
         elif type == "ROLL":
             for dice in xrange(len(value)):
                 new_roll = random.randrange(1,7)
-                self.current_state.get_current_state()["state_val"]["dice_config"][value[dice] - 1] = new_roll
-
+                self.current_state.get_current_state()["state_val"]["dice_config"][value[dice]] = new_roll
 
         return reward_vector
 
@@ -198,7 +197,7 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
         if self.current_state.get_current_state()["state_val"]["current_roll"] == 0:
             action = {}
             action['type'] = "ROLL"
-            action['value'] = (1,2,3,4,5)
+            action['value'] = (0,1,2,3,4)
             actions_list.append(yahtzeeaction.YahtzeeActionClass(action))
         else:
             #FIRST : SELECTING ONE OF THE POSSIBLE CATEGORIES AT THAT STATE.

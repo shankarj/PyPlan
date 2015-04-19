@@ -1,6 +1,7 @@
 import timeit
 import multiprocessing
 
+
 class DealerClass:
     def __init__(self, agents_list, simulator, num_simulations, sim_horizon, verbose=True):
         self.simulator = simulator
@@ -15,22 +16,26 @@ class DealerClass:
         print_output = ""
         self.game_winner_list = []
         start_time = timeit.default_timer()
-        print_output += "\nAGENTS LIST :"
+        print("\nAGENTS LIST :")
 
         for count in xrange(len(self.playerlist)):
-            print_output += "\n\nAGENT {0} : ".format(count) + self.playerlist[count].agentname
+            print(("\n\nAGENT {0} : ".format(count) + self.playerlist[count].agentname))
             current_rollout = self.playerlist[count].rollout_policy
 
             while current_rollout is not None:
-                print_output += "\nIt's Rollout policy is : " + current_rollout.agentname
+                print("\nIt's Rollout policy is : " + current_rollout.agentname)
                 current_rollout = current_rollout.rollout_policy
 
             if self.playerlist[count].agentname == "EnsembleUCT":
-                print_output += "\nEnsemble Count : " + str(self.playerlist[count].ensemble_count)
-                print_output += "\nRun in Parallel : " + str(self.playerlist[count].is_parallel)
+                print("\nEnsemble Count : " + str(self.playerlist[count].ensemble_count))
+                print("\nRun in Parallel : " + str(self.playerlist[count].is_parallel))
                 if self.playerlist[count].is_parallel:
-                    print_output += "\nCores in Machine : " + str(multiprocessing.cpu_count())
+                    print("\nCores in Machine : " + str(multiprocessing.cpu_count()))
+            elif self.playerlist[count].agentname == "UCT-LP":
+                print("\nThread Count : " + str(self.playerlist[count].threadcount))
+                print("\nCores in Machine : " + str(multiprocessing.cpu_count()))
 
+        print ("-" * 50)
         print_output += "\n" + str("-" * 50) + "\nSIMULATION RESULTS :"
 
         for count in xrange(self.simulation_count):
@@ -50,7 +55,7 @@ class DealerClass:
                 # print "---------------------------------------------------------"
                 reward = self.simulator.take_action(action_to_take)
                 # if reward[0] > 0.0:
-                #     print "something"
+                # print "something"
                 game_history.append([reward, action_to_take])
                 self.simulator.change_turn()
                 h += 1

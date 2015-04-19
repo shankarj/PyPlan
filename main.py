@@ -4,11 +4,11 @@ from simulators import *
 
 def call_dealer():
     players_count = 2
-    simulation_count = 10
-    simulation_horizon = 20
+    simulation_count = 5
+    simulation_horizon = 120
 
-    simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
-    #simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
+    #simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
+    simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
     #simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)
     #simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players = players_count)
 
@@ -23,7 +23,7 @@ def call_dealer():
     # agent_four = uniformagent.UniformRolloutAgentClass(simulator=simulator_obj, rollout_policy=agent_three,
     #                                                    pull_count=5, horizon=10)
     agent_five = incuniformagent.IncUniformRolloutAgentClass(simulator=simulator_obj, rollout_policy=agent_one,
-                                                              pull_count=20, horizon=20)
+                                                              pull_count=50, horizon=100)
     #
     agent_uct = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=512, uct_constant=5, horizon=10)
@@ -32,9 +32,12 @@ def call_dealer():
     #                                      num_simulations=10, uct_constant=5, horizon=10)
     #
 
+
+    agent_LP = paralleluctLP.ParallelUCTLPClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                        num_simulations=100, num_threads=8, uct_constant=5, horizon=100)
+
     agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                         num_simulations=100, uct_constant=5, ensembles=4, horizon=10, parallel=True,
-                                         ensemble_method=1)
+                                         num_simulations=512, uct_constant=40, ensembles=2, horizon=100, parallel=False)
 
     agents_list = [agent_one, agent_ensemble]
 
