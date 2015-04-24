@@ -3,6 +3,7 @@ import math
 import sys
 import multiprocessing
 from multiprocessing import Process, Queue
+import timeit
 
 
 class uctnode:
@@ -14,7 +15,7 @@ class uctnode:
         self.children_list = []
         self.reward = []
         self.is_terminal = False
-
+        self.verbose = False
 
 '''
 1. THIS METHOD GENERATES ONE UCT TREE AND RETURNS THE REWARDS OF ALL THE ACTIONS
@@ -22,31 +23,32 @@ AND THE VISIT COUNT. COULD BE INVOKED IN PARALLEL OR SEQ.
 2. I HAVE KEPT IT OUTSIDE THE CLASS BECAUSE OF PICKLING PROBLEMS WHILE MULTIPROC
 INITIALIZING.
 '''
-def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, curr_turn, out_q):
+def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, out_q):
     current_turn = current_state.get_current_state()["current_player"]
     current_simulator.change_simulator_state(current_state)
     valid_actions = current_simulator.get_valid_actions()
     actions_count = len(valid_actions)
 
     if actions_count <= 1:
-        raise ValueError("Action count can't be less than one here. Check it at select_action() level.")
+        return valid_actions[0]
 
     global uctnode
     root_node = uctnode(current_state, valid_actions, True)
     current_node = root_node
     visit_stack = [current_node]
     curr_sim_count = 0
+    num_nodes = 0
 
     while curr_sim_count < sim_count:
         if len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
-            # CHOOSE A NODE USING TREE POLICY
+            #CHOOSE A NODE USING TREE POLICY
             if tree_pol == "UCB":
                 max_val = 0
                 sel_node = 0
                 for node in xrange(len(current_node.children_list)):
-                    value = current_node.children_list[node].reward[current_turn - 1] / current_node.children_list[node].state_visit
-                    exploration = math.sqrt(
-                        math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
+                    node_turn = current_node.state_value.get_current_state()["current_player"]
+                    value = current_node.children_list[node].reward[node_turn - 1]
+                    exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
                     value += uct_const * exploration
 
                     if (node == 0):
@@ -60,7 +62,7 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
                 current_node = current_node.children_list[sel_node]
                 visit_stack.append(current_node)
         else:
-            # SEE IF THE CURRENT NODE IS A TERMINAL NODE. IF YES, JUST RETURN ITS Q VALUE TO BE BACKTRACKED.
+            #SEE IF THE CURRENT NODE IS A TERMINAL NODE. IF YES, JUST RETURN ITS Q VALUE TO BE BACKTRACKED.
             current_node.state_visit += 1
             current_simulator.change_simulator_state(current_node.state_value)
             curr_sim_count += 1
@@ -68,7 +70,7 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
             if current_node.is_terminal:
                 q_vals = current_node.reward
             else:
-                # PULL A NEW ACTION ARM AND CREATE THE NEW STATE.
+                #PULL A NEW ACTION ARM AND CREATE THE NEW STATE.
                 current_pull = current_simulator.create_copy()
                 actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
                 current_pull.change_turn()
@@ -79,7 +81,7 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
                 simulation_sim = current_pull.create_copy()
 
                 while simulation_sim.gameover == False and h <= hor:
-                    action_to_take = rollout.select_action(current_pull.current_state)
+                    action_to_take = rollout.select_action(simulation_sim.current_state)
                     current_pull_reward = simulation_sim.take_action(action_to_take)
                     sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
                     simulation_sim.change_turn()
@@ -87,7 +89,9 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
 
                 q_vals = [x + y for x, y in zip(actual_reward, sim_reward)]
 
-                ##CREATE NEW NODE AND APPEND TO CURRENT NODE.
+
+                ##CREATE NEW NODE AND APPEND TO CURRENT NODE. THIS NODE HAS THE NEW TURN IN ITS STATE (THE NEXT PLAYER).
+                num_nodes += 1
                 global uctnode
                 child_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(), False)
                 child_node.reward = q_vals
@@ -97,23 +101,34 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
 
                 del current_pull
 
-            ## BACKTRACK REWARDS UNTIL ROOT NODE
-            ## Q-VALUE UPDATED BASED ON THE ENSEMBLE PAPER.
+            ##BACKTRACK REWARDS UNTIL ROOT NODE
             for node in xrange(len(visit_stack) - 1, -1, -1):
                 if visit_stack[node].is_root == False:
-                    #temp_diff = [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
-                    #temp_qterm = [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
-                    visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, q_vals)]
+                    temp_diff = [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
+                    temp_qterm = [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
+                    visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
 
             ##REVERT BACK TO ROOT
             current_node = root_node
             visit_stack = [current_node]
 
+        end_time = timeit.default_timer()
+
+    # if self.verbose:
+    # print "NUM NODES : ", str(num_nodes)
+    # print "NUM SIMS : ", str(sim_count)
+    # exit()
+
     # RETURN AN ARRAY OF REWARDS, VISITS OF ALL THE CHILDREN OF ROOT NODE
+    # print "SIM COUNT : ", curr_sim_count
+    # print "ENSEMBLE NEW"
+
     rewards = []
     visits = []
+
     for kid in root_node.children_list:
-        rewards.append(kid.reward[curr_turn - 1])
+        # print kid.reward
+        rewards.append(kid.reward[current_turn - 1])
         visits.append(kid.state_visit)
 
     out_q.put([rewards, visits])
@@ -165,6 +180,10 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
         if actions_count <= 1:
             return valid_actions[0]
 
+        if self.simulation_count < len(valid_actions):
+            print "NO. OF TRAJECTORIES MUST BE MORE THAN THE ACTION SPACE AT ROOT NODE."
+            exit()
+
         reward_values = []
         visit_counts = []
         output_que = Queue(self.ensemble_count)
@@ -179,7 +198,7 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
                                                                   self.rollout_policy.create_copy(),
                                                                   self.uct_constant,
                                                                   self.horizon,
-                                                                  current_turn, output_que,))
+                                                                  output_que,))
                 worker_proc.daemon = True
                 process_list.append(worker_proc)
                 worker_proc.start()
@@ -195,37 +214,35 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
                               self.rollout_policy.create_copy(),
                               self.uct_constant,
                               self.horizon,
-                              current_turn, output_que)
+                              output_que)
 
         for val in xrange(self.ensemble_count):
             q_output = output_que.get()
             reward_values.append(q_output[0])
             visit_counts.append(q_output[1])
 
-        # CALCULATE FIRST ARM'S AVG TOTALS IN ALL UCT TREES FOR FIRST BEST VALUE.
-        # NEED NOT WORRY ABOUT GETTING CURRENT PLAYER'S REWARD. WE PASS THE TURN
+        # NEED NOT WORRY ABOUT SPECIFYING CURRENT PLAYER'S TURN HERE. WE PASS THE TURN
         # WHILE CREATING UCT AGENT AND WE RETRIEVE ONLY THE PLAYER OF INTEREST'S
         # REWARD.
         best_avg = 0.0
         best_arm = 0
         # COMPARE FOR BEST AVG
-        for arm in xrange(1, actions_count):
+        for arm in xrange(0, actions_count):
             curr_avg = 0.0
             numer = 0.0
             denom = 0.0
             for ensemble in xrange(self.ensemble_count):
-                numer += reward_values[ensemble][arm] #* visit_counts[ensemble][arm]
+                numer += reward_values[ensemble][arm] * visit_counts[ensemble][arm]
                 denom += visit_counts[ensemble][arm]
 
             curr_avg = numer / denom
 
-            if arm == 1:
+            if arm == 0:
                 best_avg = curr_avg
             else:
                 if curr_avg > best_avg:
                     best_avg = curr_avg
                     best_arm = arm
-
 
         return valid_actions[best_arm]
 

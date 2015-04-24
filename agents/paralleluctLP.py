@@ -6,7 +6,7 @@ import multiprocessing
 from multiprocessing import Process, Queue
 
 class uctnode:
-    def __init__(self, node_state, action_list, is_root):
+    def __init__(self, node_state, action_list, is_root, node_player):
         self.state_value = node_state
         self.valid_actions = action_list
         self.is_root = is_root
@@ -14,6 +14,7 @@ class uctnode:
         self.children_list = []
         self.reward = []
         self.is_terminal = False
+        self.curr_turn = node_player
 
 def _simulate_game(rollout_policy, current_pull, horizon, out_q):
     sim_reward = [0.0] * current_pull.numplayers
@@ -57,7 +58,7 @@ class ParallelUCTLPClass(absagent.AbstractAgent):
             return valid_actions[0]
 
         global uctnode
-        root_node = uctnode(current_state, valid_actions, True)
+        root_node = uctnode(current_state, valid_actions, True, current_turn)
         current_node = root_node
         visit_stack = [current_node]
         sim_count = 0
@@ -73,7 +74,8 @@ class ParallelUCTLPClass(absagent.AbstractAgent):
                     max_val = 0
                     sel_node = 0
                     for node in xrange(len(current_node.children_list)):
-                        value = current_node.children_list[node].reward[current_turn - 1]
+                        node_turn = current_node.curr_turn
+                        value = current_node.children_list[node].reward[node_turn - 1]
                         exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
                         value += self.uct_constant * exploration
 
@@ -100,6 +102,7 @@ class ParallelUCTLPClass(absagent.AbstractAgent):
                     current_pull = self.simulator.create_copy()
                     actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
                     current_pull.change_turn()
+                    new_node_turn = current_pull.current_state.get_current_state()["current_player"]
 
                     ## SIMULATE TILL END AND GET THE REWARD.
                     ## HERE SIMULATION TAKES PLACE PARALLELY.
@@ -128,7 +131,8 @@ class ParallelUCTLPClass(absagent.AbstractAgent):
                     ##CREATE NEW NODE AND APPEND TO CURRENT NODE.
                     num_nodes += 1
                     global uctnode
-                    child_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(), False)
+                    child_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(), False,
+                                         new_node_turn)
                     child_node.reward = q_vals
                     child_node.state_visit += 1
                     child_node.is_terminal = current_pull.gameover

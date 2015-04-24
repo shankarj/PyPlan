@@ -19,21 +19,21 @@ class DealerClass:
         print("\nAGENTS LIST :")
 
         for count in xrange(len(self.playerlist)):
-            print(("\n\nAGENT {0} : ".format(count) + self.playerlist[count].agentname))
+            print(("AGENT {0} : ".format(count) + self.playerlist[count].agentname))
             current_rollout = self.playerlist[count].rollout_policy
 
             while current_rollout is not None:
-                print("\nIt's Rollout policy is : " + current_rollout.agentname)
+                print("It's Rollout policy is : " + current_rollout.agentname)
                 current_rollout = current_rollout.rollout_policy
 
             if self.playerlist[count].agentname == "EnsembleUCT":
-                print("\nEnsemble Count : " + str(self.playerlist[count].ensemble_count))
-                print("\nRun in Parallel : " + str(self.playerlist[count].is_parallel))
+                print("Ensemble Count : " + str(self.playerlist[count].ensemble_count))
+                print("Run in Parallel : " + str(self.playerlist[count].is_parallel))
                 if self.playerlist[count].is_parallel:
-                    print("\nCores in Machine : " + str(multiprocessing.cpu_count()))
+                    print("Cores in Machine : " + str(multiprocessing.cpu_count()))
             elif self.playerlist[count].agentname == "UCT-LP":
-                print("\nThread Count : " + str(self.playerlist[count].threadcount))
-                print("\nCores in Machine : " + str(multiprocessing.cpu_count()))
+                print("Thread Count : " + str(self.playerlist[count].threadcount))
+                print("Cores in Machine : " + str(multiprocessing.cpu_count()))
 
         print ("-" * 50)
         print_output += "\n" + str("-" * 50) + "\nSIMULATION RESULTS :"

@@ -70,7 +70,8 @@ class UCTAgentClass(absagent.AbstractAgent):
                     max_val = 0
                     sel_node = 0
                     for node in xrange(len(current_node.children_list)):
-                        value = current_node.children_list[node].reward[current_turn - 1]
+                        node_turn = current_node.state_value.get_current_state()["current_player"]
+                        value = current_node.children_list[node].reward[node_turn - 1]
                         exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
                         value += self.uct_constant * exploration
 
@@ -134,6 +135,7 @@ class UCTAgentClass(absagent.AbstractAgent):
         best_reward = root_node.children_list[0].reward[current_turn - 1]
 
         for arm in xrange(len(root_node.children_list)):
+            # print root_node.children_list[arm].reward
             if root_node.children_list[arm].reward[current_turn - 1] > best_reward:
                 best_reward = root_node.children_list[arm].reward[current_turn - 1]
                 best_arm = arm
