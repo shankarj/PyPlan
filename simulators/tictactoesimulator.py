@@ -69,9 +69,9 @@ class TicTacToeSimulatorClass(abssimulator.AbstractSimulator):
 		if self.winningplayer is not None:
 			for player in xrange(self.numplayers):
 				if player == self.winningplayer - 1:
-					reward[player] += 2.0
+					reward[player] += 1.0
 				else:
-					reward[player] -= 2.0
+					reward[player] -= 1.0
 
 		return reward
 

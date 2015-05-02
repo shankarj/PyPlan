@@ -40,8 +40,8 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
     num_nodes = 0
 
     while curr_sim_count < sim_count:
-        if len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
-            #CHOOSE A NODE USING TREE POLICY
+        # CHOOSE A NODE USING TREE POLICY. NODE SELECTION.
+        while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
             if tree_pol == "UCB":
                 max_val = 0
                 sel_node = 0
@@ -61,58 +61,58 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
                 current_node.state_visit += 1
                 current_node = current_node.children_list[sel_node]
                 visit_stack.append(current_node)
+
+        #SEE IF THE CURRENT NODE IS A TERMINAL NODE. IF YES, JUST RETURN ITS Q VALUE TO BE BACKTRACKED.
+        current_node.state_visit += 1
+        curr_sim_count += 1
+
+        if current_node.is_terminal:
+            q_vals = current_node.reward
         else:
-            #SEE IF THE CURRENT NODE IS A TERMINAL NODE. IF YES, JUST RETURN ITS Q VALUE TO BE BACKTRACKED.
-            current_node.state_visit += 1
+            #PULL A NEW ACTION ARM AND CREATE THE NEW STATE.
             current_simulator.change_simulator_state(current_node.state_value)
-            curr_sim_count += 1
+            current_pull = current_simulator.create_copy()
+            actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
+            current_pull.change_turn()
 
-            if current_node.is_terminal:
-                q_vals = current_node.reward
-            else:
-                #PULL A NEW ACTION ARM AND CREATE THE NEW STATE.
-                current_pull = current_simulator.create_copy()
-                actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
-                current_pull.change_turn()
+            ##SIMULATE TILL END AND GET THE REWARD.
+            sim_reward = [0.0] * current_pull.numplayers
+            h = 0
+            simulation_sim = current_pull.create_copy()
 
-                ##SIMULATE TILL END AND GET THE REWARD.
-                sim_reward = [0.0] * current_pull.numplayers
-                h = 0
-                simulation_sim = current_pull.create_copy()
+            while simulation_sim.gameover == False and h <= hor:
+                action_to_take = rollout.select_action(simulation_sim.current_state)
+                current_pull_reward = simulation_sim.take_action(action_to_take)
+                sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
+                simulation_sim.change_turn()
+                h += 1
 
-                while simulation_sim.gameover == False and h <= hor:
-                    action_to_take = rollout.select_action(simulation_sim.current_state)
-                    current_pull_reward = simulation_sim.take_action(action_to_take)
-                    sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
-                    simulation_sim.change_turn()
-                    h += 1
-
-                q_vals = [x + y for x, y in zip(actual_reward, sim_reward)]
+            q_vals = [x + y for x, y in zip(actual_reward, sim_reward)]
 
 
-                ##CREATE NEW NODE AND APPEND TO CURRENT NODE. THIS NODE HAS THE NEW TURN IN ITS STATE (THE NEXT PLAYER).
-                num_nodes += 1
-                global uctnode
-                child_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(), False)
-                child_node.reward = q_vals
-                child_node.state_visit += 1
-                child_node.is_terminal = current_pull.gameover
-                current_node.children_list.append(child_node)
+            ##CREATE NEW NODE AND APPEND TO CURRENT NODE. THIS NODE HAS THE NEW TURN IN ITS STATE (THE NEXT PLAYER).
+            num_nodes += 1
+            global uctnode
+            child_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(), False)
+            child_node.reward = q_vals
+            child_node.state_visit += 1
+            child_node.is_terminal = current_pull.gameover
+            current_node.children_list.append(child_node)
 
-                del current_pull
+            del current_pull
 
-            ##BACKTRACK REWARDS UNTIL ROOT NODE
-            for node in xrange(len(visit_stack) - 1, -1, -1):
-                if visit_stack[node].is_root == False:
-                    temp_diff = [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
-                    temp_qterm = [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
-                    visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
+        ##BACKTRACK REWARDS UNTIL ROOT NODE
+        for node in xrange(len(visit_stack) - 1, -1, -1):
+            if visit_stack[node].is_root == False:
+                temp_diff = [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
+                temp_qterm = [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
+                visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
 
-            ##REVERT BACK TO ROOT
-            current_node = root_node
-            visit_stack = [current_node]
+        ##REVERT BACK TO ROOT
+        current_node = root_node
+        visit_stack = [current_node]
 
-        end_time = timeit.default_timer()
+    end_time = timeit.default_timer()
 
     # if self.verbose:
     # print "NUM NODES : ", str(num_nodes)

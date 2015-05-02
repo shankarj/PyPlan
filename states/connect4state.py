@@ -14,6 +14,15 @@ class Connect4StateClass(absstate.AbstractState):
     def get_current_state(self):
         return self.current_state
 
+    def get_minified_repr(self):
+        return [self.current_state["state_val"], self.current_state["current_player"]]
+
+    def set_minified_rep(self, minified_val):
+        self.current_state = {
+            "state_val": minified_val[0],
+            "current_player": minified_val[1]
+        }
+
     # RETURNS A NEW DEEP COPY OF THIS STATE CLASS.
     def create_copy(self):
         new_state = {
