@@ -26,20 +26,20 @@ def call_dealer():
                                                               pull_count=5, horizon=100)
     #
     agent_uct = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=10, uct_constant=5, horizon=70)
+                                        num_simulations=512, uct_constant=5, horizon=70)
     #
     # agent_uct_2 = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
     #                                      num_simulations=10, uct_constant=5, horizon=10)
     #
 
 
-    agent_LP = paralleluctLP.ParallelUCTLPClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+    agent_LP = leafparalleluct.LeafParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=100, num_threads=8, uct_constant=5, horizon=70)
 
     agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                          num_simulations=512, uct_constant=5, ensembles=8, horizon=100, parallel=True)
 
-    agents_list = [agent_five, agent_uct]
+    agents_list = [agent_LP, agent_uct]
 
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count, sim_horizon=simulation_horizon)
     dealer_object.start_simulation()

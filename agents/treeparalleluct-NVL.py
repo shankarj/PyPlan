@@ -5,32 +5,8 @@ import timeit
 import multiprocessing
 from multiprocessing import Process, Queue
 
-class uctnode:
-    def __init__(self, node_state, action_list, is_root, node_player):
-        self.state_value = node_state
-        self.valid_actions = action_list
-        self.is_root = is_root
-        self.state_visit = 0
-        self.children_list = []
-        self.reward = []
-        self.is_terminal = False
-        self.curr_turn = node_player
-
-def _simulate_game(rollout_policy, current_pull, horizon, out_q):
-    sim_reward = [0.0] * current_pull.numplayers
-    h = 0
-    while current_pull.gameover == False and h <= horizon:
-        action_to_take = rollout_policy.select_action(current_pull.current_state)
-        current_pull_reward = current_pull.take_action(action_to_take)
-        sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
-        current_pull.change_turn()
-        h += 1
-
-    del current_pull
-    out_q.put(sim_reward)
-
-class ParallelUCTLPClass(absagent.AbstractAgent):
-    myname = "UCT-LP"
+class TreeParallelUCTNVLClass(absagent.AbstractAgent):
+    myname = "UCT-TP-NVL"
 
     def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, num_threads = 5, uct_constant=1, horizon=10):
         self.agentname = self.myname

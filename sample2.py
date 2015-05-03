@@ -42,20 +42,20 @@ class TreeSpace(object):
         self.horizon = horizon
         self.initialized = True
 
-    def backtrack_values(self, value, visit_stack):
+    def backtrack_values(self, value, visit_stack, pnum):
         for node in visit_stack:
-            with self.node_dictionary[node].lockobj:
-                for node in xrange(len(visit_stack) - 1, -1, -1):
-                    if self.node_dictionary[node].is_root == False:
-                        temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[node].reward)]
-                        temp_qterm =  [float(x) / float(self.node_dictionary[node].state_visit) for x in temp_diff]
-                        self.node_dictionary[node].reward = [x + y for x, y in zip(self.node_dictionary[node].reward, temp_qterm)]
+            for node in xrange(len(visit_stack) - 1, -1, -1):
+                if self.node_dictionary[visit_stack[node]].is_root == False:
+                    with self.node_dictionary[visit_stack[node]].lockobj:
+                        temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[visit_stack[node]].reward)]
+                        temp_qterm =  [float(x) / float(self.node_dictionary[visit_stack[node]].state_visit) for x in temp_diff]
+                        self.node_dictionary[visit_stack[node]].reward = [x + y for x, y in zip(self.node_dictionary[visit_stack[node]].reward, temp_qterm)]
 
     def get_node_object(self, node_num):
         return self.node_dictionary[node_num]
 
     # RETURNS THE SELECTED NODE NUMBER AT THE GIVEN NODE NUMBER USING A TREE POLICY
-    def node_selection(self, node_num, sim_obj):
+    def node_selection(self, node_num, sim_obj, pnum):
         current_node = self.node_dictionary[node_num]
         return_value = []
 
@@ -93,20 +93,28 @@ class TreeSpace(object):
             else:
                 sim_obj.change_simulator_state(current_node.state_value)
                 current_pull = sim_obj.create_copy()
+                print "\nACTUAL NODE ACTION", current_node.valid_actions[len(current_node.children_list)].get_action(), "PNUM", pnum
                 actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
+                print "TURN BEFORE CHANGE", current_pull.get_simulator_state().get_current_state()["current_player"]
                 current_pull.change_turn()
+                print "TURN AFTER CHANGE", current_pull.get_simulator_state().get_current_state()["current_player"]
 
                 # NODE SIMULATION.
                 temp_pull = current_pull.create_copy()
+                print "SIM START TURN : ", temp_pull.get_simulator_state().get_current_state()["current_player"]
                 simulation_rew = [0.0] * temp_pull.numplayers
                 h = 0
                 while temp_pull.gameover == False and h <= self.horizon:
                     action_to_take = self.rollout_policy.select_action(temp_pull.current_state)
+                    print "ACTION TAKEN", action_to_take.get_action(), "PNUM", pnum
                     current_pull_reward = temp_pull.take_action(action_to_take)
                     simulation_rew = [x + y for x, y in zip(simulation_rew, current_pull_reward)]
-                    current_pull.change_turn()
+                    temp_pull.change_turn()
                     h += 1
 
+                print "FINAL SIM STATE", temp_pull.get_simulator_state().get_current_state(), "PNUM", pnum
+                print "SIM REW", simulation_rew, "PNUM", pnum
+                print "ACTUAL REW", actual_reward, "PNUM", pnum
                 del temp_pull
 
                 q_vals = [x+y for x,y in zip(actual_reward, simulation_rew)]
@@ -114,6 +122,8 @@ class TreeSpace(object):
                 # NODE CREATION.
                 ## NOTE: REWARD FOR THIS NEW NODE = ACTUAL + SIM_REWARD. SO THIS NODE IS NOT INCLUDED IN
                 ## THE VISIT_STACK FOR BACKTRACKING.
+                print "STATE TO CREATE", current_pull.get_simulator_state().get_current_state(), "PNUM", pnum
+                print "!!!  NODE REWARD CREATED", q_vals, "PNUM", pnum, "\n"
                 temp_node = uctnode(self.total_nodes, current_pull.get_simulator_state(),
                                     current_pull.get_valid_actions(), False, Manager().Lock(), current_pull.gameover)
                 temp_node.reward = q_vals
@@ -136,51 +146,59 @@ class TreeSpace(object):
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
 def worker_code(pnum, mgr_obj, sim_obj):
-    if mgr_obj.root_initialized() == False:
-        tree_space.initialize_space(simulator_obj.current_state,
-                                simulator_obj.get_valid_actions(), "UCB",
-                                agent_one, 10, 5)
     visit_stack = [0]
 
     # NODE SELECTION
     parent_node_num = 0
-    current_node_work = mgr_obj.node_selection(0, sim_obj)
+    current_node_work = mgr_obj.node_selection(0, sim_obj, pnum)
     while current_node_work[0] == 1:
+        #print "CHOSEN NODE", current_node_work[1]
         visit_stack.append(current_node_work[1])
         parent_node_num = current_node_work[1]
-        current_node_work = mgr_obj.node_selection(current_node_work[1], sim_obj)
+        current_node_work = mgr_obj.node_selection(current_node_work[1], sim_obj, pnum)
 
     # BACKTRACK VALUES. STARTS FROM PARENT OF THE NODE JUST CREATED/CHOOSEN TO THE
     # CHILD OF THE ROOT NODE IN THE TRAJECTORY.
+    print "----- BACKTRACK REW", current_node_work[1], "NODE WORK", current_node_work[0], "VISIT STACK", visit_stack, "PNUM", pnum
     simulation_rew = current_node_work[1]
-    mgr_obj.backtrack_values(simulation_rew, visit_stack)
+    mgr_obj.backtrack_values(simulation_rew, visit_stack, pnum)
 
 if __name__ == "__main__":
     # TEST VALUES
     simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players=2)
     stateobj = tictactoestate.TicTacToeStateClass()
-    stateobj.current_state["state_val"] = [[1, 2, 1], [2, 0, 1], [1, 0, 2]]
+    stateobj.current_state["state_val"] = [[2, 0, 1], [1, 1, 2], [2, 0, 1]]
     simulator_obj.change_simulator_state(stateobj)
     agent_one = randomagent.RandomAgentClass(simulator=simulator_obj)
 
     # ACTUAL CODE
     mgr = StartManager()
     tree_space = mgr.TreeSpace()
-
+    tree_space.initialize_space(simulator_obj.current_state,
+                                simulator_obj.get_valid_actions(), "UCB",
+                                agent_one, 10, 5)
     process_q = []
-    for proc in xrange(5):
+    for proc in xrange(10):
         worker_process = Process (target=worker_code, args=(proc, tree_space, simulator_obj))
         process_q.append(worker_process)
         worker_process.daemon = True
         worker_process.start()
-        time.sleep(0.1)
+        #time.sleep(0.1)
     for elem in process_q:
         elem.join()
 
     # CALCULATE BEST ARM HERE
     a = tree_space.get_node_object(0)
-    #print len(a.children_list)
+    print "\nCHILDREN LIST", len(a.children_list)
+    print "ROOT STATE COUNT", a.state_visit
 
     for x in range(len(a.children_list)):
-        print a.children_list[x].state_value.get_current_state()
+        print "\nNODE STATE", a.children_list[x].state_value.get_current_state()
+        temp = a.children_list[x]
+        print "CHILDREN LENGTH", len(temp.children_list)
+        for y in range(len(temp.children_list)):
+            print "MY CHILD", temp.children_list[y].state_value.get_current_state()
+            print "MY CHILD's CHILD COUNT", len(temp.children_list[y].children_list)
+
         print a.children_list[x].reward
+        print "VISITS :", a.children_list[x].state_visit
