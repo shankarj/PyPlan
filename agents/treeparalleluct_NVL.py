@@ -135,7 +135,7 @@ class TreeSpace(object):
         return self.initialized
 
 # PARALLELIZED CODE.
-def worker_code(pnum, mgr_obj, sim_obj, zombie_list):
+def worker_code(pnum, mgr_obj, sim_obj):
     visit_stack = [0]
 
     # NODE SELECTION
@@ -150,8 +150,6 @@ def worker_code(pnum, mgr_obj, sim_obj, zombie_list):
     # CHILD OF THE ROOT NODE IN THE TRAJECTORY.
     simulation_rew = current_node_work[1]
     mgr_obj.backtrack_values(simulation_rew, visit_stack, pnum)
-
-    zombie_list.append(multiprocessing.current_process().pid)
 
 class TreeParallelUCTNVLClass(absagent.AbstractAgent):
     myname = "UCT-TP-NVL"
@@ -173,7 +171,6 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
         return self.agentname
 
     def select_action(self, current_state):
-        zombie_list = Manager().list()
         TreeSpaceManager.register('TreeSpace', TreeSpace)
         current_turn = current_state.get_current_state()["current_player"]
         self.simulator.change_simulator_state(current_state)
@@ -191,33 +188,20 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
 
         process_q = []
         for proc in xrange(self.simulation_count):
-            worker_process = Process (name="worker_process", target=worker_code, args=(proc, tree_space, self.simulator, zombie_list))
+            done_event = multiprocessing.Event()
+            worker_process = Process (name="worker_process", target=worker_code, args=(proc, tree_space, self.simulator))
             process_q.append(worker_process)
-            worker_process.daemon = True
             worker_process.start()
-
-            # #NEEDED TO KILL ZOMBIE PROCESSES
-            # for zombie_num in xrange(len(zombie_list)):
-            #     for proc_elem in process_q:
-            #         if not zombie_list[zombie_num] == 0:
-            #             if zombie_list[zombie_num] == proc_elem.pid:
-            #                 #print "KILLED", zombie_list[zombie_num]
-            #                 zombie_list[zombie_num] = 0
-            #                 #zombie_list.remove(zombie_list[zombie_num])
-            #                 del proc_elem
 
         for elem in process_q:
             elem.join()
 
+        for each_proc in process_q:
+            try:
+                print psutil.Process(each_proc.pid).status()
+            except Exception:
+                continue
 
-        print "BEFORE", len(psutil.pids())
-        os.wait()
-        # # DELETE ALL CHILD PROCESS:
-        # for each_proc in process_q:
-        #     subprocess.call(["kill", "-9", str(each_proc.pid)])
-        print "AFTER", len(psutil.pids())
-        #
-        # print "TOTAL PROCESSES", psutil.pids()
         best_arm = 0
         best_reward = tree_space.get_node_object(0).children_list[0].reward[current_turn - 1]
 

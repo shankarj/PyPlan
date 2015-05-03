@@ -2,6 +2,8 @@ import timeit
 import multiprocessing
 import psutil
 import time
+import os
+import subprocess
 
 class DealerClass:
     def __init__(self, agents_list, simulator, num_simulations, sim_horizon, verbose=True):
@@ -60,6 +62,20 @@ class DealerClass:
                 game_history.append([reward, action_to_take])
                 self.simulator.change_turn()
                 h += 1
+
+                pids = psutil.pids()
+                current_pid = os.getpid()
+
+                # DIE ZOMBIE DIEEEE !
+                if self.playerlist[actual_agent_id].myname == "UCT-TP-NVL":
+                    for each_proc in pids:
+                        try:
+                            if not each_proc == current_pid:
+                                proc_obj = psutil.Process(each_proc)
+                                if proc_obj.name().lower() == "python":
+                                    subprocess.check_output(["kill", "-9", str(each_proc)])
+                        except Exception:
+                            continue
 
             winner = self.simulator.winningplayer
             self.game_winner_list.append(winner)
