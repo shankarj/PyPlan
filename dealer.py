@@ -1,6 +1,7 @@
 import timeit
 import multiprocessing
-
+import psutil
+import time
 
 class DealerClass:
     def __init__(self, agents_list, simulator, num_simulations, sim_horizon, verbose=True):
@@ -68,6 +69,7 @@ class DealerClass:
             print_output += "\nWINNER : " + str(winner)
             print_output += "\n----------------------------------"
             self.simulator.reset_simulator()
+
 
         stop_time = timeit.default_timer()
         print_output += "\nTOTAL TIME : " + str(stop_time - start_time) + "\n\n"

@@ -1,1 +1,1 @@
-__all__ = ["randomagent", "uniformagent", "egreedyagent", "incuniformagent", "uctagent", "ensembleuct", "leafparalleluct", "treeparalleluct-VL", "treeparalleluct-NVL"]
+__all__ = ["randomagent", "uniformagent", "egreedyagent", "incuniformagent", "uctagent", "ensembleuct", "leafparalleluct", "treeparalleluct-VL", "treeparalleluct_NVL"]

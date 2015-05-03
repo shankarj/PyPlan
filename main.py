@@ -1,6 +1,7 @@
 import dealer
 from agents import *
 from simulators import *
+import os
 
 def call_dealer():
     players_count = 2
@@ -39,7 +40,10 @@ def call_dealer():
     agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                          num_simulations=512, uct_constant=5, ensembles=8, horizon=100, parallel=True)
 
-    agents_list = [agent_LP, agent_uct]
+    agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                        num_simulations=50, uct_constant=5, horizon=70)
+
+    agents_list = [agent_TP_NVL, agent_one]
 
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count, sim_horizon=simulation_horizon)
     dealer_object.start_simulation()
