@@ -5,7 +5,7 @@ import os
 
 def call_dealer():
     players_count = 2
-    simulation_count = 10
+    simulation_count = 2
     simulation_horizon = 120
 
     # simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
@@ -41,9 +41,12 @@ def call_dealer():
                                          num_simulations=512, uct_constant=5, ensembles=8, horizon=100, parallel=True)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=100, uct_constant=5, horizon=70)
+                                        num_simulations=30, uct_constant=5, horizon=10)
 
-    agents_list = [agent_TP_NVL, agent_one]
+    agent_TP_VL = treeparalleluct_VL.TreeParallelUCTVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                        num_simulations=30, uct_constant=5, horizon=70, virtual_loss=1.0)
+
+    agents_list = [agent_TP_VL, agent_TP_NVL]
 
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count, sim_horizon=simulation_horizon)
     dealer_object.start_simulation()

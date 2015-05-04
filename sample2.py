@@ -161,17 +161,15 @@ def worker_code(pnum, mgr_obj, sim_obj):
 
     # BACKTRACK VALUES. STARTS FROM PARENT OF THE NODE JUST CREATED/CHOOSEN TO THE
     # CHILD OF THE ROOT NODE IN THE TRAJECTORY.
-    print "----- BACKTRACK REW", current_node_work[1], "NODE WORK", current_node_work[0], "VISIT STACK", visit_stack, "PNUM", pnum
     simulation_rew = current_node_work[1]
     mgr_obj.backtrack_values(simulation_rew, visit_stack, pnum)
-    print "~" * 50, "MY PID", multiprocessing.current_process().pid
 
 
 if __name__ == "__main__":
     # TEST VALUES
     simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players=2)
     stateobj = tictactoestate.TicTacToeStateClass()
-    stateobj.current_state["state_val"] = [[2, 0, 1], [1, 1, 2], [2, 0, 1]]
+    stateobj.current_state["state_val"] = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     simulator_obj.change_simulator_state(stateobj)
     agent_one = randomagent.RandomAgentClass(simulator=simulator_obj)
 
@@ -183,21 +181,17 @@ if __name__ == "__main__":
                                 agent_one, 10, 5)
     process_q = []
     count = 0
-    for proc in xrange(10):
+    for proc in xrange(20):
         worker_process = Process (target=worker_code, args=(proc, tree_space, simulator_obj))
         process_q.append(worker_process)
         worker_process.daemon = True
         worker_process.start()
         c = psutil.Process(worker_process.pid)
-        print "-" * 50, "PIDPIDPIDPID", c.pid, "COUNT", count
         #time.sleep(0.1)
         count += 1
 
     for elem in process_q:
         elem.join()
-
-    while 1:
-        continue
 
     # CALCULATE BEST ARM HERE
     a = tree_space.get_node_object(0)

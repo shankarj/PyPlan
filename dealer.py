@@ -50,6 +50,7 @@ class DealerClass:
 
             while self.simulator.gameover == False and h < self.simulation_horizon:
                 actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
+                print "AGENT", actual_agent_id
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
                 # print self.simulator.print_board()
                 # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])

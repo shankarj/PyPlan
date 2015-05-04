@@ -29,6 +29,7 @@ class uctnode:
         self.reward = []
         self.is_terminal = is_terminal
         self.lockobj = lock_obj
+        self.virtual_loss = []
 
 class TreeSpace(object):
     def __init__(self):
@@ -60,15 +61,25 @@ class TreeSpace(object):
         for node in xrange(len(visit_stack) - 1, -1, -1):
             if self.node_dictionary[visit_stack[node]].is_root == False:
                 with self.node_dictionary[visit_stack[node]].lockobj:
+                    # DELETE VIRTUAL LOSS ADDED BY PROCESS.
+                    # print "NODE NUM", node
+                    # print "DEL IN", self.node_dictionary[visit_stack[node]].node_number, "BY", pnum, "STACK", visit_stack
+                    # print "DELETED"
                     temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[visit_stack[node]].reward)]
                     temp_qterm =  [float(x) / float(self.node_dictionary[visit_stack[node]].state_visit) for x in temp_diff]
                     self.node_dictionary[visit_stack[node]].reward = [x + y for x, y in zip(self.node_dictionary[visit_stack[node]].reward, temp_qterm)]
+
+                    #print "LOSS STACK", self.node_dictionary[visit_stack[node]].virtual_loss
+                    try:
+                        del self.node_dictionary[visit_stack[node]].virtual_loss[-1]
+                    except Exception:
+                        continue
 
     def get_node_object(self, node_num):
         return self.node_dictionary[node_num]
 
     # RETURNS THE SELECTED NODE NUMBER AT THE GIVEN NODE NUMBER USING A TREE POLICY
-    def node_selection(self, node_num, sim_obj, pnum):
+    def node_selection(self, node_num, sim_obj, pnum, vloss):
         current_node = self.node_dictionary[node_num]
         return_value = []
 
@@ -78,8 +89,11 @@ class TreeSpace(object):
                 max_val = 0
                 sel_node = 0
                 for node in xrange(len(current_node.children_list)):
+                    loss_total = 0.0
+                    for each_loss in current_node.virtual_loss:
+                        loss_total += each_loss
                     node_turn = current_node.state_value.get_current_state()["current_player"]
-                    value = current_node.children_list[node].reward[node_turn - 1]
+                    value = current_node.children_list[node].reward[node_turn - 1] - loss_total
                     exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
                     value += self.uct_constant * exploration
 
@@ -91,6 +105,8 @@ class TreeSpace(object):
                             sel_node = node
 
                 self.node_dictionary[node_num].state_visit += 1
+                self.node_dictionary[node_num].children_list[sel_node].virtual_loss.append(vloss)
+                # print "VLOSS ADDED TO", self.node_dictionary[node_num].children_list[sel_node].node_number, "BY", pnum
                 return_value = [1, self.node_dictionary[node_num].children_list[sel_node].node_number]
         else:
             # NODE EXPANSION AND SIMULATION
@@ -144,26 +160,26 @@ class TreeSpace(object):
         return self.initialized
 
 # PARALLELIZED CODE.
-def worker_code(pnum, mgr_obj, sim_obj):
+def worker_code(pnum, mgr_obj, sim_obj, vloss):
     visit_stack = [0]
 
     # NODE SELECTION
     parent_node_num = 0
-    current_node_work = mgr_obj.node_selection(0, sim_obj, pnum)
+    current_node_work = mgr_obj.node_selection(0, sim_obj, pnum, vloss)
     while current_node_work[0] == 1:
         visit_stack.append(current_node_work[1])
         parent_node_num = current_node_work[1]
-        current_node_work = mgr_obj.node_selection(current_node_work[1], sim_obj, pnum)
+        current_node_work = mgr_obj.node_selection(current_node_work[1], sim_obj, pnum, vloss)
 
     # BACKTRACK VALUES. STARTS FROM PARENT OF THE NODE JUST CREATED/CHOOSEN TO THE
     # CHILD OF THE ROOT NODE IN THE TRAJECTORY.
     simulation_rew = current_node_work[1]
     mgr_obj.backtrack_values(simulation_rew, visit_stack, pnum)
 
-class TreeParallelUCTNVLClass(absagent.AbstractAgent):
-    myname = "UCT-TP-NVL"
+class TreeParallelUCTVLClass(absagent.AbstractAgent):
+    myname = "UCT-TP-VL"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, num_threads = 5, uct_constant=1, horizon=10):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, num_threads = 5, uct_constant=1, horizon=10, virtual_loss=1.0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -172,9 +188,10 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
         self.simulation_count = num_simulations
         self.horizon = horizon
         self.threadcount = num_threads
+        self.virtual_loss = virtual_loss
 
     def create_copy(self):
-        return TreeParallelUCTNVLClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
+        return TreeParallelUCTVLClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
 
     def get_agent_name(self):
         return self.agentname
@@ -200,9 +217,13 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
         process_q = []
 
         for proc in xrange(self.simulation_count):
-            worker_process = Process (name="worker_process", target=worker_code, args=(proc, tree_space, self.simulator))
+            done_event = multiprocessing.Event()
+            worker_process = Process (name="worker_process", target=worker_code, args=(proc, tree_space,
+                                                                                       self.simulator,
+                                                                                       self.virtual_loss))
             process_q.append(worker_process)
             worker_process.start()
+            time.sleep(0.01)
 
         for each_proc in process_q:
             each_proc.join()
