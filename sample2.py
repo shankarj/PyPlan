@@ -6,6 +6,8 @@ from agents import *
 from simulators import *
 from states import *
 import math
+import os
+import psutil
 
 class TreeSpaceManager(BaseManager): pass
 
@@ -162,6 +164,8 @@ def worker_code(pnum, mgr_obj, sim_obj):
     print "----- BACKTRACK REW", current_node_work[1], "NODE WORK", current_node_work[0], "VISIT STACK", visit_stack, "PNUM", pnum
     simulation_rew = current_node_work[1]
     mgr_obj.backtrack_values(simulation_rew, visit_stack, pnum)
+    print "~" * 50, "MY PID", multiprocessing.current_process().pid
+
 
 if __name__ == "__main__":
     # TEST VALUES
@@ -178,14 +182,22 @@ if __name__ == "__main__":
                                 simulator_obj.get_valid_actions(), "UCB",
                                 agent_one, 10, 5)
     process_q = []
+    count = 0
     for proc in xrange(10):
         worker_process = Process (target=worker_code, args=(proc, tree_space, simulator_obj))
         process_q.append(worker_process)
         worker_process.daemon = True
         worker_process.start()
+        c = psutil.Process(worker_process.pid)
+        print "-" * 50, "PIDPIDPIDPID", c.pid, "COUNT", count
         #time.sleep(0.1)
+        count += 1
+
     for elem in process_q:
         elem.join()
+
+    while 1:
+        continue
 
     # CALCULATE BEST ARM HERE
     a = tree_space.get_node_object(0)

@@ -63,11 +63,10 @@ class DealerClass:
                 self.simulator.change_turn()
                 h += 1
 
-                pids = psutil.pids()
-                current_pid = os.getpid()
-
                 # DIE ZOMBIE DIEEEE !
                 if self.playerlist[actual_agent_id].myname == "UCT-TP-NVL":
+                    pids = psutil.pids()
+                    current_pid = os.getpid()
                     for each_proc in pids:
                         try:
                             if not each_proc == current_pid:

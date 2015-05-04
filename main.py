@@ -41,7 +41,7 @@ def call_dealer():
                                          num_simulations=512, uct_constant=5, ensembles=8, horizon=100, parallel=True)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=50, uct_constant=5, horizon=70)
+                                        num_simulations=100, uct_constant=5, horizon=70)
 
     agents_list = [agent_TP_NVL, agent_one]
 

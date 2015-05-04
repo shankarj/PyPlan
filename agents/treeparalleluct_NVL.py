@@ -35,9 +35,19 @@ class TreeSpace(object):
         self.total_nodes = 0
         self.node_dictionary = {}
         self.initialized = False
+        self.locks = []
+
+    def create_new_lock(self):
+        new_mgr = Manager()
+        self.locks.append(new_mgr)
+        return new_mgr.Lock()
+
+    def shut_all_locks(self):
+        for lock in self.locks:
+            lock.shutdown()
 
     def initialize_space(self, node_current_state, node_valid_actions, tree_policy, rollout_pol, horizon, uct_constant):
-        self.root = uctnode(self.total_nodes, node_current_state, node_valid_actions, True, Manager().Lock(), False)
+        self.root = uctnode(self.total_nodes, node_current_state, node_valid_actions, True, self.create_new_lock(), False)
         self.node_dictionary[self.total_nodes] = self.root
         self.total_nodes += 1
         self.tree_policy = tree_policy
@@ -116,7 +126,7 @@ class TreeSpace(object):
                 ## NOTE: REWARD FOR THIS NEW NODE = ACTUAL + SIM_REWARD. SO THIS NODE IS NOT INCLUDED IN
                 ## THE VISIT_STACK FOR BACKTRACKING.
                 temp_node = uctnode(self.total_nodes, current_pull.get_simulator_state(),
-                                    current_pull.get_valid_actions(), False, Manager().Lock(), current_pull.gameover)
+                                    current_pull.get_valid_actions(), False, self.create_new_lock(), current_pull.gameover)
                 temp_node.reward = q_vals
                 temp_node.state_visit += 1
                 self.node_dictionary[self.total_nodes] = temp_node
@@ -181,34 +191,37 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
             return valid_actions[0]
 
         mgr = StartManager()
+
         tree_space = mgr.TreeSpace()
+
         tree_space.initialize_space(current_state,
                                     valid_actions, self.tree_policy,
                                     self.rollout_policy, self.horizon, self.uct_constant)
 
         process_q = []
+
         for proc in xrange(self.simulation_count):
             done_event = multiprocessing.Event()
             worker_process = Process (name="worker_process", target=worker_code, args=(proc, tree_space, self.simulator))
             process_q.append(worker_process)
             worker_process.start()
 
-        for elem in process_q:
-            elem.join()
-
         for each_proc in process_q:
-            try:
-                print psutil.Process(each_proc.pid).status()
-            except Exception:
-                continue
+            each_proc.join()
 
         best_arm = 0
         best_reward = tree_space.get_node_object(0).children_list[0].reward[current_turn - 1]
 
+        print "------------TREE VISIT", tree_space.get_node_object(0).state_visit
+
         for arm in xrange(len(tree_space.get_node_object(0).children_list)):
+            print "CHILD VISIT", tree_space.get_node_object(0).children_list[arm].state_visit
             if tree_space.get_node_object(0).children_list[arm].reward[current_turn - 1] > best_reward:
                 best_reward = tree_space.get_node_object(0).children_list[arm].reward[current_turn - 1]
                 best_arm = arm
+
+        tree_space.shut_all_locks()
+        mgr.shutdown()
 
         return valid_actions[best_arm]
 
