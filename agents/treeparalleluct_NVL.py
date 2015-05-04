@@ -5,11 +5,7 @@ import timeit
 import multiprocessing
 from multiprocessing.managers import BaseManager
 from multiprocessing import Process, Lock, Manager, Event, Queue
-import os
-import signal
-import psutil
 import time
-import  subprocess
 
 class TreeSpaceManager(BaseManager): pass
 
@@ -163,7 +159,7 @@ def worker_code(pnum, mgr_obj, sim_obj):
 class TreeParallelUCTNVLClass(absagent.AbstractAgent):
     myname = "UCT-TP-NVL"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, num_threads = 5, uct_constant=1, horizon=10):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=10):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -171,7 +167,6 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
         self.uct_constant = uct_constant
         self.simulation_count = num_simulations
         self.horizon = horizon
-        self.threadcount = num_threads
 
     def create_copy(self):
         return TreeParallelUCTNVLClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
@@ -190,9 +185,7 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
             return valid_actions[0]
 
         mgr = StartManager()
-
         tree_space = mgr.TreeSpace()
-
         tree_space.initialize_space(current_state,
                                     valid_actions, self.tree_policy,
                                     self.rollout_policy, self.horizon, self.uct_constant)
@@ -202,7 +195,9 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
         for proc in xrange(self.simulation_count):
             worker_process = Process (name="worker_process", target=worker_code, args=(proc, tree_space, self.simulator))
             process_q.append(worker_process)
+            worker_process.daemon = True
             worker_process.start()
+            #time.sleep(0.01)
 
         for each_proc in process_q:
             each_proc.join()

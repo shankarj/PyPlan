@@ -5,11 +5,7 @@ import timeit
 import multiprocessing
 from multiprocessing.managers import BaseManager
 from multiprocessing import Process, Lock, Manager, Event, Queue
-import os
-import signal
-import psutil
 import time
-import  subprocess
 
 class TreeSpaceManager(BaseManager): pass
 
@@ -179,7 +175,7 @@ def worker_code(pnum, mgr_obj, sim_obj, vloss):
 class TreeParallelUCTVLClass(absagent.AbstractAgent):
     myname = "UCT-TP-VL"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, num_threads = 5, uct_constant=1, horizon=10, virtual_loss=1.0):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=10, virtual_loss=1.0):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -187,7 +183,6 @@ class TreeParallelUCTVLClass(absagent.AbstractAgent):
         self.uct_constant = uct_constant
         self.simulation_count = num_simulations
         self.horizon = horizon
-        self.threadcount = num_threads
         self.virtual_loss = virtual_loss
 
     def create_copy(self):
@@ -207,9 +202,7 @@ class TreeParallelUCTVLClass(absagent.AbstractAgent):
             return valid_actions[0]
 
         mgr = StartManager()
-
         tree_space = mgr.TreeSpace()
-
         tree_space.initialize_space(current_state,
                                     valid_actions, self.tree_policy,
                                     self.rollout_policy, self.horizon, self.uct_constant)
@@ -222,6 +215,7 @@ class TreeParallelUCTVLClass(absagent.AbstractAgent):
                                                                                        self.simulator,
                                                                                        self.virtual_loss))
             process_q.append(worker_process)
+            worker_process.daemon = True
             worker_process.start()
             time.sleep(0.01)
 

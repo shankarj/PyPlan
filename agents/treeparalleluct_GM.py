@@ -1,15 +1,11 @@
+from abstract import absagent
+import math
+import sys
+import timeit
 import multiprocessing
 from multiprocessing.managers import BaseManager
-from multiprocessing import Process, Lock, Manager, Event
+from multiprocessing import Process, Lock, Manager, Event, Queue
 import time
-from agents import *
-from simulators import *
-from states import *
-import math
-import os
-import psutil
-
-## GLOBAL MUTEX
 
 class TreeSpaceManager(BaseManager): pass
 
@@ -115,14 +111,12 @@ class TreeSpace(object):
         current_node = root_node
         node_num = current_node.node_number
         return_value = []
-        print "start"
         while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
             if self.tree_policy == "UCB":
                 max_val = 0
                 sel_node = 0
                 #print "CHILD LIST LEN", len(current_node.children_list)
                 for node in xrange(len(current_node.children_list)):
-                    print node, len(current_node.children_list)
                     node_turn = current_node.state_value.get_current_state()["current_player"]
                     value = current_node.children_list[node].reward[node_turn - 1]
                     exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
@@ -135,7 +129,6 @@ class TreeSpace(object):
                             max_val = value
                             sel_node = node
 
-                print "thoo"
                 self.node_dictionary[node_num].state_visit += 1
                 visit_stack.append(node_num)
                 current_node = self.node_dictionary[node_num].children_list[sel_node]
@@ -143,7 +136,6 @@ class TreeSpace(object):
 
         self.node_dictionary[node_num].state_visit += 1
 
-        print "yo"
         if current_node.is_terminal:
             simulation_rew = current_node.reward
             return_value = [0, visit_stack, simulation_rew]
@@ -163,7 +155,6 @@ class TreeSpace(object):
                 self.total_nodes += 1
                 del current_pull
 
-            print "hello"
             visit_stack.append(temp_node.node_number)
             return_value = [1, visit_stack]
 
@@ -176,8 +167,8 @@ class TreeSpace(object):
 
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
+# PARALLEL CODE
 def worker_code(pnum, mgr_obj, sim_obj):
-
     # NODE SELECTION
     parent_node_num = 0
     ret_val = mgr_obj.node_selection(sim_obj, pnum)
@@ -189,48 +180,66 @@ def worker_code(pnum, mgr_obj, sim_obj):
         # SIMULATE AND BACKTRACK VALUES.
         mgr_obj.simulate_and_backtrack(ret_val[1], sim_obj, pnum)
 
-if __name__ == "__main__":
-    # TEST VALUES
-    simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players=2)
-    stateobj = tictactoestate.TicTacToeStateClass()
-    stateobj.current_state["state_val"] = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-    simulator_obj.change_simulator_state(stateobj)
-    agent_one = randomagent.RandomAgentClass(simulator=simulator_obj)
+class TreeParallelUCTGMClass(absagent.AbstractAgent):
+    myname = "UCT-TP-GM"
 
-    # ACTUAL CODE
-    mgr = StartManager()
-    tree_space = mgr.TreeSpace()
-    tree_space.initialize_space(simulator_obj.current_state,
-                                simulator_obj.get_valid_actions(), "UCB",
-                                agent_one, 10, 5)
-    process_q = []
-    count = 0
-    for proc in xrange(20):
-        worker_process = Process (target=worker_code, args=(proc, tree_space, simulator_obj))
-        process_q.append(worker_process)
-        worker_process.daemon = True
-        worker_process.start()
-        c = psutil.Process(worker_process.pid)
-        count += 1
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=10):
+        self.agentname = self.myname
+        self.rollout_policy = rollout_policy
+        self.simulator = simulator.create_copy()
+        self.tree_policy = tree_policy
+        self.uct_constant = uct_constant
+        self.simulation_count = num_simulations
+        self.horizon = horizon
 
-    for elem in process_q:
-        elem.join()
+    def create_copy(self):
+        return TreeParallelUCTGMClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
 
-    # CALCULATE BEST ARM HERE
-    a = tree_space.get_node_object(0)
-    print "\nCHILDREN LIST", len(a.children_list)
-    print "ROOT STATE COUNT", a.state_visit
+    def get_agent_name(self):
+        return self.agentname
 
-    for x in range(len(a.children_list)):
-        print "\nNODE STATE", a.children_list[x].state_value.get_current_state()
-        temp = a.children_list[x]
-        print "CHILDREN LENGTH", len(temp.children_list)
-        for y in range(len(temp.children_list)):
-            print "MY CHILD", temp.children_list[y].state_value.get_current_state()
-            print "MY CHILD's CHILD COUNT", len(temp.children_list[y].children_list)
+    def select_action(self, current_state):
+        TreeSpaceManager.register('TreeSpace', TreeSpace)
+        current_turn = current_state.get_current_state()["current_player"]
+        self.simulator.change_simulator_state(current_state)
+        valid_actions = self.simulator.get_valid_actions()
+        actions_count = len(valid_actions)
 
-        print a.children_list[x].reward
-        print "VISITS :", a.children_list[x].state_visit
+        if actions_count <= 1:
+            return valid_actions[0]
 
-    tree_space.shut_all_locks()
-    mgr.shutdown()
+        mgr = StartManager()
+        tree_space = mgr.TreeSpace()
+        tree_space.initialize_space(current_state,
+                                    valid_actions, self.tree_policy,
+                                    self.rollout_policy, self.horizon, self.uct_constant)
+
+        process_q = []
+        count = 0
+        for proc in xrange(self.simulation_count):
+            worker_process = Process (target=worker_code, args=(proc, tree_space, self.simulator))
+            process_q.append(worker_process)
+            worker_process.daemon = True
+            worker_process.start()
+            count += 1
+
+        for elem in process_q:
+            elem.join()
+
+        best_arm = 0
+        best_reward = tree_space.get_node_object(0).children_list[0].reward[current_turn - 1]
+
+        print "------------TREE VISIT", tree_space.get_node_object(0).state_visit
+
+        for arm in xrange(len(tree_space.get_node_object(0).children_list)):
+            print "CHILD VISIT", tree_space.get_node_object(0).children_list[arm].state_visit
+            if tree_space.get_node_object(0).children_list[arm].reward[current_turn - 1] > best_reward:
+                best_reward = tree_space.get_node_object(0).children_list[arm].reward[current_turn - 1]
+                best_arm = arm
+
+        tree_space.shut_all_locks()
+        mgr.shutdown()
+
+        return valid_actions[best_arm]
+
+
