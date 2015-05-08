@@ -64,18 +64,18 @@ class DealerClass:
                 self.simulator.change_turn()
                 h += 1
 
-                # DIE ZOMBIE DIEEEE !
-                if self.playerlist[actual_agent_id].myname == "UCT-TP-NVL":
-                    pids = psutil.pids()
-                    current_pid = os.getpid()
-                    for each_proc in pids:
-                        try:
-                            if not each_proc == current_pid:
-                                proc_obj = psutil.Process(each_proc)
-                                if proc_obj.name().lower() == "python":
-                                    subprocess.check_output(["kill", "-9", str(each_proc)])
-                        except Exception:
-                            continue
+                # # DIE ZOMBIE DIEEEE !
+                # if self.playerlist[actual_agent_id].myname == "UCT-TP-NVL":
+                #     pids = psutil.pids()
+                #     current_pid = os.getpid()
+                #     for each_proc in pids:
+                #         try:
+                #             if not each_proc == current_pid:
+                #                 proc_obj = psutil.Process(each_proc)
+                #                 if proc_obj.name().lower() == "python":
+                #                     subprocess.check_output(["kill", "-9", str(each_proc)])
+                #         except Exception:
+                #             continue
 
             winner = self.simulator.winningplayer
             self.game_winner_list.append(winner)

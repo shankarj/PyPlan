@@ -79,6 +79,7 @@ class TreeSpace(object):
         # NODE SIMULATION.
         sim_obj.change_simulator_state(current_node.state_value)
         temp_pull = sim_obj.create_copy()
+        del sim_obj
         simulation_rew = [0.0] * temp_pull.numplayers
         h = 0
 
@@ -154,10 +155,10 @@ class TreeSpace(object):
                 self.node_dictionary[self.total_nodes] = temp_node
                 self.node_dictionary[current_node.node_number].children_list.append(temp_node)
                 self.total_nodes += 1
-                del current_pull
+
 
             visit_stack.append(temp_node.node_number)
-            return_value = [1, visit_stack]
+            return_value = [1, visit_stack, current_pull]
 
         root_node.lockobj.release()
 
@@ -182,7 +183,7 @@ def worker_code(pnum, mgr_obj, sim_obj, sim_count):
             mgr_obj.backtrack(ret_val[1], ret_val[2], pnum)
         elif ret_val[0] == 1:
             # SIMULATE AND BACKTRACK VALUES.
-            mgr_obj.simulate_and_backtrack(ret_val[1], sim_obj, pnum)
+            mgr_obj.simulate_and_backtrack(ret_val[1], ret_val[2], pnum)
 
         sim_c += 1
 

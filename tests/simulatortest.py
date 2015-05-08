@@ -4,17 +4,18 @@ from agents import *
 
 def check_tetris():
     sim = tetrissimulator.TetrisSimulatorClass(1)
-    sim.current_state.get_current_state()["state_val"]["current_board"][0] = [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
-    sim.current_state.get_current_state()["state_val"]["current_board"][1] = [1, 1, 1, 1, 1, 1, 1, 0, 0, 1]
-    sim.current_state.get_current_state()["state_val"]["current_board"][2] = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    #sim.current_state.get_current_state()["state_val"]["current_piece"] = 1
-    #sim.current_state.get_current_state()["state_val"]["next_piece"] = 4
+    sim.current_state.get_current_state()["state_val"]["current_board"] = [[1, 0, 1, 0, 1, 1, 1, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], [1, 1, 0, 0, 1, 1, 0, 1, 1, 1], [1, 1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 1, 1, 0, 1, 0], [1, 0, 0, 0, 0, 1, 0, 0, 1, 1], [1, 1, 1, 0, 0, 1, 1, 0, 1, 0], [0, 1, 0, 0, 0, 1, 1, 0, 1, 0], [1, 1, 1, 0, 0, 0, 1, 1, 1, 1], [0, 1, 0, 0, 0, 1, 1, 1, 0, 0], [1, 1, 1, 0, 1, 1, 0, 1, 0, 0], [1, 1, 0, 0, 1, 1, 1, 1, 1, 0], [1, 0, 1, 0, 1, 0, 1, 1, 0, 0], [1, 1, 0, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 1, 1, 1, 0, 0, 0, 0], [0, 1, 1, 1, 0, 1, 1, 0, 0, 0], [1, 1, 0, 1, 1, 1, 0, 0, 0, 0]]
+
+    sim.current_state.get_current_state()["state_val"]["current_piece"] = 4
+    sim.current_state.get_current_state()["state_val"]["next_piece"] = 3
     agent_one = randomagent.RandomAgentClass(simulator=sim)
     agent_three = uniformagent.UniformRolloutAgentClass(simulator=sim, rollout_policy=agent_one,
-                                                        pull_count=1)
-    agent_three.select_action(sim.current_state)
-    # print sim.is_terminal()
-    # #sim.get_valid_actions()
+                                                         pull_count=1)
+    print sim.is_terminal()
+    #agent_three.select_action(sim.current_state)
+    sim.change_turn()
+    #print sim.get_valid_actions()[0].get_action()
+    print sim.print_board()
     # # action = {}
     # # action["position"] = [18, 0]
     # # action["piece_number"] = 2

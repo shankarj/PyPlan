@@ -5,7 +5,7 @@ import os
 
 def call_dealer():
     players_count = 2
-    simulation_count = 1
+    simulation_count = 2
     simulation_horizon = 120
 
     simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
@@ -24,30 +24,29 @@ def call_dealer():
     # agent_four = uniformagent.UniformRolloutAgentClass(simulator=simulator_obj, rollout_policy=agent_three,
     #                                                    pull_count=5, horizon=10)
     agent_five = incuniformagent.IncUniformRolloutAgentClass(simulator=simulator_obj, rollout_policy=agent_one,
-                                                              pull_count=5, horizon=100)
+                                                              pull_count=10, horizon=100)
     #
     agent_uct = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=512, uct_constant=5, horizon=70)
+                                        num_simulations=2048, uct_constant=5, horizon=10)
     #
     # agent_uct_2 = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
     #                                      num_simulations=10, uct_constant=5, horizon=10)
     #
 
-
     agent_LP = leafparalleluct.LeafParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=100, num_threads=8, uct_constant=5, horizon=70)
 
     agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                         num_simulations=100, uct_constant=5, ensembles=8, horizon=100, parallel=True)
+                                         num_simulations=200, uct_constant=5, ensembles=8, horizon=100, parallel=True)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=20, threadcount=2,  uct_constant=0.1, horizon=10)
+                                        num_simulations=20, threadcount=2,  uct_constant=10, horizon=10)
 
     agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=30, threadcount=5, uct_constant=5, horizon=10)
+                                        num_simulations=20, threadcount=2, uct_constant=5, horizon=10)
 
     agent_block = blockparalleluct.BlockParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                         num_simulations=100, threadcount=5, uct_constant=5, ensembles=4, horizon=100, parallel=True)
+                                         num_simulations=100, threadcount=2, uct_constant=5, ensembles=4, horizon=100, parallel=True)
 
     agents_list = [agent_TP_NVL, agent_one]
 

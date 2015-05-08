@@ -179,7 +179,7 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         valid_actions = self.simulator.get_valid_actions()
         actions_count = len(valid_actions)
 
-        if actions_count <= 1:
+        if actions_count == 1:
             return valid_actions[0]
 
         if self.simulation_count < len(valid_actions):

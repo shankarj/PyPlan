@@ -35,7 +35,7 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
         self.current_state = current_state.create_copy()
 
     def change_turn(self):
-        self.current_state.get_current_state()["state_val"]["current_piece"] = self.current_state.get_current_state()["state_val"]["next_piece"]
+        self.current_state.get_current_state()["state_val"]["current_piece"] = int(self.current_state.get_current_state()["state_val"]["next_piece"])
         self.current_state.get_current_state()["state_val"]["next_piece"] = random.randrange(1, 6)
         self.gameover = self.is_terminal()
 
@@ -132,15 +132,15 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
                     if y > (board_width - piece_width):
                         break
                     for x in xrange(20):
-                        if x > (board_height - piece_height):
-                            break
-                        elif x == (board_height - piece_height):
-                            action = {}
-                            action['position'] = [x,y]
-                            action['piece_number'] = current_piece_num
-                            action['rot_number'] = rot_num
-                            actions_list.append(tetrisaction.TetrisActionClass(action))
-                            break
+                        # CHECK FOR WHEN PIECE IS PUT IN EMPTY BOARD
+                        if x == (board_height - piece_height):
+                            if current_board[x][y] == 0:
+                                action = {}
+                                action['position'] = [x,y]
+                                action['piece_number'] = current_piece_num
+                                action['rot_number'] = rot_num
+                                actions_list.append(tetrisaction.TetrisActionClass(action))
+                                break
                         else:
                             if current_board[x][y] == 1:
                                 break
@@ -148,10 +148,15 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
                             # WITH AT LEAST ONE PIECE IN ITS BOTTOM TO HOLD IT.
                             hold = False
                             for btm in xrange(piece_width):
-                                if piece_shape[piece_height-1][btm] == 1:
-                                    if current_board[x+piece_height][y+btm] == 1:
+                                x_check = 1
+                                while piece_shape[piece_height-x_check][btm] == 0:
+                                    x_check += 1
+
+                                if piece_shape[piece_height-x_check][btm] == 1:
+                                    if current_board[x+piece_height-(x_check-1)][y+btm] == 1:
                                         hold = True
                                         break
+
                             if hold:
                                 #COLLISION CHECK
                                 collision = False
@@ -175,10 +180,10 @@ class TetrisSimulatorClass(abssimulator.AbstractSimulator):
         return actions_list
 
     def is_terminal(self):
-        if len(self.get_valid_actions()) > 0:
-            return False
-        else:
-            return True
+            if len(self.get_valid_actions()) > 0:
+                return False
+            else:
+                return True
 
     def print_board(self):
         output = "CURRENT BOARD : \n"
