@@ -57,7 +57,11 @@ Agents:
 3. e-Greedy Rollout  
 4. Random  
 5. UCT  
-6. Ensemble UCT  
+6. Ensemble UCT (Root Parallel)
+7. Tree Parallel (With Virtual loss) - Needs more testing
+8. Tree Parallel (without Virtual loss)
+9. Leaf Parallel
+10. Block Parallel (Only on CPU)
 
 Simulators:  
 1. Tic Tac Toe  
