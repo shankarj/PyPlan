@@ -5,7 +5,7 @@ import os
 
 def call_dealer():
     players_count = 2
-    simulation_count = 5
+    simulation_count = 1
     simulation_horizon = 120
 
     simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
@@ -41,18 +41,15 @@ def call_dealer():
                                          num_simulations=100, uct_constant=5, ensembles=8, horizon=100, parallel=True)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=30, uct_constant=5, horizon=10)
-
-    agent_TP_VL = treeparalleluct_VL.TreeParallelUCTVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=30, uct_constant=5, horizon=70, virtual_loss=1.0)
+                                        num_simulations=20, threadcount=2,  uct_constant=0.1, horizon=10)
 
     agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=30, uct_constant=5, horizon=10)
+                                        num_simulations=30, threadcount=5, uct_constant=5, horizon=10)
 
     agent_block = blockparalleluct.BlockParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                         num_simulations=100, uct_constant=5, ensembles=4, num_threads=5, horizon=100, parallel=True)
+                                         num_simulations=100, threadcount=5, uct_constant=5, ensembles=4, horizon=100, parallel=True)
 
-    agents_list = [agent_ensemble, agent_block]
+    agents_list = [agent_TP_NVL, agent_one]
 
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count, sim_horizon=simulation_horizon)
     dealer_object.start_simulation()

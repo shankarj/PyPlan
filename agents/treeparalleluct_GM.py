@@ -57,13 +57,14 @@ class TreeSpace(object):
         return self.node_dictionary[node_num]
 
     def backtrack(self, visit_stack, value, pnum):
-        for node in visit_stack:
-            for node in xrange(len(visit_stack) - 1, -1, -1):
-                if self.node_dictionary[visit_stack[node]].is_root == False:
-                    with self.node_dictionary[visit_stack[node]].lockobj:
-                        temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[visit_stack[node]].reward)]
-                        temp_qterm =  [float(x) / float(self.node_dictionary[visit_stack[node]].state_visit) for x in temp_diff]
-                        self.node_dictionary[visit_stack[node]].reward = [x + y for x, y in zip(self.node_dictionary[visit_stack[node]].reward, temp_qterm)]
+        with self.node_dictionary[0].lockobj:
+            for node in visit_stack:
+                for node in xrange(len(visit_stack) - 1, -1, -1):
+                    if self.node_dictionary[visit_stack[node]].is_root == False:
+                        with self.node_dictionary[visit_stack[node]].lockobj:
+                            temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[visit_stack[node]].reward)]
+                            temp_qterm =  [float(x) / float(self.node_dictionary[visit_stack[node]].state_visit) for x in temp_diff]
+                            self.node_dictionary[visit_stack[node]].reward = [x + y for x, y in zip(self.node_dictionary[visit_stack[node]].reward, temp_qterm)]
 
     def simulate_and_backtrack(self, visit_stack, sim_obj, pnum):
         # NODE EXPANSION AND SIMULATION
@@ -168,22 +169,27 @@ class TreeSpace(object):
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
 # PARALLEL CODE
-def worker_code(pnum, mgr_obj, sim_obj):
-    # NODE SELECTION
-    parent_node_num = 0
-    ret_val = mgr_obj.node_selection(sim_obj, pnum)
+def worker_code(pnum, mgr_obj, sim_obj, sim_count):
+    sim_c = 0
 
-    if ret_val[0] == 0:
-        # BACKTRACK ONLY FOR TERMINAL NODES.
-        mgr_obj.backtrack(ret_val[1], ret_val[2], pnum)
-    elif ret_val[0] == 1:
-        # SIMULATE AND BACKTRACK VALUES.
-        mgr_obj.simulate_and_backtrack(ret_val[1], sim_obj, pnum)
+    while sim_c < sim_count:
+        # NODE SELECTION
+        parent_node_num = 0
+        ret_val = mgr_obj.node_selection(sim_obj, pnum)
+
+        if ret_val[0] == 0:
+            # BACKTRACK ONLY FOR TERMINAL NODES.
+            mgr_obj.backtrack(ret_val[1], ret_val[2], pnum)
+        elif ret_val[0] == 1:
+            # SIMULATE AND BACKTRACK VALUES.
+            mgr_obj.simulate_and_backtrack(ret_val[1], sim_obj, pnum)
+
+        sim_c += 1
 
 class TreeParallelUCTGMClass(absagent.AbstractAgent):
     myname = "UCT-TP-GM"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, horizon=10):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, threadcount, uct_constant, horizon):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -191,9 +197,12 @@ class TreeParallelUCTGMClass(absagent.AbstractAgent):
         self.uct_constant = uct_constant
         self.simulation_count = num_simulations
         self.horizon = horizon
+        self.thread_count = threadcount
 
     def create_copy(self):
-        return TreeParallelUCTGMClass(self.simulator.create_copy(), self.rollout_policy.create_copy(), self.tree_policy, self.simulation_count, self.uct_constant, self.horizon)
+        return TreeParallelUCTGMClass(self.simulator.create_copy(), self.rollout_policy.create_copy(),
+                                       self.tree_policy, self.simulation_count, self.thread_count,
+                                       self.uct_constant, self.horizon)
 
     def get_agent_name(self):
         return self.agentname
@@ -216,8 +225,8 @@ class TreeParallelUCTGMClass(absagent.AbstractAgent):
 
         process_q = []
         count = 0
-        for proc in xrange(self.simulation_count):
-            worker_process = Process (target=worker_code, args=(proc, tree_space, self.simulator))
+        for proc in xrange(self.thread_count):
+            worker_process = Process (target=worker_code, args=(proc, tree_space, self.simulator, self.simulation_count))
             process_q.append(worker_process)
             worker_process.daemon = True
             worker_process.start()
