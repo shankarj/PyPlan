@@ -5,8 +5,13 @@ import os
 
 def call_dealer():
     players_count = 2
-    simulation_count = 2
+    simulation_count = 100
     simulation_horizon = 120
+
+    output_file = open("simulation_results.csv", "w")
+    for player in xrange(players_count):
+        output_file.write("REWARD FOR " + str(player + 1) + ",")
+    output_file.write("WINNER\n")
 
     simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
     # simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
@@ -27,30 +32,32 @@ def call_dealer():
                                                               pull_count=10, horizon=100)
     #
     agent_uct = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=2048, uct_constant=5, horizon=10)
+                                        num_simulations=100, uct_constant=5, horizon=10, time_limit=1)
     #
     # agent_uct_2 = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
     #                                      num_simulations=10, uct_constant=5, horizon=10)
     #
 
     agent_LP = leafparalleluct.LeafParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=100, num_threads=8, uct_constant=5, horizon=70)
+                                        num_simulations=100, num_threads=8, uct_constant=5, horizon=70, time_limit=1)
 
     agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                         num_simulations=200, uct_constant=5, ensembles=8, horizon=100, parallel=True)
+                                         num_simulations=200, uct_constant=5, ensembles=8, horizon=100, parallel=True, time_limit=1)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=20, threadcount=2,  uct_constant=10, horizon=10)
+                                        num_simulations=20, threadcount=2,  uct_constant=10, horizon=10, time_limit=1)
 
     agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=20, threadcount=2, uct_constant=5, horizon=10)
+                                        num_simulations=20, threadcount=2, uct_constant=5, horizon=10, time_limit=1)
 
     agent_block = blockparalleluct.BlockParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                         num_simulations=100, threadcount=2, uct_constant=5, ensembles=4, horizon=100, parallel=True)
+                                         num_simulations=100, threadcount=2, uct_constant=5, ensembles=4, horizon=100,
+                                         parallel=True, time_limit=1)
 
     agents_list = [agent_TP_NVL, agent_one]
 
-    dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count, sim_horizon=simulation_horizon)
+    dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count,
+                                       sim_horizon=simulation_horizon, results_file=output_file)
     dealer_object.start_simulation()
     results = dealer_object.simulation_stats()[0]
     winner_list = dealer_object.simulation_stats()[1]
@@ -62,9 +69,6 @@ def call_dealer():
 
         for move in xrange(len(results[game])):
             game_reward_sum = [x + y for x, y in zip(game_reward_sum, results[game][move][0])]
-
-        # for x in xrange(len(game_reward_sum)):
-        #      game_reward_sum[x] = game_reward_sum[x] / len(results[game])
 
         print "REWARD OF PLAYERS IN GAME {0} : ".format(game)
         print game_reward_sum
@@ -89,5 +93,6 @@ def call_dealer():
     for val in xrange(players_count):
         print "AVG WINS FOR AGENT {0} : {1}".format(val + 1, win_counts[val] / simulation_count)
 
+    output_file.close()
 if __name__ == "__main__":
     call_dealer()

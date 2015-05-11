@@ -6,7 +6,7 @@ import os
 import subprocess
 
 class DealerClass:
-    def __init__(self, agents_list, simulator, num_simulations, sim_horizon, verbose=True):
+    def __init__(self, agents_list, simulator, num_simulations, sim_horizon, results_file, verbose=True):
         self.simulator = simulator
         self.playerlist = agents_list
         self.playercount = len(agents_list)
@@ -14,6 +14,7 @@ class DealerClass:
         self.simulationhistory = []
         self.verbose = verbose
         self.simulation_horizon = sim_horizon
+        self.output_file = results_file
 
     def start_simulation(self):
         print_output = ""
@@ -22,19 +23,26 @@ class DealerClass:
         print("\nAGENTS LIST :")
 
         for count in xrange(len(self.playerlist)):
-            print(("AGENT {0} : ".format(count) + self.playerlist[count].agentname))
+            print(("\nAGENT {0} : ".format(count) + self.playerlist[count].agentname))
             current_rollout = self.playerlist[count].rollout_policy
 
             while current_rollout is not None:
                 print("It's Rollout policy is : " + current_rollout.agentname)
                 current_rollout = current_rollout.rollout_policy
 
+            if "UCT" in self.playerlist[count].agentname:
+                print "No. of simulations :", str(self.playerlist[count].simulation_count)
+                print "Time limit per move :", str(self.playerlist[count].time_limit)
+                print "Horizon value :", str(self.playerlist[count].horizon)
+                print "Constant value :", str(self.playerlist[count].uct_constant)
+
             if self.playerlist[count].agentname == "EnsembleUCT":
                 print("Ensemble Count : " + str(self.playerlist[count].ensemble_count))
                 print("Run in Parallel : " + str(self.playerlist[count].is_parallel))
                 if self.playerlist[count].is_parallel:
                     print("Cores in Machine : " + str(multiprocessing.cpu_count()))
-            elif self.playerlist[count].agentname == "UCT-LP":
+
+            if self.playerlist[count].agentname == "UCT-LP":
                 print("Thread Count : " + str(self.playerlist[count].threadcount))
                 print("Cores in Machine : " + str(multiprocessing.cpu_count()))
 
@@ -64,20 +72,25 @@ class DealerClass:
                 self.simulator.change_turn()
                 h += 1
 
-                # # DIE ZOMBIE DIEEEE !
-                # if self.playerlist[actual_agent_id].myname == "UCT-TP-NVL":
-                #     pids = psutil.pids()
-                #     current_pid = os.getpid()
-                #     for each_proc in pids:
-                #         try:
-                #             if not each_proc == current_pid:
-                #                 proc_obj = psutil.Process(each_proc)
-                #                 if proc_obj.name().lower() == "python":
-                #                     subprocess.check_output(["kill", "-9", str(each_proc)])
-                #         except Exception:
-                #             continue
+            # ADDED THIS SECTION JUST TO PRINT THE STATISTICS OF A GAME AT ITS END RATHER THAN WAITING FOR
+            # ALL THE SIMULATIONS. ALSO WRITES TO THE CSV FILE.
+            total_game_rew = [0.0] * self.playercount
+            for turn in xrange(len(game_history)):
+                total_game_rew = [x + y for x, y in zip(total_game_rew, game_history[turn][0])]
 
             winner = self.simulator.winningplayer
+
+            print "\nREWARDS :", total_game_rew
+            print "WINNER :", str(winner)
+            print "-" * 50
+
+            for player in xrange(self.playercount):
+                self.output_file.write(str(total_game_rew[player]) + ",")
+
+            self.output_file.write(str(winner) + "\n")
+            # END OF SECTION
+
+
             self.game_winner_list.append(winner)
             self.write_simulation_history(game_history)
             # print_output += "\n" + str(self.simulator.current_state.get_current_state()["state_val"])
@@ -85,6 +98,8 @@ class DealerClass:
             print_output += "\nWINNER : " + str(winner)
             print_output += "\n----------------------------------"
             self.simulator.reset_simulator()
+
+
 
 
         stop_time = timeit.default_timer()

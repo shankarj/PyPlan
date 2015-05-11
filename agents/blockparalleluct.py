@@ -150,10 +150,10 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
 
 
 class BlockParallelUCTClass(absagent.AbstractAgent):
-    myname = "BlockParallelUCT"
+    myname = "UCT-BP"
 
     def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, threadcount = 5, ensembles=2, horizon=10,
-                 parallel=False):
+                 parallel=False, time_limit=-1):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()

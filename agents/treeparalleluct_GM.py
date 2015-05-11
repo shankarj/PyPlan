@@ -190,7 +190,7 @@ def worker_code(pnum, mgr_obj, sim_obj, sim_count):
 class TreeParallelUCTGMClass(absagent.AbstractAgent):
     myname = "UCT-TP-GM"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, threadcount, uct_constant, horizon):
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, threadcount, uct_constant, horizon, time_limit=-1):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -199,11 +199,12 @@ class TreeParallelUCTGMClass(absagent.AbstractAgent):
         self.simulation_count = num_simulations
         self.horizon = horizon
         self.thread_count = threadcount
+        self.time_limit = time_limit
 
     def create_copy(self):
         return TreeParallelUCTGMClass(self.simulator.create_copy(), self.rollout_policy.create_copy(),
                                        self.tree_policy, self.simulation_count, self.thread_count,
-                                       self.uct_constant, self.horizon)
+                                       self.uct_constant, self.horizon, self.time_limit)
 
     def get_agent_name(self):
         return self.agentname

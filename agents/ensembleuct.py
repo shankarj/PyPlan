@@ -138,7 +138,7 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
     myname = "EnsembleUCT"
 
     def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, ensembles=2, horizon=10,
-                 parallel=False):
+                 parallel=False, time_limit=-1):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
         self.simulator = simulator.create_copy()
@@ -148,11 +148,12 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
         self.ensemble_count = ensembles
         self.horizon = horizon
         self.is_parallel = parallel
+        self.time_limit = time_limit
 
     def create_copy(self):
         return EnsembleUCTAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(),
                                      self.tree_policy, self.simulation_count, self.uct_constant,
-                                     self.ensemble_count, self.horizon)
+                                     self.ensemble_count, self.horizon, self.time_limit)
 
     def get_agent_name(self):
         return self.agentname
