@@ -9,14 +9,11 @@ def call_dealer():
     simulation_horizon = 120
 
     output_file = open("simulation_results.csv", "w")
-    for player in xrange(players_count):
-        output_file.write("REWARD FOR " + str(player + 1) + ",")
-    output_file.write("WINNER\n")
 
-    simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
+    # simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
     # simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
     # simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)
-    # simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players = players_count)
+    simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players = players_count)
 
     agent_one = randomagent.RandomAgentClass(simulator=simulator_obj)
 
