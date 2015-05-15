@@ -9,7 +9,7 @@ def call_dealer():
     simulation_horizon = 120
 
     output_file = open("simulation_results.csv", "w")
-
+    output_file.write("PLAYING CONNECT 4 \n")
     simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
     # simulator_obj = yahtzeesimulator.YahtzeeSimulatorClass(num_players = players_count)
     # simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)

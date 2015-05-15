@@ -79,7 +79,7 @@ class DealerClass:
 
                 move_start_time = timeit.default_timer()
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
-                move_time = timeit.default_timer()
+                move_end_time = timeit.default_timer()
                 time_values.append([actual_agent_id, move_end_time - move_start_time])
 
                 # print self.simulator.print_board()
