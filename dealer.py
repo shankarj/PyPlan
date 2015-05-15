@@ -77,10 +77,10 @@ class DealerClass:
                 actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
                 print "AGENT", actual_agent_id
 
-                start_time = timeit.default_timer()
+                move_start_time = timeit.default_timer()
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
-                end_time = timeit.default_timer()
-                time_values.append([actual_agent_id, end_time - start_time])
+                move_time = timeit.default_timer()
+                time_values.append([actual_agent_id, move_end_time - move_start_time])
 
                 # print self.simulator.print_board()
                 # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
