@@ -81,7 +81,7 @@ class DealerClass:
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
                 move_end_time = timeit.default_timer()
                 time_values.append([actual_agent_id, move_end_time - move_start_time])
-                print "TIME FOR LAST MOVE ", move_end_time - move_start_time
+                #print "TIME FOR LAST MOVE ", move_end_time - move_start_time
 
                 # print self.simulator.print_board()
                 # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])

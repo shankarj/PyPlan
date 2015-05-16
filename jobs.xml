@@ -1,0 +1,10 @@
+<jobs>
+    <job playercount="2" sim_count="20" sim_horizon="100" game="connect4" output_file="Results/1.csv">
+        <player number="5" num_simulations="10" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="6" num_simulations="20" ensembles="8" uct_constant="0.8" horizon="20" parallel="1" time_limit="-1"/>
+    </job>
+    <job playercount="2" sim_count="20" sim_horizon="100" game="connect4" output_file="Results/2.csv">
+        <player number="6" num_simulations="15" ensembles="4" uct_constant="0.8" horizon="20" parallel="1" time_limit="-1"/>
+        <player number="5" num_simulations="10" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+</jobs>
