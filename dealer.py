@@ -20,7 +20,7 @@ class DealerClass:
         print_output = ""
         self.game_winner_list = []
         start_time = timeit.default_timer()
-        print_output += "\n\nAGENTS LIST :"
+        print_output += "\nAGENTS LIST :"
 
         for count in xrange(len(self.playerlist)):
             print_output += "\n\nAGENT {0} : ".format(count) + self.playerlist[count].agentname
@@ -81,6 +81,7 @@ class DealerClass:
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
                 move_end_time = timeit.default_timer()
                 time_values.append([actual_agent_id, move_end_time - move_start_time])
+                print "TIME FOR LAST MOVE ", move_end_time - move_start_time
 
                 # print self.simulator.print_board()
                 # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
@@ -126,6 +127,7 @@ class DealerClass:
                 self.output_file.write("," + str(time_sums[sum_value]))
 
             self.output_file.write("\n")
+            self.output_file.flush()
             # --------------
             # END OF SECTION
             # ---------------

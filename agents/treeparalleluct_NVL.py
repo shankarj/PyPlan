@@ -15,8 +15,8 @@ def StartManager():
     return temp_mgr
 
 class uctnode:
-    def __init__(self, node_num, node_state, action_list, is_root, lock_obj, is_terminal):
-        self.node_number = node_num
+    def __init__(self, node_state, action_list, is_root, lock_obj, is_terminal):
+        self.node_id = 0
         self.state_value = node_state
         self.valid_actions = action_list
         self.is_root = is_root
@@ -34,8 +34,8 @@ class TreeSpace(object):
         self.locks = []
 
     def initialize_space(self, node_current_state, node_valid_actions, tree_policy, rollout_pol, horizon, uct_constant):
-        self.root = uctnode(self.total_nodes, node_current_state, node_valid_actions, True, self.create_new_lock(), False)
-        self.node_dictionary[self.total_nodes] = self.root
+        self.root = uctnode(node_current_state, node_valid_actions, True, self.create_new_lock(), False)
+        self.node_dictionary[0] = self.root
         self.total_nodes += 1
         self.tree_policy = tree_policy
         self.uct_constant = uct_constant
@@ -57,23 +57,29 @@ class TreeSpace(object):
         return self.node_dictionary[node_num]
 
     def backtrack(self, visit_stack, value, pnum):
-        with self.node_dictionary[0].lockobj:
-            for node in visit_stack:
-                for node in xrange(len(visit_stack) - 1, -1, -1):
-                    if self.node_dictionary[visit_stack[node]].is_root == False:
-                        with self.node_dictionary[visit_stack[node]].lockobj:
-                            temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[visit_stack[node]].reward)]
-                            temp_qterm =  [float(x) / float(self.node_dictionary[visit_stack[node]].state_visit) for x in temp_diff]
-                            self.node_dictionary[visit_stack[node]].reward = [x + y for x, y in zip(self.node_dictionary[visit_stack[node]].reward, temp_qterm)]
+        s_t = timeit.default_timer()
+        self.node_dictionary[0].lockobj.acquire()
+        e_t = timeit.default_timer()
+        for node in visit_stack:
+            for node in xrange(len(visit_stack) - 1, -1, -1):
+                node_id = visit_stack[node]
+                if self.node_dictionary[node_id].is_root == False:
+
+
+                    print "PROCESS WAITED FOR ", str(e_t - s_t) ," IN BACKTRACK ONLY LOCK ON NODE"
+                    temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[node_id].reward)]
+                    temp_qterm =  [float(x) / float(self.node_dictionary[node_id].state_visit) for x in temp_diff]
+                    self.node_dictionary[node_id].reward = [x + y for x, y in zip(self.node_dictionary[node_id].reward, temp_qterm)]
+        self.node_dictionary[0].lockobj.release()
 
     def simulate_and_backtrack(self, visit_stack, sim_obj, pnum):
         # NODE EXPANSION AND SIMULATION
         simulation_rew = 0.0
 
         current_node = self.node_dictionary[visit_stack[-1]]
-        actual_reward = current_node.reward
+        actual_reward = current_node.reward[:]
 
-        # REVERT THE ACTUAL REWARD TEMPORARILY ADDED IN THE NEW NODE.
+        # REVERT (TO 0.0) THE ACTUAL REWARD TEMPORARILY ADDED IN THE NEW NODE.
         self.node_dictionary[visit_stack[-1]].reward = [0.0] * sim_obj.numplayers
 
         # NODE SIMULATION.
@@ -95,22 +101,19 @@ class TreeSpace(object):
         q_vals = [x+y for x,y in zip(actual_reward, simulation_rew)]
 
         # BACKTRACK
-        for node in visit_stack:
-            for node in xrange(len(visit_stack) - 1, -1, -1):
-                if self.node_dictionary[visit_stack[node]].is_root == False:
-                    with self.node_dictionary[visit_stack[node]].lockobj:
-                        temp_diff =  [x - y for x, y in zip(q_vals, self.node_dictionary[visit_stack[node]].reward)]
-                        temp_qterm =  [float(x) / float(self.node_dictionary[visit_stack[node]].state_visit) for x in temp_diff]
-                        self.node_dictionary[visit_stack[node]].reward = [x + y for x, y in zip(self.node_dictionary[visit_stack[node]].reward, temp_qterm)]
+        self.backtrack(visit_stack, q_vals, pnum)
 
-    # RETURNS THE VISIT STACK FROM ROOT NODE
+    # THIS FUNCTION RETURNS THE VISIT STACK FROM ROOT NODE
     def node_selection(self, sim_obj, pnum):
         root_node = self.node_dictionary[0]
         visit_stack = [0]
         current_node = root_node
 
+        s_t = timeit.default_timer()
         current_node.lockobj.acquire()
-        node_num = current_node.node_number
+        e_t = timeit.default_timer()
+        print "PROCESS WAITED FOR ", str(e_t - s_t) ," IN ROOT LOCK."
+        node_num = current_node.node_id
         return_value = []
 
         while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
@@ -136,8 +139,11 @@ class TreeSpace(object):
 
                 # CHANGE CURRENT NODE TO NEXT SELECTED NODE
                 current_node = self.node_dictionary[node_num].children_list[sel_node]
+                s_t = timeit.default_timer()
                 current_node.lockobj.acquire()
-                node_num = current_node.node_number
+                e_t = timeit.default_timer()
+                print "PROCESS WAITED FOR ", str(e_t - s_t) ," IN A NODE LOCK."
+                node_num = current_node.node_id
 
 
         self.node_dictionary[node_num].state_visit += 1
@@ -147,23 +153,23 @@ class TreeSpace(object):
             return_value = [0, visit_stack, simulation_rew]
             current_node.lockobj.release()
         else:
-            with self.node_counter_lock:
-                sim_obj.change_simulator_state(current_node.state_value)
-                current_pull = sim_obj.create_copy()
-                actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
+            sim_obj.change_simulator_state(current_node.state_value)
+            current_pull = sim_obj.create_copy()
+            actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
 
-                current_pull.change_turn()
-                temp_node = uctnode(self.total_nodes, current_pull.get_simulator_state(),
-                                    current_pull.get_valid_actions(), False, self.create_new_lock(), current_pull.gameover)
-                temp_node.reward = actual_reward
-                temp_node.state_visit += 1
-                self.node_dictionary[self.total_nodes] = temp_node
-                self.node_dictionary[current_node.node_number].children_list.append(temp_node)
-                self.total_nodes += 1
-                current_node.lockobj.release()
+            current_pull.change_turn()
+            temp_node = uctnode(current_pull.get_simulator_state(),
+                                current_pull.get_valid_actions(), False, self.create_new_lock(), current_pull.gameover)
+            temp_node.node_id = id(temp_node)
+            temp_node.reward = actual_reward
+            temp_node.state_visit += 1
+            self.node_dictionary[temp_node.node_id] = temp_node
+            self.node_dictionary[current_node.node_id].children_list.append(temp_node)
+            self.total_nodes += 1
+            current_node.lockobj.release()
 
 
-            visit_stack.append(temp_node.node_number)
+            visit_stack.append(temp_node.node_id)
             return_value = [1, visit_stack, current_pull]
 
         return return_value
@@ -173,11 +179,63 @@ class TreeSpace(object):
 
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
-# PARALLEL CODE
+# PARALLEL CODE. THIS IS THE CODE THAT RUNS ON INDIVIDUAL PROCESS SPACE.
 def worker_code(pnum, mgr_obj, sim_obj, sim_count):
     sim_c = 0
 
     while sim_c < sim_count:
+        s_t = timeit.default_timer()
+        ## NEW CODE BEGINS
+        current_node = mgr_obj.lock_and_get_node(0)
+        current_node_id = current_node.node_id
+        visit_stack = []
+        while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
+            if self.tree_policy == "UCB":
+                max_val = 0
+                sel_node = 0
+                for node in xrange(len(current_node.children_list)):
+                    node_turn = current_node.state_value.get_current_state()["current_player"]
+                    value = current_node.children_list[node].reward[node_turn - 1]
+                    exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
+                    value += self.uct_constant * exploration
+
+                    if (node == 0):
+                        max_val = value
+                    else:
+                        if value > max_val:
+                            max_val = value
+                            sel_node = node
+
+                visit_stack.append(current_node_id)
+                mgr_obj.release_lock(current_node_id)
+
+                # CHANGE CURRENT NODE TO NEXT SELECTED NODE
+                next_node_id = mgr_obj.get_node_id(parent_node_id=current_node.node_id, )
+                current_node = mgr_obj.lock_and_get_node(next_node_id)
+
+        simulation_rew = []
+        if current_node.is_terminal:
+            simulation_rew = current_node.reward
+        else:
+            sim_obj.change_simulator_state(current_node.state_value)
+            current_pull = sim_obj.create_copy()
+
+            actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
+
+            current_pull.change_turn()
+            temp_node = uctnode(current_pull.get_simulator_state(),
+                                current_pull.get_valid_actions(), False, self.create_new_lock(), current_pull.gameover)
+            temp_node.node_id = id(temp_node)
+            temp_node.reward = actual_reward
+            temp_node.state_visit += 1
+            self.node_dictionary[temp_node.node_id] = temp_node
+            self.node_dictionary[current_node.node_id].children_list.append(temp_node)
+            self.total_nodes += 1
+            mgr_obj.release_lock(current_node_id)
+
+
+        ## NEW CODE ENDS
+
         # NODE SELECTION
         parent_node_num = 0
         ret_val = mgr_obj.node_selection(sim_obj, pnum)
@@ -190,6 +248,8 @@ def worker_code(pnum, mgr_obj, sim_obj, sim_count):
             mgr_obj.simulate_and_backtrack(ret_val[1], ret_val[2], pnum)
 
         sim_c += 1
+        e_t = timeit.default_timer()
+        print "ONE SIMULATION TIME IN ONE PROCESS", e_t - s_t
 
 class TreeParallelUCTNVLClass(absagent.AbstractAgent):
     myname = "UCT-TP-NVL"

@@ -12,7 +12,7 @@ def call_dealer():
     output_file.write("PLAYING CONNECT 4 \n")
     output_file.write("TOTAL SIMULATIONS : " + str(simulation_count) + "\n")
 
-    print "PLAYING CONNECT 4"
+    print "\n\nPLAYING CONNECT 4"
     print "TOTAL SIMULATIONS : ", simulation_count
 
     simulator_obj = connect4simulator.Connect4SimulatorClass(num_players = players_count)
@@ -47,7 +47,7 @@ def call_dealer():
                                          num_simulations=200, uct_constant=5, ensembles=8, horizon=100, parallel=True, time_limit=1)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=8, threadcount=32,  uct_constant=0.8, horizon=20, time_limit=-1)
+                                        num_simulations=32, threadcount=8,  uct_constant=0.8, horizon=20, time_limit=-1)
 
     agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=16, threadcount=8, uct_constant=5, horizon=10, time_limit=1)
@@ -56,7 +56,7 @@ def call_dealer():
                                          num_simulations=100, threadcount=2, uct_constant=5, ensembles=4, horizon=100,
                                          parallel=True, time_limit=1)
 
-    agents_list = [agent_TP_NVL, agent_uct]
+    agents_list = [agent_one, agent_one]
 
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count,
                                        sim_horizon=simulation_horizon, results_file=output_file)
@@ -83,8 +83,7 @@ def call_dealer():
     for x in xrange(len(overall_reward_avg)):
         overall_reward_avg[x] = overall_reward_avg[x] / simulation_count
 
-    print "\nAVG OF REWARDS (FOR OVERALL SIMULATION) : "
-    print overall_reward_avg
+    temp_print = "\nAVG OF REWARDS (FOR OVERALL SIMULATION) : " + str(overall_reward_avg)
 
     win_counts = [0.0] * players_count
 
@@ -93,8 +92,10 @@ def call_dealer():
             win_counts[winner_list[val] - 1] += 1.0
 
     for val in xrange(players_count):
-        print "AVG WINS FOR AGENT {0} : {1}".format(val + 1, win_counts[val] / simulation_count)
+        temp_print += "\nAVG WINS FOR AGENT {0} : {1}".format(val + 1, win_counts[val] / simulation_count)
 
+    print temp_print
+    output_file.write("\n" + temp_print + "\n")
     output_file.close()
 if __name__ == "__main__":
     call_dealer()

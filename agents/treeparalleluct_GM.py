@@ -71,7 +71,7 @@ class TreeSpace(object):
         simulation_rew = 0.0
 
         current_node = self.node_dictionary[visit_stack[-1]]
-        actual_reward = current_node.reward
+        actual_reward = current_node.reward[:]
 
         # REVERT THE ACTUAL REWARD TEMPORARILY ADDED IN THE NEW NODE.
         self.node_dictionary[visit_stack[-1]].reward = [0.0] * sim_obj.numplayers
