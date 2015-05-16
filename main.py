@@ -5,7 +5,7 @@ import os
 
 def call_dealer():
     players_count = 2
-    simulation_count = 100
+    simulation_count = 10
     simulation_horizon = 120
 
     output_file = open("simulation_results.csv", "w")
@@ -47,16 +47,16 @@ def call_dealer():
                                          num_simulations=200, uct_constant=5, ensembles=8, horizon=100, parallel=True, time_limit=1)
 
     agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=32, threadcount=8,  uct_constant=0.8, horizon=20, time_limit=-1)
+                                        num_simulations=32, threadcount=8,  uct_constant=0.1, horizon=20, time_limit=-1)
 
     agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
-                                        num_simulations=16, threadcount=8, uct_constant=5, horizon=10, time_limit=1)
+                                        num_simulations=16, threadcount=4, uct_constant=5, horizon=10, time_limit=1)
 
     agent_block = blockparalleluct.BlockParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                          num_simulations=100, threadcount=2, uct_constant=5, ensembles=4, horizon=100,
                                          parallel=True, time_limit=1)
 
-    agents_list = [agent_one, agent_one]
+    agents_list = [agent_one, agent_TP_NVL]
 
     dealer_object = dealer.DealerClass(agents_list, simulator_obj, num_simulations=simulation_count,
                                        sim_horizon=simulation_horizon, results_file=output_file)
