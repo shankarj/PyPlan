@@ -236,10 +236,10 @@ class TreeParallelUCTGMClass(absagent.AbstractAgent):
         best_arm = 0
         best_reward = tree_space.get_node_object(0).children_list[0].reward[current_turn - 1]
 
-        print "------------TREE VISIT", tree_space.get_node_object(0).state_visit
+        #print "------------TREE VISIT", tree_space.get_node_object(0).state_visit
 
         for arm in xrange(len(tree_space.get_node_object(0).children_list)):
-            print "CHILD VISIT", tree_space.get_node_object(0).children_list[arm].state_visit
+            #print "CHILD VISIT", tree_space.get_node_object(0).children_list[arm].state_visit
             if tree_space.get_node_object(0).children_list[arm].reward[current_turn - 1] > best_reward:
                 best_reward = tree_space.get_node_object(0).children_list[arm].reward[current_turn - 1]
                 best_arm = arm

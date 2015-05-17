@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ea01e4d-1ce1-4dda-9917-9bd9e141a304" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobs.xml" afterPath="$PROJECT_DIR$/jobs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/treeparalleluct_GM.py" afterPath="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" afterPath="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
     </list>
     <ignored path="PyPlan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.90959203" vertical-offset="0" max-vertical-offset="2565">
-              <caret line="55" column="43" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2565">
+              <caret line="40" column="45" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -73,8 +72,8 @@
       <file leaf-file-name="treeparalleluct_NVL.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.9259257" vertical-offset="221" max-vertical-offset="5475">
-              <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+            <state vertical-scroll-proportion="-23.148148" vertical-offset="4595" max-vertical-offset="5475">
+              <caret line="348" column="13" selection-start-line="348" selection-start-column="13" selection-end-line="348" selection-end-column="13" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -82,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="treeparalleluct_GM.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="treeparalleluct_GM.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_GM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="33.185184" vertical-offset="3251" max-vertical-offset="3765">
-              <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5056818" vertical-offset="2885" max-vertical-offset="3765">
+              <caret line="229" column="34" selection-start-line="229" selection-start-column="34" selection-end-line="229" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -186,11 +185,11 @@
         <option value="$PROJECT_DIR$/agents/ensembleuct.py" />
         <option value="$PROJECT_DIR$/agents/blockparalleluct.py" />
         <option value="$PROJECT_DIR$/sample3.py" />
-        <option value="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
-        <option value="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
         <option value="$PROJECT_DIR$/dealer.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/jobs.xml" />
+        <option value="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
+        <option value="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
       </list>
     </option>
   </component>
@@ -1063,24 +1062,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.9259257" vertical-offset="221" max-vertical-offset="5475">
-          <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_GM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="33.185184" vertical-offset="3251" max-vertical-offset="3765">
-          <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dealer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="2310">
@@ -1107,11 +1088,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.90959203" vertical-offset="0" max-vertical-offset="2565">
-          <caret line="55" column="43" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2565">
+          <caret line="40" column="45" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-23.148148" vertical-offset="4595" max-vertical-offset="5475">
+          <caret line="348" column="13" selection-start-line="348" selection-start-column="13" selection-end-line="348" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_GM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5056818" vertical-offset="2885" max-vertical-offset="3765">
+          <caret line="229" column="34" selection-start-line="229" selection-start-column="34" selection-end-line="229" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
