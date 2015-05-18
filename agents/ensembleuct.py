@@ -181,10 +181,6 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
         if actions_count <= 1:
             return valid_actions[0]
 
-        if self.simulation_count < len(valid_actions):
-            print "NO. OF TRAJECTORIES MUST BE MORE THAN THE ACTION SPACE AT ROOT NODE."
-            exit()
-
         reward_values = []
         visit_counts = []
         output_que = Queue(self.ensemble_count)
@@ -228,7 +224,7 @@ class EnsembleUCTAgentClass(absagent.AbstractAgent):
         best_avg = 0.0
         best_arm = 0
         # COMPARE FOR BEST AVG
-        for arm in xrange(0, actions_count):
+        for arm in xrange(0, len(reward_values[0])):
             curr_avg = 0.0
             numer = 0.0
             denom = 0.0
