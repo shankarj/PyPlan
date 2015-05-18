@@ -1,0 +1,46 @@
+<jobs>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a1_256_g500.csv">
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="128" threadcount="8" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a0_256_g500.csv">
+        <player number="8" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a1_1024_g500.csv">
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a0_1024_g500.csv">
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a1_4096_g500.csv">
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="128" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a0_4096_g500.csv">
+        <player number="8" num_simulations="128" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a1_16384_g500.csv">
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="512" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a0_16384_g500.csv">
+        <player number="8" num_simulations="512" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a1_65536_g500.csv">
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="2048" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/tplm_a0_65536_g500.csv">
+        <player number="8" num_simulations="2048" threadcount="32" uct_constant="0.8" horizon="20" time_limit="-1"/>
+        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
+    </job>
+</jobs>
