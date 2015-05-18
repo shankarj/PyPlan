@@ -3,6 +3,7 @@ from agents import *
 from simulators import *
 import os
 from xml.dom import minidom
+from twilio.rest import TwilioRestClient
 
 def call_dealer():
     xmldoc = minidom.parse("jobs.xml")
@@ -79,7 +80,6 @@ def call_dealer():
                                         ensembles=int(player.attributes["ensembles"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
-                                        parallel=bool(int(player.attributes["parallel"].value)),
                                         time_limit=int(player.attributes["time_limit"].value))
                 agents_list.append(agent_BP)
 

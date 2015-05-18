@@ -2,8 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ea01e4d-1ce1-4dda-9917-9bd9e141a304" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp_a1_256_g250.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a0_1024_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a0_16384_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a0_256_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a0_4096_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a0_65536_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a1_1024_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a1_16384_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a1_256_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a1_4096_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/sim_rp_a1_65536_g500.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/tplm_a1_256_g500.csv" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/blockparalleluct.py" afterPath="$PROJECT_DIR$/agents/blockparalleluct.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dealer.py" afterPath="$PROJECT_DIR$/dealer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobs.xml" afterPath="$PROJECT_DIR$/jobs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sample3.py" afterPath="$PROJECT_DIR$/sample3.py" />
     </list>
     <ignored path="PyPlan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +47,21 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="2565">
-              <caret line="56" column="25" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="2565">
+              <caret line="89" column="78" selection-start-line="89" selection-start-column="78" selection-end-line="89" selection-end-column="78" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sample3.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sample3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -52,8 +79,8 @@
       <file leaf-file-name="jobs.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jobs.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2088167" vertical-offset="0" max-vertical-offset="780">
-              <caret line="6" column="67" selection-start-line="6" selection-start-column="67" selection-end-line="6" selection-end-column="67" />
+            <state vertical-scroll-proportion="0.28481013" vertical-offset="0" max-vertical-offset="780">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -62,8 +89,8 @@
       <file leaf-file-name="blockparalleluct.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/agents/blockparalleluct.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2558" max-vertical-offset="3630">
-              <caret line="193" column="25" selection-start-line="193" selection-start-column="25" selection-end-line="193" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1824" max-vertical-offset="3630">
+              <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -72,8 +99,8 @@
       <file leaf-file-name="dealer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dealer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2310">
-              <caret line="81" column="45" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="2355">
+              <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -199,21 +226,20 @@
         <option value="$PROJECT_DIR$/agents/uctagent.py" />
         <option value="$PROJECT_DIR$/agents/leafparalleluct.py" />
         <option value="$PROJECT_DIR$/agents/ensembleuct.py" />
-        <option value="$PROJECT_DIR$/agents/blockparalleluct.py" />
-        <option value="$PROJECT_DIR$/sample3.py" />
         <option value="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
         <option value="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
-        <option value="$PROJECT_DIR$/dealer.py" />
+        <option value="$PROJECT_DIR$/sample3.py" />
         <option value="$PROJECT_DIR$/jobs.xml" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/agents/blockparalleluct.py" />
+        <option value="$PROJECT_DIR$/dealer.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-155" />
-    <option name="y" value="-1027" />
-    <option name="width" value="1680" />
-    <option name="height" value="1027" />
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1097" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -603,8 +629,8 @@
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.main" />
-        <item index="1" class="java.lang.String" itemvalue="Python.simulatortest" />
-        <item index="2" class="java.lang.String" itemvalue="Python.sample3" />
+        <item index="1" class="java.lang.String" itemvalue="Python.sample3" />
+        <item index="2" class="java.lang.String" itemvalue="Python.simulatortest" />
         <item index="3" class="java.lang.String" itemvalue="Python.sample" />
         <item index="4" class="java.lang.String" itemvalue="Python.sample2" />
       </list>
@@ -644,7 +670,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-155" y="-1027" width="1680" height="1027" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="1097" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -652,10 +678,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20192887" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17640863" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3681592" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5090909" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47363183" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985386" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1042,16 +1068,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#22#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/agents/ensembleuct.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.9052198" vertical-offset="412" max-vertical-offset="3765">
@@ -1067,14 +1083,6 @@
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/blockparalleluct.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2558" max-vertical-offset="3630">
-          <caret line="193" column="25" selection-start-line="193" selection-start-column="25" selection-end-line="193" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1102,14 +1110,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dealer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2310">
-          <caret line="81" column="45" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/agents/leafparalleluct.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="188" max-vertical-offset="2565">
@@ -1118,20 +1118,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sample3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/blockparalleluct.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1824" max-vertical-offset="3630">
+          <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="2565">
-          <caret line="56" column="25" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="2565">
+          <caret line="89" column="78" selection-start-line="89" selection-start-column="78" selection-end-line="89" selection-end-column="78" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dealer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="2355">
+          <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jobs.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2088167" vertical-offset="0" max-vertical-offset="780">
-          <caret line="6" column="67" selection-start-line="6" selection-start-column="67" selection-end-line="6" selection-end-column="67" />
+        <state vertical-scroll-proportion="0.28481013" vertical-offset="0" max-vertical-offset="780">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>

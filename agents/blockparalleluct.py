@@ -162,8 +162,8 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         self.simulation_count = num_simulations
         self.ensemble_count = ensembles
         self.horizon = horizon
-        self.is_parallel = parallel
         self.thread_count = threadcount
+        self.time_limit = time_limit
 
     def create_copy(self):
         return BlockParallelUCTClass(self.simulator.create_copy(), self.rollout_policy.create_copy(),

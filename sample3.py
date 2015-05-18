@@ -1,23 +1,8 @@
-import multiprocessing
-from multiprocessing import Process, Manager
-import time
+from twilio.rest import TwilioRestClient
 
-def worker_code(pnum, lockie):
-    #print pnum, "WAITING"
-    with lockie:
-        print pnum, "~INSIDE"
-        time.sleep(5)
-    print pnum, "DONE"
+account = "AC623d1c2e40b2c7d812e6fda315449b68"
+token = "c7d678808e58a1fbff6dd19946382e7a"
+client = TwilioRestClient(account, token)
 
-if __name__ == "__main__":
-    my_lock = Manager().Lock()
-
-    p_q = []
-    for x in xrange(5):
-        worker = Process(target=worker_code, args=(x, my_lock))
-        worker.start()
-        time.sleep(0.1)
-        p_q.append(worker)
-
-    for q in p_q:
-        q.join()
+message = client.messages.create(to="+15416023470", From="+15005550006",
+                                 body="Hello there!")

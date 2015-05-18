@@ -10,10 +10,12 @@ Time limit per move :-1
 Horizon value :20
 Constant value :0.8
 
-AGENT 1 : UCT-TP-NVL
+AGENT 1 : UCT-BP
 It's Rollout policy is : RANDOM
-No. of simulations per move :128
+No. of simulations per move :16
 Time limit per move :-1
 Horizon value :20
 Constant value :0.8
+Ensemble Count : 16
+Thread Count : 16
 REWARD FOR 1,REWARD FOR 2,WINNER,AVERAGE TIME/MOVE FOR 1,AVERAGE TIME/MOVE FOR 2,
