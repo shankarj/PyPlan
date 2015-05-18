@@ -59,7 +59,7 @@ def call_dealer():
             elif int(player.attributes["number"].value) == 9:
                 agent_LP = leafparalleluct.LeafParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=int(player.attributes["num_simulations"].value),
-                                        threadcount=int(player.attributes["threadcount"].value),
+                                        num_threads=int(player.attributes["num_threads"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
                                         time_limit=int(player.attributes["time_limit"].value))

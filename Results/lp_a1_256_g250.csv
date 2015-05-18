@@ -1,0 +1,21 @@
+PLAYING connect4
+TOTAL SIMULATIONS : 250
+
+AGENTS LIST :
+
+AGENT 0 : UCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :1024
+Time limit per move :-1
+Horizon value :20
+Constant value :0.8
+
+AGENT 1 : UCT-LP
+It's Rollout policy is : RANDOM
+No. of simulations per move :256
+Time limit per move :-1
+Horizon value :20
+Constant value :0.8
+Thread Count : 16
+Cores in Machine : 8
+REWARD FOR 1,REWARD FOR 2,WINNER,AVERAGE TIME/MOVE FOR 1,AVERAGE TIME/MOVE FOR 2,
