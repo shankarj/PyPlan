@@ -3,7 +3,6 @@ from agents import *
 from simulators import *
 import os
 from xml.dom import minidom
-from twilio.rest import TwilioRestClient
 
 def call_dealer():
     xmldoc = minidom.parse("jobs.xml")
@@ -68,7 +67,7 @@ def call_dealer():
             elif int(player.attributes["number"].value) == 11:
                 agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=int(player.attributes["num_simulations"].value),
-                                        num_threads=int(player.attributes["num_threads"].value),
+                                        threadcount=int(player.attributes["threadcount"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
                                         time_limit=int(player.attributes["time_limit"].value))
