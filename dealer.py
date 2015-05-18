@@ -54,6 +54,11 @@ class DealerClass:
                     print_output += "\nThread Count : " + str(self.playerlist[count].thread_count)
                     print_output += "\nCores in Machine : " + str(multiprocessing.cpu_count())
 
+                if self.playerlist[count].agentname == "UCT-TP-NVL":
+                    print_output += "\nThread Count : " + str(self.playerlist[count].thread_count)
+                    print_output += "\nCores in Machine : " + str(multiprocessing.cpu_count())
+
+
         self.output_file.write(print_output + "\n")
 
         for player in xrange(self.playercount):
