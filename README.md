@@ -10,7 +10,7 @@ Basic Architecture
 
 <i>(Third draft. Frozen 1/27/15.)</i>
 
-![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/updated_3.png "Architecture of PyPlan")
+![archimage](https://raw.githubusercontent.com/shankarj/PyPlan/master/resources/pyplan.png "Architecture of PyPlan")
 
 Usage
 =====
