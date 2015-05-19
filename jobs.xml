@@ -1,18 +1,17 @@
 <jobs>
-    <job playercount="2" sim_count="1000" sim_horizon="120" game="yahtzee" output_file="Results/gm_yahtzee_256_g1000.csv">
+    <job playercount="2" sim_count="500" sim_horizon="100" game="yahtzee" output_file="Results/locm_yahtzee_256_g500.csv">
         <player number="5" num_simulations="1024" uct_constant="30" horizon="100" time_limit="-1"/>
-        <player number="11" num_simulations="8" threadcount="32" uct_constant="30" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="8" threadcount="32" uct_constant="30" horizon="100" time_limit="-1"/>
     </job>
 
-    <job playercount="2" sim_count="1000" sim_horizon="120" game="yahtzee" output_file="Results/gm_yahtzee_1024_g1000.csv">
+    <job playercount="2" sim_count="500" sim_horizon="100" game="yahtzee" output_file="Results/locm_yahtzee_1024_g500.csv">
         <player number="5" num_simulations="1024" uct_constant="30" horizon="100" time_limit="-1"/>
-        <player number="11" num_simulations="32" threadcount="32" uct_constant="30" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="30" horizon="100" time_limit="-1"/>
     </job>
 
-
-    <job playercount="2" sim_count="1000" sim_horizon="120" game="yahtzee" output_file="Results/gm_yahtzee_4096_g1000.csv">
+    <job playercount="2" sim_count="500" sim_horizon="100" game="yahtzee" output_file="Results/locm_yahtzee_4096_g500.csv">
         <player number="5" num_simulations="1024" uct_constant="30" horizon="100" time_limit="-1"/>
-        <player number="11" num_simulations="128" threadcount="32" uct_constant="30" horizon="20" time_limit="-1"/>
+        <player number="8" num_simulations="128" threadcount="32" uct_constant="30" horizon="100" time_limit="-1"/>
     </job>
 
 </jobs>
