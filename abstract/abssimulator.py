@@ -32,6 +32,10 @@ class AbstractSimulator:
 		raise NotImplementedError
 
 	@abc.abstractmethod
+	def change_turn(self):
+		raise NotImplementedError
+
+	@abc.abstractmethod
 	def create_copy(self):
 		raise NotImplementedError
 
