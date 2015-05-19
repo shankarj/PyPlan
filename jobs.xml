@@ -1,19 +1,19 @@
 <jobs>
     <job playercount="2" sim_count="500" sim_horizon="120" game="yahtzee" output_file="Results/lp_yahtzee_256_g500.csv">
         <player number="5" num_simulations="1024" uct_constant="30" horizon="100" time_limit="-1"/>
-        <player number="9" num_simulations="256" threadcount="16" uct_constant="30" horizon="20" time_limit="-1"/>
+        <player number="9" num_simulations="256" num_threads="16" uct_constant="30" horizon="20" time_limit="-1"/>
     </job>
 
 
-    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/lp_yahtzee_1024_g500.csv">
+    <job playercount="2" sim_count="500" sim_horizon="100" game="yahtzee" output_file="Results/lp_yahtzee_1024_g500.csv">
         <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
-        <player number="9" num_simulations="1024" threadcount="16" uct_constant="30" horizon="20" time_limit="-1"/>
+        <player number="9" num_simulations="1024" num_threads="16" uct_constant="30" horizon="20" time_limit="-1"/>
     </job>
 
 
-    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/lp_yahtzee_4096_g500.csv">
+    <job playercount="2" sim_count="500" sim_horizon="100" game="yahtzee" output_file="Results/lp_yahtzee_4096_g500.csv">
         <player number="5" num_simulations="1024" uct_constant="0.8" horizon="20" time_limit="-1"/>
-        <player number="9" num_simulations="4096" threadcount="16" uct_constant="30" horizon="20" time_limit="-1"/>
+        <player number="9" num_simulations="4096" num_threads="16" uct_constant="30" horizon="20" time_limit="-1"/>
     </job>
 
 </jobs>
