@@ -1,6 +1,6 @@
 <jobs>
-    <job playercount="1" sim_count="20" sim_horizon="120" game="yahtzee" output_file="Results/tetris3.csv">
-        <player number="5" num_simulations="1024" uct_constant="5" horizon="100" time_limit="2.0"/>
+    <job playercount="1" sim_count="20" sim_horizon="120" game="yahtzee" output_file="Results/yahtzee_const.csv">
+        <player number="5" num_simulations="1024" uct_constant="50" horizon="100" time_limit="0.5"/>
     </job>
 
 </jobs>

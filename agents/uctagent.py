@@ -53,7 +53,6 @@ class UCTAgentClass(absagent.AbstractAgent):
         actions_count = len(valid_actions)
 
         if actions_count <= 1:
-            print "hit"
             return valid_actions[0]
 
         global uctnode
@@ -139,17 +138,23 @@ class UCTAgentClass(absagent.AbstractAgent):
 
             end_time = timeit.default_timer()
 
-        print "NUM NODES : ", str(num_nodes)
-        print "NUM SIMS : ", str(sim_count)
+        #print "NUM NODES : ", str(num_nodes)
+        #print "NUM SIMS : ", str(sim_count)
         # exit()
 
         best_arm = 0
         best_reward = root_node.children_list[0].reward[current_turn - 1]
 
         for arm in xrange(len(root_node.children_list)):
-            #print "ARM", arm, root_node.children_list[arm].state_value.get_current_state()
-            print "ARM REWARD", root_node.children_list[arm].reward
-            print "ARM VISIT", root_node.children_list[arm].state_visit
+            # print "-" * 50
+            # print "ARM", arm, root_node.children_list[arm].state_value.get_current_state()
+            # print "ARM REWARD", root_node.children_list[arm].reward
+            # print "ARM VISIT", root_node.children_list[arm].state_visit
+            # print "ARM CHILD COUNT", len(root_node.children_list[arm].children_list)
+            # print "ARM ARM CHILD STATE", root_node.children_list[arm].children_list[0].state_value.get_current_state()
+            # print "ARM CHILD STATE VISIT", root_node.children_list[arm].children_list[0].state_visit
+            # print "ARM ARM CHILD STATE LENGTH", len(root_node.children_list[arm].children_list[0].children_list)
+
             if root_node.children_list[arm].reward[current_turn - 1] > best_reward:
                 best_reward = root_node.children_list[arm].reward[current_turn - 1]
                 best_arm = arm
