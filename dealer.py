@@ -87,15 +87,18 @@ class DealerClass:
 
             while self.simulator.gameover == False and h < self.simulation_horizon:
                 actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
+                #print "-" * 50
                 print "AGENT", actual_agent_id
 
                 move_start_time = timeit.default_timer()
+                #print self.simulator.current_state.get_current_state()["state_val"]["dice_config"]
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
+                #print "ACTION", action_to_take.get_action()
                 move_end_time = timeit.default_timer()
                 time_values.append([actual_agent_id, move_end_time - move_start_time])
                 print "TIME FOR LAST MOVE ", move_end_time - move_start_time
 
-                # print self.simulator.print_board()
+                #print self.simulator.print_board()
                 # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
                 # print "ROT : " + str(action_to_take.get_action()["rot_number"])
                 # print "POSITION : " + str(action_to_take.get_action()["position"])
@@ -107,6 +110,7 @@ class DealerClass:
                 self.simulator.change_turn()
                 h += 1
 
+            print self.simulator.print_board()
             # --------------------
             # ADDED THIS SECTION JUST TO PRINT THE STATISTICS OF A GAME AT ITS END RATHER THAN WAITING FOR
             # ALL THE SIMULATIONS. ALSO WRITES TO THE CSV FILE.

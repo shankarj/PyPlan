@@ -1,0 +1,14 @@
+PLAYING tetris
+TOTAL SIMULATIONS : 10
+
+AGENTS LIST :
+
+AGENT 0 : UCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :1024
+Time limit per move :-1
+Horizon value :10
+Constant value :10.0
+REWARD FOR 1,WINNER,AVERAGE TIME/MOVE FOR 1,
+285.0,None,3.37539858234
+330.0,None,3.50954355575

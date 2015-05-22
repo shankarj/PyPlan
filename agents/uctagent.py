@@ -53,6 +53,7 @@ class UCTAgentClass(absagent.AbstractAgent):
         actions_count = len(valid_actions)
 
         if actions_count <= 1:
+            print "hit"
             return valid_actions[0]
 
         global uctnode
@@ -64,8 +65,16 @@ class UCTAgentClass(absagent.AbstractAgent):
         start_time = timeit.default_timer()
         end_time = timeit.default_timer()
 
-        #while end_time - start_time < 1.0:
+        # IF TIME LIMTI IS SET THEN SET SIMULATION COUNT TO SOMETHING REALLY BIG.
+        # BAD CODE BUT AVOIDS WRITING SEPARATE FUNCTIONS TO CHECK FOR TIME AND SIMULATION COUNTS.
+        if self.time_limit is not -1:
+            self.simulation_count = 30000000000000000000000000
+
         while sim_count < self.simulation_count:
+            if self.time_limit is not -1:
+                if end_time - start_time > self.time_limit:
+                    break
+
             # CHOOSE A NODE USING TREE POLICY. NODE SELECTION.
             while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
                 if self.tree_policy == "UCB":
@@ -128,17 +137,19 @@ class UCTAgentClass(absagent.AbstractAgent):
             current_node = root_node
             visit_stack = [current_node]
 
-        #end_time = timeit.default_timer()
+            end_time = timeit.default_timer()
 
-        # print "NUM NODES : ", str(num_nodes)
-        # print "NUM SIMS : ", str(sim_count)
+        print "NUM NODES : ", str(num_nodes)
+        print "NUM SIMS : ", str(sim_count)
         # exit()
 
         best_arm = 0
         best_reward = root_node.children_list[0].reward[current_turn - 1]
 
         for arm in xrange(len(root_node.children_list)):
-            # print root_node.children_list[arm].reward
+            #print "ARM", arm, root_node.children_list[arm].state_value.get_current_state()
+            print "ARM REWARD", root_node.children_list[arm].reward
+            print "ARM VISIT", root_node.children_list[arm].state_visit
             if root_node.children_list[arm].reward[current_turn - 1] > best_reward:
                 best_reward = root_node.children_list[arm].reward[current_turn - 1]
                 best_arm = arm

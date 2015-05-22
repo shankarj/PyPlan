@@ -24,7 +24,7 @@ def call_dealer():
         elif game_name == "tictactoe":
             simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players = players_count)
         elif game_name == "tetris":
-            tetrissimulator.TetrisSimulatorClass(num_players = players_count)
+            simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)
 
         players_list = job.getElementsByTagName("player")
         agents_list = []
@@ -37,7 +37,7 @@ def call_dealer():
                                         num_simulations=int(player.attributes["num_simulations"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
-                                        time_limit=int(player.attributes["time_limit"].value))
+                                        time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_uct)
             elif int(player.attributes["number"].value) == 6:
                 agent_ensemble = ensembleuct.EnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",

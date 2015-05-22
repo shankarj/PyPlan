@@ -112,11 +112,11 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
                 if counts[pointer1] == 1:
                     count = 1
                     for pointer2 in xrange(pointer1 + 1, pointer1 + 4):
-                        if counts[pointer2] == 1:
+                        if counts[pointer2] >= 1:
                             count += 1
                         else:
                             break
-                    if count == 4:
+                    if count >= 4:
                         return 30.0
                 pointer1 += 1
         elif category_num == 10:
@@ -128,12 +128,12 @@ class YahtzeeSimulatorClass(abssimulator.AbstractSimulator):
                 if counts[pointer1] == 1:
                     count = 1
                     for pointer2 in xrange(pointer1 + 1, pointer1 + 5):
-                        if counts[pointer2] == 1:
+                        if counts[pointer2] >= 1:
                             count += 1
                         else:
                             return 0.0
 
-                    if count == 5:
+                    if count >= 5:
                         return 40.0
 
                 pointer1 += 1

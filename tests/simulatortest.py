@@ -25,11 +25,11 @@ def check_tetris():
 
 
 def check_yahtzee():
-    sim = yahtzeesimulator.YahtzeeSimulatorClass(num_players = 2)
+    sim = yahtzeesimulator.YahtzeeSimulatorClass(num_players = 1)
     score_sheet = [[None] * 2 for _ in xrange(13)]
-    current_roll = 3
+    current_roll = 1
     starting_player = 1
-    dice_config = [6,6,6,4,5]
+    dice_config = [6, 4, 3, 2, 1]
     state_val = {"current_roll": current_roll,
                           "dice_config": dice_config,
                           "score_sheet": score_sheet}
@@ -39,12 +39,19 @@ def check_yahtzee():
     stateobj.set_current_state(current_state)
     sim.change_simulator_state(stateobj)
 
+    #print sim.get_category_points(dice_config, 9)
+
     agent_one = randomagent.RandomAgentClass(simulator=sim)
     agent_two = uniformagent.UniformRolloutAgentClass(simulator=sim, rollout_policy=agent_one, pull_count=1)
+    agent_uct = uctagent.UCTAgentClass(simulator=sim, rollout_policy=agent_one, tree_policy="UCB",
+                                        num_simulations=2000,
+                                        uct_constant=60,
+                                        horizon=100,
+                                        time_limit=0.5)
 
-    action = agent_two.select_action(sim.current_state)
-    print action.get_action()["type"]
-    print action.get_action()["value"]
+    action = agent_uct.select_action(sim.current_state)
+    print action.get_action()
+
     print sim.take_action(action)
 
 
@@ -94,4 +101,4 @@ def connect4_is_terminal():
     print(sim.print_board())
 
 if __name__ == "__main__":
-    check_tetris()
+    check_yahtzee()

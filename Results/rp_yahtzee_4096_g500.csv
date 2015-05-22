@@ -1,0 +1,23 @@
+PLAYING yahtzee
+TOTAL SIMULATIONS : 500
+
+AGENTS LIST :
+
+AGENT 0 : UCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :1024
+Time limit per move :-1
+Horizon value :100
+Constant value :30.0
+
+AGENT 1 : EnsembleUCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :512
+Time limit per move :-1
+Horizon value :100
+Constant value :40.0
+Ensemble Count : 8
+Run in Parallel : True
+Cores in Machine : 8
+REWARD FOR 1,REWARD FOR 2,WINNER,AVERAGE TIME/MOVE FOR 1,AVERAGE TIME/MOVE FOR 2,
+85.0,85.0,1,2.10875157092,2.78666342066
