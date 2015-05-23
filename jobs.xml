@@ -1,11 +1,18 @@
 <jobs>
-    <job playercount="1" sim_count="1" sim_horizon="100" game="tetris" output_file="Results/lp-1-tetris.csv">
-        <player number="9" num_simulations="256" num_threads="16" uct_constant="20" horizon="50" time_limit="1.0"/>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/lm-lp-connect4.csv">
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+        <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
     </job>
-    <job playercount="1" sim_count="1" sim_horizon="100" game="tetris" output_file="Results/bp-1-tetris.csv">
-        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="30" horizon="50" time_limit="1.0"/>
+     <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/lp-lm-connect4.csv">
+         <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+         <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
     </job>
-    <job playercount="1" sim_count="1" sim_horizon="100" game="tetris" output_file="Results/lm-1-tetris.csv">
-        <player number="8" num_simulations="32" threadcount="32" uct_constant="30" horizon="50" time_limit="1.0"/>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/lm-bp-connect4.csv">
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+    </job>
+    <job playercount="2" sim_count="500" sim_horizon="100" game="connect4" output_file="Results/bp-lm-connect4.csv">
+        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
     </job>
 </jobs>
