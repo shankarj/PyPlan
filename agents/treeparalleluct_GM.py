@@ -100,11 +100,16 @@ class TreeSpace(object):
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
 # PARALLEL CODE. THIS IS THE CODE THAT RUNS ON INDIVIDUAL PROCESS'S SPACE.
-def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constant, sim_count, horizon):
+def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constant, sim_count, horizon, time_limit, start_time):
     sim_c = 0
 
+    end_time = timeit.default_timer()
+
     while sim_c < sim_count:
-        s_t = timeit.default_timer()
+        if time_limit != -1.0:
+            if end_time - start_time > time_limit:
+                break
+
         current_node = mgr_obj.lock_and_get_node(node_id=0, pnum=pnum)
         current_node_id = current_node.node_id
         visit_stack = [0]
@@ -178,7 +183,7 @@ def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constan
         mgr_obj.backpropagate(visit_stack, q_vals, pnum)
         sim_c += 1
 
-        e_t = timeit.default_timer()
+        end_time = timeit.default_timer()
 
 
 class TreeParallelUCTGMClass(absagent.AbstractAgent):
@@ -221,10 +226,16 @@ class TreeParallelUCTGMClass(absagent.AbstractAgent):
 
         process_q = []
         count = 0
+
+        if self.time_limit != -1:
+            self.simulation_count = 30000000000000000000000000
+
         for proc in xrange(self.thread_count):
+            start_time = timeit.default_timer()
             worker_process = Process (target=worker_code, args=(proc, tree_space, self.simulator, self.tree_policy,
                                                                 self.rollout_policy, self.uct_constant,
-                                                                self.simulation_count, self.horizon))
+                                                                self.simulation_count, self.horizon, self.time_limit,
+                                                                start_time))
             process_q.append(worker_process)
             worker_process.daemon = True
             worker_process.start()

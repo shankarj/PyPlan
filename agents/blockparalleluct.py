@@ -36,7 +36,8 @@ AND THE VISIT COUNT. COULD BE INVOKED IN PARALLEL OR SEQ.
 2. I HAVE KEPT IT OUTSIDE THE CLASS BECAUSE OF PICKLING PROBLEMS WHILE MULTIPROC
 INITIALIZING.
 '''
-def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, threadcount, out_q):
+def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, threadcount,
+                  time_limit, start_time, out_q):
     current_turn = current_state.get_current_state()["current_player"]
     current_simulator.change_simulator_state(current_state)
     valid_actions = current_simulator.get_valid_actions()
@@ -51,8 +52,12 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
     visit_stack = [current_node]
     curr_sim_count = 0
     num_nodes = 0
+    end_time = timeit.default_timer()
 
     while curr_sim_count < sim_count:
+        if time_limit != -1.0:
+                if end_time - start_time > time_limit:
+                    break
         # CHOOSE A NODE USING TREE POLICY. NODE SELECTION.
         while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
             if tree_pol == "UCB":
@@ -136,7 +141,7 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
         current_node = root_node
         visit_stack = [current_node]
 
-    end_time = timeit.default_timer()
+        end_time = timeit.default_timer()
 
     rewards = []
     visits = []
@@ -186,9 +191,12 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         visit_counts = []
         output_que = Queue(self.ensemble_count)
 
+        if self.time_limit != -1.0:
+            self.simulation_count = 30000000000000000000000000
 
         process_list = []
         for proc in xrange(self.ensemble_count):
+            start_time = timeit.default_timer()
             worker_proc = Process(target=generate_tree, args=(self.simulator.create_copy(),
                                                               current_state.create_copy(),
                                                               self.simulation_count,
@@ -197,6 +205,8 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
                                                               self.uct_constant,
                                                               self.horizon,
                                                               self.thread_count,
+                                                              self.time_limit,
+                                                              start_time,
                                                               output_que,))
             process_list.append(worker_proc)
             worker_proc.start()
@@ -219,9 +229,12 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
             curr_avg = 0.0
             numer = 0.0
             denom = 0.0
-            for ensemble in xrange(self.ensemble_count):
-                numer += reward_values[ensemble][arm] * visit_counts[ensemble][arm]
-                denom += visit_counts[ensemble][arm]
+            for ensemble in xrange(len(reward_values)):
+                try:
+                    numer += reward_values[ensemble][arm] * visit_counts[ensemble][arm]
+                    denom += visit_counts[ensemble][arm]
+                except IndexError:
+                    pass
 
             curr_avg = numer / denom
 

@@ -66,11 +66,11 @@ class UCTAgentClass(absagent.AbstractAgent):
 
         # IF TIME LIMTI IS SET THEN SET SIMULATION COUNT TO SOMETHING REALLY BIG.
         # BAD CODE BUT AVOIDS WRITING SEPARATE FUNCTIONS TO CHECK FOR TIME AND SIMULATION COUNTS.
-        if self.time_limit is not -1:
+        if self.time_limit != -1.0:
             self.simulation_count = 30000000000000000000000000
 
         while sim_count < self.simulation_count:
-            if self.time_limit is not -1:
+            if self.time_limit != -1.0:
                 if end_time - start_time > self.time_limit:
                     break
 
@@ -138,8 +138,8 @@ class UCTAgentClass(absagent.AbstractAgent):
 
             end_time = timeit.default_timer()
 
-        #print "NUM NODES : ", str(num_nodes)
-        #print "NUM SIMS : ", str(sim_count)
+        print "NUM NODES : ", str(num_nodes)
+        print "NUM SIMS : ", str(sim_count)
         # exit()
 
         best_arm = 0

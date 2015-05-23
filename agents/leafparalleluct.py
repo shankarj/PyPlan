@@ -67,8 +67,15 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
         start_time = timeit.default_timer()
         end_time = timeit.default_timer()
 
+        if self.time_limit is not -1:
+            self.simulation_count = 30000000000000000000000000
+
         #while end_time - start_time < 1.0:
         while sim_count < self.simulation_count:
+            if self.time_limit != -1.0:
+                if end_time - start_time > self.time_limit:
+                    break
+
             # CHOOSE A NODE USING TREE POLICY. NODE SELECTION.
             while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
                 if self.tree_policy == "UCB":
@@ -151,7 +158,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
             current_node = root_node
             visit_stack = [current_node]
 
-        end_time = timeit.default_timer()
+            end_time = timeit.default_timer()
 
         # print "NUM NODES : ", str(num_nodes)
         # print "NUM SIMS : ", str(sim_count)

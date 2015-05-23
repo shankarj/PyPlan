@@ -46,7 +46,7 @@ def call_dealer():
                                         horizon=int(player.attributes["horizon"].value),
                                         ensembles=int(player.attributes["ensembles"].value),
                                         parallel=bool(int(player.attributes["parallel"].value)),
-                                        time_limit=int(player.attributes["time_limit"].value))
+                                        time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_ensemble)
             elif int(player.attributes["number"].value) == 8:
                 agent_TP_NVL = treeparalleluct_NVL.TreeParallelUCTNVLClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
@@ -54,7 +54,7 @@ def call_dealer():
                                         num_simulations=int(player.attributes["num_simulations"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
-                                        time_limit=int(player.attributes["time_limit"].value))
+                                        time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_TP_NVL)
             elif int(player.attributes["number"].value) == 9:
                 agent_LP = leafparalleluct.LeafParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
@@ -62,7 +62,7 @@ def call_dealer():
                                         num_threads=int(player.attributes["num_threads"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
-                                        time_limit=int(player.attributes["time_limit"].value))
+                                        time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_LP)
             elif int(player.attributes["number"].value) == 11:
                 agent_TP_GM = treeparalleluct_GM.TreeParallelUCTGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
@@ -70,7 +70,7 @@ def call_dealer():
                                         threadcount=int(player.attributes["threadcount"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
-                                        time_limit=int(player.attributes["time_limit"].value))
+                                        time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_TP_GM)
             elif int(player.attributes["number"].value) == 10:
                 agent_BP = blockparalleluct.BlockParallelUCTClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
@@ -79,7 +79,7 @@ def call_dealer():
                                         ensembles=int(player.attributes["ensembles"].value),
                                         uct_constant=float(player.attributes["uct_constant"].value),
                                         horizon=int(player.attributes["horizon"].value),
-                                        time_limit=int(player.attributes["time_limit"].value))
+                                        time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_BP)
 
 

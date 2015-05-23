@@ -75,83 +75,6 @@ class TreeSpace(object):
         self.locks[0].release()
         #print "DONE", pnum
 
-    # THIS FUNCTION RETURNS THE VISIT STACK FROM ROOT NODE
-    # def node_selection(self, sim_obj, pnum):
-    #     root_node = self.node_dictionary[0]
-    #     visit_stack = [0]
-    #     current_node = root_node
-    #
-    #     s_t = timeit.default_timer()
-    #     current_node.lockobj.acquire()
-    #     e_t = timeit.default_timer()
-    #     print "PROCESS WAITED FOR ", str(e_t - s_t) ," IN ROOT LOCK."
-    #     node_num = current_node.node_id
-    #     return_value = []
-    #
-    #     while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
-    #         if self.tree_policy == "UCB":
-    #             max_val = 0
-    #             sel_node = 0
-    #             for node in xrange(len(current_node.children_list)):
-    #                 node_turn = current_node.state_value.get_current_state()["current_player"]
-    #                 value = current_node.children_list[node].reward[node_turn - 1]
-    #                 exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
-    #                 value += self.uct_constant * exploration
-    #
-    #                 if (node == 0):
-    #                     max_val = value
-    #                 else:
-    #                     if value > max_val:
-    #                         max_val = value
-    #                         sel_node = node
-    #
-    #             self.node_dictionary[node_num].state_visit += 1
-    #             visit_stack.append(node_num)
-    #             current_node.lockobj.release()
-    #
-    #             # CHANGE CURRENT NODE TO NEXT SELECTED NODE
-    #             current_node = self.node_dictionary[node_num].children_list[sel_node]
-    #             s_t = timeit.default_timer()
-    #             current_node.lockobj.acquire()
-    #             e_t = timeit.default_timer()
-    #             print "PROCESS WAITED FOR ", str(e_t - s_t) ," IN A NODE LOCK."
-    #             node_num = current_node.node_id
-    #
-    #
-    #     self.node_dictionary[node_num].state_visit += 1
-    #
-    #     if current_node.is_terminal:
-    #         simulation_rew = current_node.reward
-    #         return_value = [0, visit_stack, simulation_rew]
-    #         current_node.lockobj.release()
-    #     else:
-    #         sim_obj.change_simulator_state(current_node.state_value)
-    #         current_pull = sim_obj.create_copy()
-    #         actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
-    #
-    #         current_pull.change_turn()
-    #
-    #
-    #         # CODE TO CREATE NODE
-    #         temp_node = uctnode(current_pull.get_simulator_state(),
-    #                             current_pull.get_valid_actions(), False, current_pull.gameover)
-    #         self.create_new_lock(),
-    #         temp_node.node_id = id(temp_node)
-    #         temp_node.state_visit += 1
-    #         self.node_dictionary[temp_node.node_id] = temp_node
-    #         self.node_dictionary[current_node.node_id].children_list.append(temp_node)
-    #         self.total_nodes += 1
-    #         # END NODE CREATE
-    #
-    #
-    #         current_node.lockobj.release()
-    #
-    #
-    #         visit_stack.append(temp_node.node_id)
-    #         return_value = [1, visit_stack, current_pull]
-    #
-    #     return return_value
-
     def root_initialized(self):
         return self.initialized
 
@@ -186,11 +109,16 @@ class TreeSpace(object):
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
 # PARALLEL CODE. THIS IS THE CODE THAT RUNS ON INDIVIDUAL PROCESS'S SPACE.
-def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constant, sim_count, horizon):
+def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constant, sim_count, horizon, time_limit, start_time):
     sim_c = 0
 
+    end_time = timeit.default_timer()
+
     while sim_c < sim_count:
-        s_t = timeit.default_timer()
+        if time_limit != -1.0:
+            if end_time - start_time > time_limit:
+                break
+
         current_node = mgr_obj.lock_and_get_node(node_id=0, pnum=pnum)
         current_node_id = current_node.node_id
         visit_stack = [0]
@@ -267,26 +195,9 @@ def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constan
         mgr_obj.backpropagate(visit_stack, q_vals, pnum)
         sim_c += 1
 
-        e_t = timeit.default_timer()
-        #print "TS", e_t - s_t
+        end_time = timeit.default_timer()
 
 
-        ## NEW CODE ENDS
-
-        # # NODE SELECTION
-        # parent_node_num = 0
-        # ret_val = mgr_obj.node_selection(sim_obj, pnum)
-        #
-        # if ret_val[0] == 0:
-        #     # BACKTRACK ONLY FOR TERMINAL NODES.
-        #     mgr_obj.backtrack(ret_val[1], ret_val[2], pnum)
-        # elif ret_val[0] == 1:
-        #     # SIMULATE AND BACKTRACK VALUES.
-        #     mgr_obj.simulate_and_backtrack(ret_val[1], ret_val[2], pnum)
-        #
-        # sim_c += 1
-        # e_t = timeit.default_timer()
-        # print "ONE SIMULATION TIME IN ONE PROCESS", e_t - s_t
 
 class TreeParallelUCTNVLClass(absagent.AbstractAgent):
     myname = "UCT-TP-NVL"
@@ -328,10 +239,16 @@ class TreeParallelUCTNVLClass(absagent.AbstractAgent):
 
         process_q = []
         count = 0
+
+        if self.time_limit != -1:
+            self.simulation_count = 30000000000000000000000000
+
         for proc in xrange(self.thread_count):
+            start_time = timeit.default_timer()
             worker_process = Process (target=worker_code, args=(proc, tree_space, self.simulator, self.tree_policy,
                                                                 self.rollout_policy, self.uct_constant,
-                                                                self.simulation_count, self.horizon))
+                                                                self.simulation_count, self.horizon, self.time_limit,
+                                                                start_time))
             process_q.append(worker_process)
             worker_process.daemon = True
             worker_process.start()
