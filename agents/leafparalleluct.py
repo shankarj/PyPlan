@@ -160,6 +160,10 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
 
             end_time = timeit.default_timer()
 
+        sim_count_file = open("Results/LP.csv", "w")
+        sim_count_file.write(str(sim_count) + "\n")
+        sim_count_file.close()
+
         # print "NUM NODES : ", str(num_nodes)
         # print "NUM SIMS : ", str(sim_count)
         # exit()

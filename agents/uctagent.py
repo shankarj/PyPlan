@@ -138,9 +138,13 @@ class UCTAgentClass(absagent.AbstractAgent):
 
             end_time = timeit.default_timer()
 
-        print "NUM NODES : ", str(num_nodes)
-        print "NUM SIMS : ", str(sim_count)
-        # exit()
+        sim_count_file = open("Results/UCT.csv", "w")
+        sim_count_file.write(str(sim_count) + "\n")
+        sim_count_file.close()
+
+        # print "NUM NODES : ", str(num_nodes)
+        # print "NUM SIMS : ", str(sim_count)
+        # # exit()
 
         best_arm = 0
         best_reward = root_node.children_list[0].reward[current_turn - 1]

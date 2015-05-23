@@ -185,6 +185,10 @@ def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constan
 
         end_time = timeit.default_timer()
 
+    sim_count_file = open("Results/TPGM-" + str(pnum) + ".csv", "w")
+    sim_count_file.write(str(sim_c) + "\n")
+    sim_count_file.close()
+
 
 class TreeParallelUCTGMClass(absagent.AbstractAgent):
     myname = "UCT-TP-GM"

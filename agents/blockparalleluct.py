@@ -36,7 +36,7 @@ AND THE VISIT COUNT. COULD BE INVOKED IN PARALLEL OR SEQ.
 2. I HAVE KEPT IT OUTSIDE THE CLASS BECAUSE OF PICKLING PROBLEMS WHILE MULTIPROC
 INITIALIZING.
 '''
-def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, threadcount,
+def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, threadcount,
                   time_limit, start_time, out_q):
     current_turn = current_state.get_current_state()["current_player"]
     current_simulator.change_simulator_state(current_state)
@@ -143,6 +143,10 @@ def generate_tree(current_simulator, current_state, sim_count, tree_pol, rollout
 
         end_time = timeit.default_timer()
 
+    sim_count_file = open("Results/BP-" + str(pnum) + ".csv", "w")
+    sim_count_file.write(str(curr_sim_count) + "\n")
+    sim_count_file.close()
+
     rewards = []
     visits = []
 
@@ -197,7 +201,8 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         process_list = []
         for proc in xrange(self.ensemble_count):
             start_time = timeit.default_timer()
-            worker_proc = Process(target=generate_tree, args=(self.simulator.create_copy(),
+            worker_proc = Process(target=generate_tree, args=(proc,
+                                                              self.simulator.create_copy(),
                                                               current_state.create_copy(),
                                                               self.simulation_count,
                                                               self.tree_policy,

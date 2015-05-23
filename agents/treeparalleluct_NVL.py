@@ -197,6 +197,9 @@ def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constan
 
         end_time = timeit.default_timer()
 
+    sim_count_file = open("Results/TPLM-" + str(pnum) + ".csv", "w")
+    sim_count_file.write(str(sim_c) + "\n")
+    sim_count_file.close()
 
 
 class TreeParallelUCTNVLClass(absagent.AbstractAgent):
