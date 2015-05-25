@@ -131,7 +131,7 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
 
     # if self.verbose:
     # print "NUM NODES : ", str(num_nodes)
-    print "NUM SIMS : ", str(sim_count)
+    print "ENSEMBLE NUM SIMS : ", str(curr_sim_count)
     # exit()
 
     # RETURN AN ARRAY OF REWARDS, VISITS OF ALL THE CHILDREN OF ROOT NODE

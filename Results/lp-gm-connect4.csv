@@ -1,0 +1,27 @@
+PLAYING connect4
+TOTAL SIMULATIONS : 1
+
+AGENTS LIST :
+
+AGENT 0 : UCT-LP
+It's Rollout policy is : RANDOM
+No. of simulations per move :256
+Time limit per move :1.0
+Horizon value :50
+Constant value :0.8
+Thread Count : 1
+Cores in Machine : 8
+
+AGENT 1 : UCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :1024
+Time limit per move :1.0
+Horizon value :100
+Constant value :0.8
+REWARD FOR 1,REWARD FOR 2,WINNER,AVERAGE TIME/MOVE FOR 1,AVERAGE TIME/MOVE FOR 2,
+2.0,-2.0,1,1.33755087852,1.00343537331
+
+
+AVG OF REWARDS (FOR OVERALL SIMULATION) : [2.0, -2.0]
+AVG WINS FOR AGENT 1 : 1.0
+AVG WINS FOR AGENT 2 : 0.0

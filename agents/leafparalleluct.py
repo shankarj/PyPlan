@@ -16,6 +16,8 @@ class uctnode:
         self.is_terminal = False
 
 def _simulate_game(rollout_policy, current_pull, horizon, out_q):
+    #print "PEND", timeit.default_timer()
+    sim_start = timeit.default_timer()
     sim_reward = [0.0] * current_pull.numplayers
     h = 0
     while current_pull.gameover == False and h <= horizon:
@@ -27,6 +29,8 @@ def _simulate_game(rollout_policy, current_pull, horizon, out_q):
 
     del current_pull
     out_q.put(sim_reward)
+    sim_end = timeit.default_timer()
+    #print "SIM TIME", sim_end - sim_start
 
 class LeafParallelUCTClass(absagent.AbstractAgent):
     myname = "UCT-LP"
@@ -50,6 +54,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
         return self.agentname
 
     def select_action(self, current_state):
+
         current_turn = current_state.get_current_state()["current_player"]
         self.simulator.change_simulator_state(current_state)
         valid_actions = self.simulator.get_valid_actions()
@@ -122,16 +127,22 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
                                                                        output_que,))
                     worker_proc.daemon = True
                     process_list.append(worker_proc)
+                    #print "PST", timeit.default_timer()
                     worker_proc.start()
+
 
                 for worker in process_list:
                     worker.join()
 
+
                 # AVERAGE THE REWARDS FROM PARALLEL SIMULATIONS
                 sim_reward = [0.0] * current_pull.numplayers
+                jst = timeit.default_timer()
                 for thread in xrange(self.threadcount):
                     temp_reward = output_que.get()
                     sim_reward = [x+y for x,y in zip(temp_reward, sim_reward)]
+                jend = timeit.default_timer()
+                #print "\n\nQUEUE TIME", jend - jst
 
                 sim_reward = [float(x / self.threadcount) for x in sim_reward]
                 q_vals = [x+y for x,y in zip(actual_reward, sim_reward)]
@@ -165,7 +176,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
         sim_count_file.close()
 
         # print "NUM NODES : ", str(num_nodes)
-        print "NUM SIMS : ", str(sim_count)
+        print "LEAF NUM SIMS : ", str(sim_count)
         # exit()
 
         best_arm = 0
