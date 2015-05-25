@@ -67,6 +67,7 @@ Simulators:
 2. Connect4  
 3. Yahtzee  
 4. Tetris  
+5. Othello  
 
 Note
 ====
