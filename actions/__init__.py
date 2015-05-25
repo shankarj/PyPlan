@@ -1,1 +1,1 @@
-__all__ = ["connect4action", "tictactoeaction", "yahtzeeaction", "tetrisaction"]
+__all__ = ["connect4action", "tictactoeaction", "yahtzeeaction", "tetrisaction", "othelloaction"]

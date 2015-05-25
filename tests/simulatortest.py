@@ -2,6 +2,27 @@ from simulators import *
 from states import *
 from agents import *
 
+
+def check_othello():
+    sim = othellosimulator.OthelloSimulatorClass(2)
+    sim.current_state.get_current_state()["state_val"][0] = [0,0,2,2,2,1,1,1]
+    sim.current_state.get_current_state()["state_val"][1] = [0,2,2,2,1,1,1,2]
+    sim.current_state.get_current_state()["state_val"][2] = [2,2,2,1,2,1,2,2]
+    sim.current_state.get_current_state()["state_val"][3] = [2,2,2,2,2,1,1,2]
+    sim.current_state.get_current_state()["state_val"][4] = [2,2,1,2,2,1,2,2]
+    sim.current_state.get_current_state()["state_val"][5] = [2,2,2,2,2,2,2,2]
+    sim.current_state.get_current_state()["state_val"][6] = [1,1,2,1,1,2,2,2]
+    sim.current_state.get_current_state()["state_val"][7] = [2,2,2,2,2,2,2,2]
+
+    print sim.print_board()
+    #sim.change_turn()
+
+    valid_actions = sim.get_valid_actions()
+
+    print sim.is_terminal()
+
+
+
 def check_tetris():
     sim = tetrissimulator.TetrisSimulatorClass(1)
     sim.current_state.get_current_state()["state_val"]["current_board"] = [[1, 0, 1, 0, 1, 1, 1, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 0], [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], [1, 1, 0, 0, 1, 1, 0, 1, 1, 1], [1, 1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 1, 1, 0, 1, 0], [1, 0, 0, 0, 0, 1, 0, 0, 1, 1], [1, 1, 1, 0, 0, 1, 1, 0, 1, 0], [0, 1, 0, 0, 0, 1, 1, 0, 1, 0], [1, 1, 1, 0, 0, 0, 1, 1, 1, 1], [0, 1, 0, 0, 0, 1, 1, 1, 0, 0], [1, 1, 1, 0, 1, 1, 0, 1, 0, 0], [1, 1, 0, 0, 1, 1, 1, 1, 1, 0], [1, 0, 1, 0, 1, 0, 1, 1, 0, 0], [1, 1, 0, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 1, 1, 1, 0, 0, 0, 0], [0, 1, 1, 1, 0, 1, 1, 0, 0, 0], [1, 1, 0, 1, 1, 1, 0, 0, 0, 0]]
@@ -101,4 +122,4 @@ def connect4_is_terminal():
     print(sim.print_board())
 
 if __name__ == "__main__":
-    check_yahtzee()
+    check_othello()
