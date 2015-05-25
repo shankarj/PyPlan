@@ -98,12 +98,13 @@ class DealerClass:
                 time_values.append([actual_agent_id, move_end_time - move_start_time])
                 print "TIME FOR LAST MOVE ", move_end_time - move_start_time
 
-                #print self.simulator.print_board()
+
                 # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
                 # print "ROT : " + str(action_to_take.get_action()["rot_number"])
                 # print "POSITION : " + str(action_to_take.get_action()["position"])
                 # print "---------------------------------------------------------"
                 reward = self.simulator.take_action(action_to_take)
+                print self.simulator.print_board()
                 # if reward[0] > 0.0:
                 # print "something"
                 game_history.append([reward, action_to_take])

@@ -1,0 +1,28 @@
+PLAYING othello
+TOTAL SIMULATIONS : 1
+
+AGENTS LIST :
+
+AGENT 0 : UCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :1024
+Time limit per move :1.0
+Horizon value :100
+Constant value :0.8
+
+AGENT 1 : EnsembleUCT
+It's Rollout policy is : RANDOM
+No. of simulations per move :128
+Time limit per move :1.0
+Horizon value :50
+Constant value :0.8
+Ensemble Count : 8
+Run in Parallel : True
+Cores in Machine : 8
+REWARD FOR 1,REWARD FOR 2,WINNER,AVERAGE TIME/MOVE FOR 1,AVERAGE TIME/MOVE FOR 2,
+-1.0,1.0,2,1.04512302629,1.03119199029
+
+
+AVG OF REWARDS (FOR OVERALL SIMULATION) : [-1.0, 1.0]
+AVG WINS FOR AGENT 1 : 0.0
+AVG WINS FOR AGENT 2 : 1.0

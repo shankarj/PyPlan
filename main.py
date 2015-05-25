@@ -25,6 +25,8 @@ def call_dealer():
             simulator_obj = tictactoesimulator.TicTacToeSimulatorClass(num_players = players_count)
         elif game_name == "tetris":
             simulator_obj = tetrissimulator.TetrisSimulatorClass(num_players = players_count)
+        elif game_name == "othello":
+            simulator_obj = othellosimulator.OthelloSimulatorClass(num_players = players_count)
 
         players_list = job.getElementsByTagName("player")
         agents_list = []
@@ -32,6 +34,9 @@ def call_dealer():
         agent_one = randomagent.RandomAgentClass(simulator=simulator_obj)
 
         for player in players_list:
+            if int(player.attributes["number"].value) == 4:
+                agent_random = randomagent.RandomAgentClass(simulator=simulator_obj)
+                agents_list.append(agent_random)
             if int(player.attributes["number"].value) == 5:
                 agent_uct = uctagent.UCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
                                         num_simulations=int(player.attributes["num_simulations"].value),

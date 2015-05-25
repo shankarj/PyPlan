@@ -19,6 +19,8 @@ NOTE :
 class OthelloSimulatorClass(abssimulator.AbstractSimulator):
     def __init__(self, num_players):
         self.current_state = othellostate.OthelloStateClass()
+        if num_players < 2:
+            raise ValueError("Wrong value for player_count for Othello.")
         self.numplayers = num_players
         self.winningplayer = None
         self.gameover = False
@@ -167,10 +169,11 @@ class OthelloSimulatorClass(abssimulator.AbstractSimulator):
                         actions_list.append(othelloaction.OthelloActionClass(action))
 
         #ALWAYS ADD NULL ACTION
-        action = {}
-        action['position'] = [-1, -1]
-        action['value'] = -1
-        actions_list.append(othelloaction.OthelloActionClass(action))
+        if len(actions_list) == 0:
+            action = {}
+            action['position'] = [-1, -1]
+            action['value'] = -1
+            actions_list.append(othelloaction.OthelloActionClass(action))
         return actions_list
 
     def is_terminal(self):
@@ -180,4 +183,19 @@ class OthelloSimulatorClass(abssimulator.AbstractSimulator):
         if len(for_player_1) > 1 or len(for_player_2) > 1:
             return False
         else:
+            coin_count = [0] * self.numplayers
+            for i in xrange(8):
+                for j in xrange(8):
+                    coin_count[self.current_state.get_current_state()["state_val"][i][j] - 1] += 1
+
+            #print "\n\nCOIN COUNTS", coin_count
+
+            if coin_count[0] == coin_count[1]:
+                self.winningplayer = None
+            else:
+                if coin_count[0] > coin_count[1]:
+                    self.winningplayer = 1
+                else:
+                    self.winningplayer = 2
+
             return True
