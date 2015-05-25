@@ -143,6 +143,7 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
 
         end_time = timeit.default_timer()
 
+    print "SIM COUNT", curr_sim_count
     sim_count_file = open("Results/BP-" + str(pnum) + ".csv", "w")
     sim_count_file.write(str(curr_sim_count) + "\n")
     sim_count_file.close()

@@ -165,7 +165,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
         sim_count_file.close()
 
         # print "NUM NODES : ", str(num_nodes)
-        # print "NUM SIMS : ", str(sim_count)
+        print "NUM SIMS : ", str(sim_count)
         # exit()
 
         best_arm = 0

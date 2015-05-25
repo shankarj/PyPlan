@@ -104,7 +104,7 @@ class DealerClass:
                 # print "POSITION : " + str(action_to_take.get_action()["position"])
                 # print "---------------------------------------------------------"
                 reward = self.simulator.take_action(action_to_take)
-                print self.simulator.print_board()
+                #print self.simulator.print_board()
                 # if reward[0] > 0.0:
                 # print "something"
                 game_history.append([reward, action_to_take])
