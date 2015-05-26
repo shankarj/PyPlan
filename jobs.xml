@@ -1,64 +1,17 @@
 <jobs>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-rp-connect4.csv">
-        <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
+    <job playercount="1" sim_count="100" sim_horizon="100" game="tetris" output_file="Results/rp-thread-tetris.csv">
+         <player number="21" num_simulations="8" ensembles="32" uct_constant="20" horizon="100" parallel="1" time_limit="1.0"/>
     </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-bp-connect4.csv">
-        <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+    <job playercount="1" sim_count="100" sim_horizon="100" game="tetris" output_file="Results/gm-thread-tetris.csv">
+        <player number="23" num_simulations="8" threadcount="32" uct_constant="20" horizon="100" time_limit="1.0"/>
     </job>
-     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-uct-connect4.csv">
-        <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="100" time_limit="1.0"/>
+    <job playercount="1" sim_count="100" sim_horizon="100" game="tetris" output_file="Results/bp-thread-tetris.csv">
+        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="20" horizon="100" time_limit="1.0"/>
     </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-gm-connect4.csv">
-        <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+    <job playercount="1" sim_count="100" sim_horizon="100" game="tetris" output_file="Results/lm-thread-tetris.csv">
+        <player number="22" num_simulations="32" threadcount="32" uct_constant="20" horizon="100" time_limit="1.0"/>
     </job>
-     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-lp-connect4.csv">
-         <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-rp-connect4.csv">
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
-    </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-bp-connect4.csv">
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-uct-connect4.csv">
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="100" time_limit="1.0"/>
-    </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-lm-connect4.csv">
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-lp-connect4.csv">
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-        <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-gm-connect4.csv">
-         <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
-        <player number="23" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-bp-connect4.csv">
-         <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
-        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-uct-connect4.csv">
-         <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
-        <player number="5" num_simulations="1024" uct_constant="0.8" horizon="100" time_limit="1.0"/>
-    </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-lm-connect4.csv">
-         <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
-        <player number="22" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="1.0"/>
-    </job>
-     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-lp-connect4.csv">
-        <player number="21" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1" time_limit="1.0"/>
-        <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="1.0"/>
+     <job playercount="1" sim_count="100" sim_horizon="100" game="tetris" output_file="Results/lp-thread-tetris.csv">
+        <player number="9" num_simulations="256" num_threads="16" uct_constant="20" horizon="100" time_limit="1.0"/>
     </job>
 </jobs>

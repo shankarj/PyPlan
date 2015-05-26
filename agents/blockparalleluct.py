@@ -102,10 +102,10 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
             process_list = []
             output_que = Queue(threadcount)
             for proc in xrange(threadcount):
-                worker_proc = Process(target=_simulate_game, args=(rollout.create_copy(),
+                worker_proc = threading.Thread(target=_simulate_game, args=(rollout.create_copy(),
                                                                    current_pull.create_copy(), hor,
                                                                    output_que,))
-                worker_proc.daemon = True
+                #worker_proc.daemon = True
                 process_list.append(worker_proc)
                 worker_proc.start()
 
