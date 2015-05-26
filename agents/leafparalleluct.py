@@ -16,6 +16,8 @@ class uctnode:
         self.reward = []
         self.is_terminal = False
 
+sim_results=[]
+
 def _simulate_game(rollout_policy, current_pull, horizon, out_q):
     #print "PEND", timeit.default_timer()
     sim_start = timeit.default_timer()
@@ -29,7 +31,8 @@ def _simulate_game(rollout_policy, current_pull, horizon, out_q):
         h += 1
 
     del current_pull
-    out_q.put(sim_reward)
+    global  sim_results
+    sim_results.append(sim_reward)
     sim_end = timeit.default_timer()
     #print "SIM TIME", sim_end - sim_start
 
@@ -108,6 +111,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
             current_node.state_visit += 1
             self.simulator.change_simulator_state(current_node.state_value)
             sim_count += 1
+            q_vals = 0.0
 
             if current_node.is_terminal:
                 q_vals = current_node.reward
@@ -131,21 +135,20 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
                     #print "PST", timeit.default_timer()
                     worker_proc.start()
 
-
                 for worker in process_list:
                     worker.join()
-
 
                 # AVERAGE THE REWARDS FROM PARALLEL SIMULATIONS
                 sim_reward = [0.0] * current_pull.numplayers
                 jst = timeit.default_timer()
+                global sim_results
                 for thread in xrange(self.threadcount):
-                    temp_reward = output_que.get()
+                    temp_reward = sim_results[thread]
                     sim_reward = [x+y for x,y in zip(temp_reward, sim_reward)]
                 jend = timeit.default_timer()
                 #print "\n\nQUEUE TIME", jend - jst
 
-                sim_reward = [float(x / self.threadcount) for x in sim_reward]
+                # sim_reward = [float(x / self.threadcount) for x in sim_reward]
                 q_vals = [x+y for x,y in zip(actual_reward, sim_reward)]
 
                 ##CREATE NEW NODE AND APPEND TO CURRENT NODE.
