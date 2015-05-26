@@ -2,136 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ea01e4d-1ce1-4dda-9917-9bd9e141a304" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-0.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-10.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-11.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-12.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-13.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-14.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-15.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-5.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-6.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-7.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-8.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-9.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/LP.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-0.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-10.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-11.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-12.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-13.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-14.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-15.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-16.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-17.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-18.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-19.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-20.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-21.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-22.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-23.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-24.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-25.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-26.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-27.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-28.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-29.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-30.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-31.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-5.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-6.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-7.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-8.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-9.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-0.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-10.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-11.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-12.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-13.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-14.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-15.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-16.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-17.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-18.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-19.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-20.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-21.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-22.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-23.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-24.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-25.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-26.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-27.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-28.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-29.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-30.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-31.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-5.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-6.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-7.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-8.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-9.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-0.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-10.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-11.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-12.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-13.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-14.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-15.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-16.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-17.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-18.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-19.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-20.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-21.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-22.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-23.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-24.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-25.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-26.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-27.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-28.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-29.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-30.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-31.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-5.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-6.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-7.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-8.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-9.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/UCT.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-bp-connect4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-gm-connect4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-lm-connect4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-rp-connect4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-uct-connect4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/uct-gm-connect4.csv" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/__init__.py" afterPath="$PROJECT_DIR$/agents/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/blockparalleluct.py" afterPath="$PROJECT_DIR$/agents/blockparalleluct.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dealer.py" afterPath="$PROJECT_DIR$/dealer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobs.xml" afterPath="$PROJECT_DIR$/jobs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/leafparalleluct.py" afterPath="$PROJECT_DIR$/agents/leafparalleluct.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/treeparalleluct_GM.py" afterPath="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" afterPath="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/uctagent.py" afterPath="$PROJECT_DIR$/agents/uctagent.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyPlan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -158,8 +29,8 @@
       <file leaf-file-name="jobs.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jobs.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55158323" vertical-offset="0" max-vertical-offset="1080">
-              <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.90398365" vertical-offset="0" max-vertical-offset="1050">
+              <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1220,8 +1091,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jobs.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55158323" vertical-offset="0" max-vertical-offset="1080">
-          <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.90398365" vertical-offset="0" max-vertical-offset="1050">
+          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
           <folding />
         </state>
       </provider>
