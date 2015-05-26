@@ -39,89 +39,99 @@ def worker_code(pnum, sim_obj, tree_policy, rollout_policy, uct_constant, sim_co
         visit_stack = [current_node]
 
         #print "SELECTING"
-        while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
-            if tree_policy == "UCB":
-                max_val = 0
-                sel_node = 0
-                for node in xrange(len(current_node.children_list)):
-                    node_turn = current_node.state_value.get_current_state()["current_player"]
-                    value = current_node.children_list[node].reward[node_turn - 1]
-                    exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
+        try:
+            while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
+                if tree_policy == "UCB":
+                    max_val = 0
+                    sel_node = 0
+                    for node in xrange(len(current_node.children_list)):
+                        node_turn = current_node.state_value.get_current_state()["current_player"]
+                        value = current_node.children_list[node].reward[node_turn - 1]
+                        exploration = math.sqrt(math.log(current_node.state_visit) / current_node.children_list[node].state_visit)
 
-                    value += uct_constant * exploration
+                        value += uct_constant * exploration
 
-                    if (node == 0):
-                        max_val = value
-                    else:
-                        if value > max_val:
+                        if (node == 0):
                             max_val = value
-                            sel_node = node
+                        else:
+                            if value > max_val:
+                                max_val = value
+                                sel_node = node
 
-            # GET NEXT SELECTED NODE'S ID. RELEASE THE CURRENT NODE.
-            # CHANGE CURRENT NODE TO THE NEXT NODE OBJECT.
-            next_node = current_node.children_list[sel_node]
-            current_node.lock_obj.release()
-            current_node = next_node
-            current_node.state_visit += 1
-            current_node.lock_obj.acquire()
-            visit_stack.append(current_node)
+                # GET NEXT SELECTED NODE'S ID. RELEASE THE CURRENT NODE.
+                # CHANGE CURRENT NODE TO THE NEXT NODE OBJECT.
+                next_node = current_node.children_list[sel_node]
+                current_node.lock_obj.release()
+                current_node = next_node
+                current_node.state_visit += 1
+                current_node.lock_obj.acquire()
+                visit_stack.append(current_node)
 
 
-        simulation_rew = [0.0] * sim_obj.numplayers
-        actual_reward = [0.0] * sim_obj.numplayers
+            simulation_rew = [0.0] * sim_obj.numplayers
+            actual_reward = [0.0] * sim_obj.numplayers
 
-        #print "CHECKING IF TERMINAL"
-        if current_node.is_terminal:
-            current_node.lock_obj.release()
-            simulation_rew = current_node.reward
-        else:
-            #print "CREATING"
-            sim_obj.change_simulator_state(current_node.state_value)
-            current_pull = sim_obj.create_copy()
-            actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
-            current_pull.change_turn()
+            #print "CHECKING IF TERMINAL"
+            if current_node.is_terminal:
+                current_node.lock_obj.release()
+                simulation_rew = current_node.reward
+            else:
+                #print "CREATING"
+                sim_obj.change_simulator_state(current_node.state_value)
+                current_pull = sim_obj.create_copy()
+                actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
+                current_pull.change_turn()
 
-            # NODE EXPANSION. ADD NEW NODE TO VISIT STACK.
-            global uctnode
-            temp_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(),
-                                False, current_pull.gameover, threading.Lock())
-            temp_node.state_visit = 1
-            temp_node.reward = [0.0] * sim_obj.numplayers
-            current_node.children_list.append(temp_node)
-            current_node.lock_obj.release()
-            visit_stack.append(temp_node)
+                # NODE EXPANSION. ADD NEW NODE TO VISIT STACK.
+                global uctnode
+                temp_node = uctnode(current_pull.get_simulator_state(), current_pull.get_valid_actions(),
+                                    False, current_pull.gameover, threading.Lock())
+                temp_node.state_visit = 1
+                temp_node.reward = [0.0] * sim_obj.numplayers
+                current_node.children_list.append(temp_node)
+                current_node.lock_obj.release()
+                visit_stack.append(temp_node)
 
-            # START SIMULATION. LOCK IS RELEASED IN PREVIOUS STEP.
-            # SO THIS SIMULATION RUNS IN PARALLEL TO OTHER STEPS.
-            temp_pull = current_pull.create_copy()
-            simulation_rew = [0.0] * temp_pull.numplayers
-            h = 0
+                # START SIMULATION. LOCK IS RELEASED IN PREVIOUS STEP.
+                # SO THIS SIMULATION RUNS IN PARALLEL TO OTHER STEPS.
+                temp_pull = current_pull.create_copy()
+                simulation_rew = [0.0] * temp_pull.numplayers
+                h = 0
 
-            #print "SIMULATING"
-            while temp_pull.gameover == False and h <= horizon:
-                try:
-                    action_to_take = rollout_policy.select_action(temp_pull.current_state)
-                    current_pull_reward = temp_pull.take_action(action_to_take)
-                    simulation_rew = [x + y for x, y in zip(simulation_rew, current_pull_reward)]
-                    temp_pull.change_turn()
-                    h += 1
-                except Exception:
-                    break
+                #print "SIMULATING"
+                while temp_pull.gameover == False and h <= horizon:
+                    try:
+                        action_to_take = rollout_policy.select_action(temp_pull.current_state)
+                        current_pull_reward = temp_pull.take_action(action_to_take)
+                        simulation_rew = [x + y for x, y in zip(simulation_rew, current_pull_reward)]
+                        temp_pull.change_turn()
+                        h += 1
+                    except Exception:
+                        break
 
-            del temp_pull
+                del temp_pull
 
-        q_vals = [x+y for x,y in zip(actual_reward, simulation_rew)]
+            q_vals = [x+y for x,y in zip(actual_reward, simulation_rew)]
 
-        # LOCK AND BACKPROPAGATE.
-        root_node.lock_obj.acquire()
+            # LOCK AND BACKPROPAGATE.
+            root_node.lock_obj.acquire()
 
-        for node in xrange(len(visit_stack) - 1, -1, -1):
-            if visit_stack[node].is_root == False:
-                temp_diff =  [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
-                temp_qterm =  [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
-                visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
+            for node in xrange(len(visit_stack) - 1, -1, -1):
+                if visit_stack[node].is_root == False:
+                    temp_diff =  [x - y for x, y in zip(q_vals, visit_stack[node].reward)]
+                    temp_qterm =  [float(x) / float(visit_stack[node].state_visit) for x in temp_diff]
+                    visit_stack[node].reward = [x + y for x, y in zip(visit_stack[node].reward, temp_qterm)]
 
-        root_node.lock_obj.release()
+            root_node.lock_obj.release()
+        except Exception:
+            print "GOT"
+
+            try:
+                current_node.lock_obj.release()
+            except Exception:
+                pass
+
+            continue
 
     global  total_sims
     total_sims += sim_c
