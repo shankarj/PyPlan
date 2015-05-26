@@ -1,14 +1,9 @@
 from abstract import absagent
 import math
-import sys
-import multiprocessing
+import threading
 from multiprocessing import Process, Queue
 import timeit
-import threading
 
-total_count = 0
-overall_results = []
-start_time = None
 
 class uctnode:
     def __init__(self, node_state, action_list, is_root):
@@ -21,26 +16,18 @@ class uctnode:
         self.is_terminal = False
         self.verbose = False
 
-def _simulate_game(rollout_policy, current_pull, horizon, s_q):
-    sim_reward = [0.0] * current_pull.numplayers
-    h = 0
-    while current_pull.gameover == False and h <= horizon:
-        action_to_take = rollout_policy.select_action(current_pull.current_state)
-        current_pull_reward = current_pull.take_action(action_to_take)
-        sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
-        current_pull.change_turn()
-        h += 1
-
-    del current_pull
-    s_q.put(sim_reward)
 '''
 1. THIS METHOD GENERATES ONE UCT TREE AND RETURNS THE REWARDS OF ALL THE ACTIONS
 AND THE VISIT COUNT. COULD BE INVOKED IN PARALLEL OR SEQ.
 2. I HAVE KEPT IT OUTSIDE THE CLASS BECAUSE OF PICKLING PROBLEMS WHILE MULTIPROC
 INITIALIZING.
 '''
-def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, threadcount,
-                  time_limit, out_q):
+overall_results = []
+total_count = 0
+start_time = None
+
+def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, rollout, uct_const, hor, time_limit,
+                  out_q):
     current_turn = current_state.get_current_state()["current_player"]
     current_simulator.change_simulator_state(current_state)
     valid_actions = current_simulator.get_valid_actions()
@@ -56,12 +43,16 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
     curr_sim_count = 0
     num_nodes = 0
 
+    if time_limit != -1.0:
+        sim_count = 30000000000000000000000000
+
     while curr_sim_count < sim_count:
         if time_limit != -1.0:
-            global  start_time
+            global start_time
             end_time = timeit.default_timer()
             if end_time - start_time > time_limit:
                 break
+
         # CHOOSE A NODE USING TREE POLICY. NODE SELECTION.
         while len(current_node.valid_actions) > 0 and len(current_node.children_list) == len(current_node.valid_actions):
             if tree_pol == "UCB":
@@ -97,28 +88,17 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
             actual_reward = current_pull.take_action(current_node.valid_actions[len(current_node.children_list)])
             current_pull.change_turn()
 
-            ## SIMULATE TILL END AND GET THE REWARD.
-            ## HERE SIMULATION TAKES PLACE PARALLELY.
-            process_list = []
-            output_que = Queue(threadcount)
-            for proc in xrange(threadcount):
-                worker_proc = Process(target=_simulate_game, args=(rollout.create_copy(),
-                                                                   current_pull.create_copy(), hor,
-                                                                   output_que,))
-                worker_proc.daemon = True
-                process_list.append(worker_proc)
-                worker_proc.start()
-
-            for worker in process_list:
-                worker.join()
-
-            # AVERAGE THE REWARDS FROM PARALLEL SIMULATIONS
+            ##SIMULATE TILL END AND GET THE REWARD.
             sim_reward = [0.0] * current_pull.numplayers
-            for thread in xrange(threadcount):
-                temp_reward = output_que.get()
-                sim_reward = [x+y for x,y in zip(temp_reward, sim_reward)]
+            h = 0
+            simulation_sim = current_pull.create_copy()
 
-            sim_reward = [float(x / threadcount) for x in sim_reward]
+            while simulation_sim.gameover == False and h <= hor:
+                action_to_take = rollout.select_action(simulation_sim.current_state)
+                current_pull_reward = simulation_sim.take_action(action_to_take)
+                sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
+                simulation_sim.change_turn()
+                h += 1
 
             q_vals = [x + y for x, y in zip(actual_reward, sim_reward)]
 
@@ -154,16 +134,17 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
     visits = []
 
     for kid in root_node.children_list:
+        # print kid.reward
         rewards.append(kid.reward[current_turn - 1])
         visits.append(kid.state_visit)
 
     overall_results.append([rewards, visits])
 
 
-class BlockParallelUCTClass(absagent.AbstractAgent):
-    myname = "UCT-BP"
+class ThreadEnsembleUCTAgentClass(absagent.AbstractAgent):
+    myname = "ThreadEnsembleUCT"
 
-    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, threadcount = 5, ensembles=2, horizon=10,
+    def __init__(self, simulator, rollout_policy, tree_policy, num_simulations, uct_constant=1, ensembles=2, horizon=10,
                  parallel=False, time_limit=-1):
         self.agentname = self.myname
         self.rollout_policy = rollout_policy
@@ -173,16 +154,30 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         self.simulation_count = num_simulations
         self.ensemble_count = ensembles
         self.horizon = horizon
-        self.thread_count = threadcount
+        self.is_parallel = parallel
         self.time_limit = time_limit
 
     def create_copy(self):
-        return BlockParallelUCTClass(self.simulator.create_copy(), self.rollout_policy.create_copy(),
-                                     self.tree_policy, self.simulation_count, self.uct_constant, self.threadcount,
-                                     self.ensemble_count, self.horizon)
+        return ThreadEnsembleUCTAgentClass(self.simulator.create_copy(), self.rollout_policy.create_copy(),
+                                     self.tree_policy, self.simulation_count, self.uct_constant,
+                                     self.ensemble_count, self.horizon, self.time_limit)
 
     def get_agent_name(self):
         return self.agentname
+
+    def _simulate_game(self, current_pull, rollout, horizon):
+        sim_reward = [0.0] * current_pull.numplayers
+        h = 0
+        while current_pull.gameover == False and h <= horizon:
+            action_to_take = rollout.select_action(current_pull.current_state)
+            current_pull_reward = current_pull.take_action(action_to_take)
+            sim_reward = [x + y for x, y in zip(sim_reward, current_pull_reward)]
+            current_pull.change_turn()
+            h += 1
+
+        del current_pull
+        return sim_reward
+
 
     def select_action(self, current_state):
         current_turn = current_state.get_current_state()["current_player"]
@@ -190,49 +185,53 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         valid_actions = self.simulator.get_valid_actions()
         actions_count = len(valid_actions)
 
-        if actions_count == 1:
+        if actions_count <= 1:
             return valid_actions[0]
 
         reward_values = []
         visit_counts = []
         output_que = Queue(self.ensemble_count)
 
-        if self.time_limit != -1.0:
-            self.simulation_count = 30000000000000000000000000
-
         global  overall_results
         global  total_count
+        global  start_time
         overall_results = []
         total_count = 0
-
-        global  start_time
         start_time = timeit.default_timer()
 
-        process_list = []
-        for proc in xrange(self.ensemble_count):
-            worker_proc = threading.Thread(target=generate_tree, args=(proc,
-                                                              self.simulator.create_copy(),
-                                                              current_state.create_copy(),
-                                                              self.simulation_count,
-                                                              self.tree_policy,
-                                                              self.rollout_policy.create_copy(),
-                                                              self.uct_constant,
-                                                              self.horizon,
-                                                              self.thread_count,
-                                                              self.time_limit,
-                                                              output_que,))
-            process_list.append(worker_proc)
-            worker_proc.start()
+        if self.is_parallel:
+            process_list = []
+            for proc in xrange(self.ensemble_count):
+                worker_proc = threading.Thread(target=generate_tree, args=(proc,
+                                                                  self.simulator.create_copy(),
+                                                                  current_state.create_copy(),
+                                                                  self.simulation_count,
+                                                                  self.tree_policy,
+                                                                  self.rollout_policy.create_copy(),
+                                                                  self.uct_constant,
+                                                                  self.horizon,
+                                                                  self.time_limit,
+                                                                  output_que,))
+                #worker_proc.daemon = True
+                process_list.append(worker_proc)
+                worker_proc.start()
 
-        for worker in process_list:
-            worker.join()
+            for worker in process_list:
+                worker.join()
+        else:
+            for proc in xrange(self.ensemble_count):
+                generate_tree(self.simulator.create_copy(),
+                              current_state.create_copy(),
+                              self.simulation_count,
+                              self.tree_policy,
+                              self.rollout_policy.create_copy(),
+                              self.uct_constant,
+                              self.horizon,
+                              output_que)
 
         for val in xrange(self.ensemble_count):
             reward_values.append(overall_results[val][0])
             visit_counts.append(overall_results[val][1])
-
-        global total_count
-        print "BLK", total_count
 
         # NEED NOT WORRY ABOUT SPECIFYING CURRENT PLAYER'S TURN HERE. WE PASS THE TURN
         # WHILE CREATING UCT AGENT AND WE RETRIEVE ONLY THE PLAYER OF INTEREST'S
@@ -240,6 +239,10 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
         best_avg = 0.0
         best_arm = 0
         # COMPARE FOR BEST AVG
+
+        global  total_count
+        print "RP", total_count
+
         for arm in xrange(0, len(reward_values[0])):
             curr_avg = 0.0
             numer = 0.0
@@ -259,6 +262,7 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
                 if curr_avg > best_avg:
                     best_avg = curr_avg
                     best_arm = arm
+
 
         return valid_actions[best_arm]
 

@@ -86,8 +86,31 @@ def call_dealer():
                                         horizon=int(player.attributes["horizon"].value),
                                         time_limit=float(player.attributes["time_limit"].value))
                 agents_list.append(agent_BP)
-
-
+            elif int(player.attributes["number"].value) == 21:
+                agent_thread_rp = thread_rp_uct.ThreadEnsembleUCTAgentClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                        num_simulations=int(player.attributes["num_simulations"].value),
+                                        uct_constant=float(player.attributes["uct_constant"].value),
+                                        horizon=int(player.attributes["horizon"].value),
+                                        ensembles=int(player.attributes["ensembles"].value),
+                                        parallel=bool(int(player.attributes["parallel"].value)),
+                                        time_limit=float(player.attributes["time_limit"].value))
+                agents_list.append(agent_thread_rp)
+            elif int(player.attributes["number"].value) == 22:
+                agent_thread_LM = thread_LM.ThreadTPLMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                        threadcount=int(player.attributes["threadcount"].value),
+                                        uct_constant=float(player.attributes["uct_constant"].value),
+                                        horizon=int(player.attributes["horizon"].value),
+                                        num_simulations=int(player.attributes["num_simulations"].value),
+                                        time_limit=float(player.attributes["time_limit"].value))
+                agents_list.append(agent_thread_LM)
+            elif int(player.attributes["number"].value) == 23:
+                agent_thread_GM = thread_GM.ThreadTPGMClass(simulator=simulator_obj, rollout_policy=agent_one, tree_policy="UCB",
+                                        num_simulations=int(player.attributes["num_simulations"].value),
+                                        threadcount=int(player.attributes["threadcount"].value),
+                                        uct_constant=float(player.attributes["uct_constant"].value),
+                                        horizon=int(player.attributes["horizon"].value),
+                                        time_limit=float(player.attributes["time_limit"].value))
+                agents_list.append(agent_thread_GM)
 
         output_file = open(output_file_name, "w")
         output_file.write("PLAYING " + game_name + "\n")

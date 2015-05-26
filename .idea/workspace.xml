@@ -2,13 +2,136 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ea01e4d-1ce1-4dda-9917-9bd9e141a304" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-0.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-10.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-11.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-12.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-13.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-14.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-15.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-3.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-5.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-6.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-7.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-8.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/BP-9.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/LP.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-0.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-10.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-11.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-12.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-13.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-14.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-15.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-16.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-17.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-18.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-19.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-20.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-21.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-22.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-23.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-24.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-25.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-26.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-27.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-28.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-29.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-3.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-30.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-31.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-5.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-6.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-7.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-8.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/RP-9.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-0.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-10.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-11.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-12.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-13.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-14.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-15.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-16.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-17.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-18.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-19.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-20.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-21.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-22.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-23.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-24.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-25.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-26.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-27.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-28.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-29.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-3.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-30.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-31.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-5.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-6.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-7.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-8.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPGM-9.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-0.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-10.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-11.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-12.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-13.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-14.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-15.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-16.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-17.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-18.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-19.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-20.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-21.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-22.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-23.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-24.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-25.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-26.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-27.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-28.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-29.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-3.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-30.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-31.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-5.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-6.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-7.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-8.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/TPLM-9.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/UCT.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-bp-connect4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-gm-connect4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-lm-connect4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-rp-connect4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/lp-uct-connect4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Results/uct-gm-connect4.csv" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/__init__.py" afterPath="$PROJECT_DIR$/agents/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/blockparalleluct.py" afterPath="$PROJECT_DIR$/agents/blockparalleluct.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/ensembleuct.py" afterPath="$PROJECT_DIR$/agents/ensembleuct.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dealer.py" afterPath="$PROJECT_DIR$/dealer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jobs.xml" afterPath="$PROJECT_DIR$/jobs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/leafparalleluct.py" afterPath="$PROJECT_DIR$/agents/leafparalleluct.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/treeparalleluct_GM.py" afterPath="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" afterPath="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agents/uctagent.py" afterPath="$PROJECT_DIR$/agents/uctagent.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyPlan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,93 +155,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="533" max-vertical-offset="2625">
-              <caret line="58" column="39" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="jobs.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jobs.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4296875" vertical-offset="0" max-vertical-offset="525">
-              <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="leafparalleluct.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agents/leafparalleluct.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.555555" vertical-offset="2211" max-vertical-offset="2895">
-              <caret line="184" column="27" selection-start-line="184" selection-start-column="27" selection-end-line="184" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="blockparalleluct.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agents/blockparalleluct.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1813" max-vertical-offset="3855">
-              <caret line="155" column="52" selection-start-line="155" selection-start-column="52" selection-end-line="155" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="treeparalleluct_GM.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_GM.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2250" max-vertical-offset="4005">
-              <caret line="193" column="41" selection-start-line="193" selection-start-column="41" selection-end-line="193" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="treeparalleluct_NVL.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="4200">
-              <caret line="206" column="52" selection-start-line="206" selection-start-column="52" selection-end-line="206" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="uctagent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agents/uctagent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1736" max-vertical-offset="2565">
-              <caret line="121" column="33" selection-start-line="121" selection-start-column="33" selection-end-line="121" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ensembleuct.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/agents/ensembleuct.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="4080">
-              <caret line="154" column="47" selection-start-line="154" selection-start-column="47" selection-end-line="154" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="temp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/temp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
-              <caret line="41" column="10" selection-start-line="1" selection-start-column="4" selection-end-line="41" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.55158323" vertical-offset="0" max-vertical-offset="1080">
+              <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -132,6 +173,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/simulators/tictactoesimulator.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/actions/yahtzeeaction.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/agents/thread_rp_uct.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/states/tetrisstate.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/simulators/tetrissimulator.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/states/yahtzeestate.py" root0="SKIP_INSPECTION" />
@@ -141,7 +183,9 @@
     <setting file="file://$PROJECT_DIR$/agents/blockparalleluct.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/agents/uctagent.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/actions/othelloaction.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/agents/thread_LM.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/abstract/absagent.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/agents/thread_GM.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/agents/treeparalleluct_VL.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/dealer.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py" root0="SKIP_INSPECTION" />
@@ -189,7 +233,6 @@
         <option value="$PROJECT_DIR$/agents/treeparalleluct-VL.py" />
         <option value="$PROJECT_DIR$/sample2.py" />
         <option value="$PROJECT_DIR$/sample.py" />
-        <option value="$PROJECT_DIR$/agents/__init__.py" />
         <option value="$PROJECT_DIR$/agents/treeparalleluct_VL.py" />
         <option value="$PROJECT_DIR$/agents/randomagent.py" />
         <option value="$PROJECT_DIR$/simulators/tetrissimulator.py" />
@@ -203,16 +246,20 @@
         <option value="$PROJECT_DIR$/simulators/__init__.py" />
         <option value="$PROJECT_DIR$/states/othellostate.py" />
         <option value="$PROJECT_DIR$/tests/simulatortest.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/temp" />
         <option value="$PROJECT_DIR$/simulators/othellosimulator.py" />
-        <option value="$PROJECT_DIR$/dealer.py" />
         <option value="$PROJECT_DIR$/agents/ensembleuct.py" />
-        <option value="$PROJECT_DIR$/agents/leafparalleluct.py" />
-        <option value="$PROJECT_DIR$/agents/blockparalleluct.py" />
         <option value="$PROJECT_DIR$/agents/treeparalleluct_GM.py" />
         <option value="$PROJECT_DIR$/agents/treeparalleluct_NVL.py" />
+        <option value="$PROJECT_DIR$/agents/__init__.py" />
+        <option value="$PROJECT_DIR$/dealer.py" />
+        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/agents/uctagent.py" />
+        <option value="$PROJECT_DIR$/agents/leafparalleluct.py" />
+        <option value="$PROJECT_DIR$/agents/thread_LM.py" />
+        <option value="$PROJECT_DIR$/agents/thread_GM.py" />
+        <option value="$PROJECT_DIR$/agents/thread_rp_uct.py" />
+        <option value="$PROJECT_DIR$/agents/blockparalleluct.py" />
         <option value="$PROJECT_DIR$/jobs.xml" />
       </list>
     </option>
@@ -655,14 +702,14 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286991" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17640863" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4342246" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43396226" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.59086394" sideWeight="0.49131122" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.83614695" sideWeight="0.49131122" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.56218904" sideWeight="0.5086888" order="7" side_tool="true" content_ui="tabs" x="480" y="289" width="959" height="565" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -737,22 +784,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/dealer.py</url>
-          <line>113</line>
+          <line>121</line>
           <option name="timeStamp" value="354" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/dealer.py</url>
-          <line>125</line>
+          <line>133</line>
           <option name="timeStamp" value="355" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/dealer.py</url>
-          <line>163</line>
+          <line>171</line>
           <option name="timeStamp" value="356" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>136</line>
+          <line>159</line>
           <option name="timeStamp" value="357" />
         </line-breakpoint>
       </breakpoints>
@@ -766,7 +813,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="358" />
+      <option name="time" value="359" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -775,30 +822,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/actions/tictactoeaction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="285">
-          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/simulatortest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="270">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simulators/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90">
@@ -862,13 +885,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/agents/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
-          <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/managers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33278957" vertical-offset="11001" max-vertical-offset="16680">
@@ -899,14 +915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulators/connect4simulator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2520">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/abstract/absagent.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
@@ -919,6 +927,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="583" max-vertical-offset="1560">
           <caret line="64" column="38" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -926,6 +935,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1560">
           <caret line="22" column="90" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="90" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -940,6 +950,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1935">
           <caret line="64" column="35" selection-start-line="64" selection-start-column="35" selection-end-line="64" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -955,6 +966,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
           <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -969,6 +981,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="720">
           <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -991,6 +1004,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.47960308" vertical-offset="0" max-vertical-offset="907">
           <caret line="29" column="55" selection-start-line="0" selection-start-column="0" selection-end-line="34" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -998,6 +1012,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2646086" vertical-offset="0" max-vertical-offset="907">
           <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1074,15 +1089,55 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2759" max-vertical-offset="3105">
           <caret line="190" column="13" selection-start-line="190" selection-start-column="13" selection-end-line="190" selection-end-column="13" />
           <folding>
-            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_GM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="3990">
+          <caret line="62" column="49" selection-start-line="62" selection-start-column="49" selection-end-line="62" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simulators/connect4simulator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2520">
+          <caret line="37" column="63" selection-start-line="37" selection-start-column="63" selection-end-line="37" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2325" max-vertical-offset="4170">
+          <caret line="125" column="64" selection-start-line="125" selection-start-column="64" selection-end-line="125" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.049916804" vertical-offset="0" max-vertical-offset="601">
+          <caret line="2" column="95" selection-start-line="2" selection-start-column="95" selection-end-line="2" selection-end-column="95" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dealer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="2565">
-          <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="2685">
+          <caret line="64" column="72" selection-start-line="64" selection-start-column="72" selection-end-line="64" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/ensembleuct.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1586716" vertical-offset="2308" max-vertical-offset="4080">
+          <caret line="117" column="31" selection-start-line="117" selection-start-column="31" selection-end-line="117" selection-end-column="33" />
           <folding />
         </state>
       </provider>
@@ -1090,73 +1145,83 @@
     <entry file="file://$PROJECT_DIR$/temp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
-          <caret line="41" column="10" selection-start-line="1" selection-start-column="4" selection-end-line="41" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/ensembleuct.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="4080">
-          <caret line="154" column="47" selection-start-line="154" selection-start-column="47" selection-end-line="154" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/leafparalleluct.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.555555" vertical-offset="2211" max-vertical-offset="2895">
-          <caret line="184" column="27" selection-start-line="184" selection-start-column="27" selection-end-line="184" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/blockparalleluct.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1813" max-vertical-offset="3855">
-          <caret line="155" column="52" selection-start-line="155" selection-start-column="52" selection-end-line="155" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_GM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2250" max-vertical-offset="4005">
-          <caret line="193" column="41" selection-start-line="193" selection-start-column="41" selection-end-line="193" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/treeparalleluct_NVL.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2430" max-vertical-offset="4200">
-          <caret line="206" column="52" selection-start-line="206" selection-start-column="52" selection-end-line="206" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/agents/uctagent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1736" max-vertical-offset="2565">
-          <caret line="121" column="33" selection-start-line="121" selection-start-column="33" selection-end-line="121" selection-end-column="33" />
+          <caret line="15" column="101" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="101" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="533" max-vertical-offset="2625">
-          <caret line="58" column="39" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.7323232" vertical-offset="315" max-vertical-offset="2970">
+          <caret line="50" column="79" selection-start-line="50" selection-start-column="79" selection-end-line="50" selection-end-column="79" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/agents/uctagent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6632997" vertical-offset="1736" max-vertical-offset="2565">
+          <caret line="145" column="18" selection-start-line="145" selection-start-column="18" selection-end-line="145" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/leafparalleluct.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8737374" vertical-offset="2106" max-vertical-offset="2895">
+          <caret line="175" column="8" selection-start-line="175" selection-start-column="8" selection-end-line="175" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/thread_GM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="3150">
+          <caret line="178" column="43" selection-start-line="178" selection-start-column="43" selection-end-line="178" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/thread_LM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="3135">
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/thread_rp_uct.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="4125">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="133" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/agents/blockparalleluct.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2010" max-vertical-offset="4065">
+          <caret line="154" column="0" selection-start-line="154" selection-start-column="0" selection-end-line="154" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jobs.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4296875" vertical-offset="0" max-vertical-offset="525">
-          <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.55158323" vertical-offset="0" max-vertical-offset="1080">
+          <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
           <folding />
         </state>
       </provider>

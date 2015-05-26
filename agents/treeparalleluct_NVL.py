@@ -64,13 +64,12 @@ class TreeSpace(object):
         e_t = timeit.default_timer()
         #print "BPL", e_t - s_t
 
-        for node in visit_stack:
-            for node in xrange(len(visit_stack) - 1, -1, -1):
-                node_id = visit_stack[node]
-                if self.node_dictionary[node_id].is_root == False:
-                    temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[node_id].reward)]
-                    temp_qterm =  [float(x) / float(self.node_dictionary[node_id].state_visit) for x in temp_diff]
-                    self.node_dictionary[node_id].reward = [x + y for x, y in zip(self.node_dictionary[node_id].reward, temp_qterm)]
+        for node in xrange(len(visit_stack) - 1, -1, -1):
+            node_id = visit_stack[node]
+            if self.node_dictionary[node_id].is_root == False:
+                temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[node_id].reward)]
+                temp_qterm =  [float(x) / float(self.node_dictionary[node_id].state_visit) for x in temp_diff]
+                self.node_dictionary[node_id].reward = [x + y for x, y in zip(self.node_dictionary[node_id].reward, temp_qterm)]
 
         self.locks[0].release()
         #print "DONE", pnum
@@ -112,10 +111,9 @@ TreeSpaceManager.register('TreeSpace', TreeSpace)
 def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constant, sim_count, horizon, time_limit, start_time):
     sim_c = 0
 
-    end_time = timeit.default_timer()
-
     while sim_c < sim_count:
         if time_limit != -1.0:
+            end_time = timeit.default_timer()
             if end_time - start_time > time_limit:
                 break
 

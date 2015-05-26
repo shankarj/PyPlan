@@ -3,6 +3,7 @@ import math
 import sys
 import timeit
 import multiprocessing
+import threading
 from multiprocessing import Process, Queue
 
 class uctnode:
@@ -72,7 +73,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
         start_time = timeit.default_timer()
         end_time = timeit.default_timer()
 
-        if self.time_limit is not -1:
+        if self.time_limit != -1.0:
             self.simulation_count = 30000000000000000000000000
 
         #while end_time - start_time < 1.0:
@@ -122,10 +123,10 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
                 process_list = []
                 output_que = Queue(self.threadcount)
                 for proc in xrange(self.threadcount):
-                    worker_proc = Process(target=_simulate_game, args=(self.rollout_policy.create_copy(),
+                    worker_proc = threading.Thread(target=_simulate_game, args=(self.rollout_policy.create_copy(),
                                                                        current_pull.create_copy(), self.horizon,
                                                                        output_que,))
-                    worker_proc.daemon = True
+                    #worker_proc.daemon = True
                     process_list.append(worker_proc)
                     #print "PST", timeit.default_timer()
                     worker_proc.start()
@@ -171,13 +172,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
 
             end_time = timeit.default_timer()
 
-        sim_count_file = open("Results/LP.csv", "w")
-        sim_count_file.write(str(sim_count) + "\n")
-        sim_count_file.close()
-
-        # print "NUM NODES : ", str(num_nodes)
-        print "LEAF NUM SIMS : ", str(sim_count)
-        # exit()
+        print "LEAF", sim_count
 
         best_arm = 0
         best_reward = root_node.children_list[0].reward[current_turn - 1]

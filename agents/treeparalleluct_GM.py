@@ -60,13 +60,12 @@ class TreeSpace(object):
         self.locks[0].acquire()
         e_t = timeit.default_timer()
 
-        for node in visit_stack:
-            for node in xrange(len(visit_stack) - 1, -1, -1):
-                node_id = visit_stack[node]
-                if self.node_dictionary[node_id].is_root == False:
-                    temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[node_id].reward)]
-                    temp_qterm =  [float(x) / float(self.node_dictionary[node_id].state_visit) for x in temp_diff]
-                    self.node_dictionary[node_id].reward = [x + y for x, y in zip(self.node_dictionary[node_id].reward, temp_qterm)]
+        for node in xrange(len(visit_stack) - 1, -1, -1):
+            node_id = visit_stack[node]
+            if self.node_dictionary[node_id].is_root == False:
+                temp_diff =  [x - y for x, y in zip(value, self.node_dictionary[node_id].reward)]
+                temp_qterm =  [float(x) / float(self.node_dictionary[node_id].state_visit) for x in temp_diff]
+                self.node_dictionary[node_id].reward = [x + y for x, y in zip(self.node_dictionary[node_id].reward, temp_qterm)]
 
         self.locks[0].release()
 
