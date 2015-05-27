@@ -31,8 +31,7 @@ def _simulate_game(rollout_policy, current_pull, horizon, out_q):
         h += 1
 
     del current_pull
-    global  sim_results
-    sim_results.append(sim_reward)
+    out_q.put(sim_reward)
     sim_end = timeit.default_timer()
     #print "SIM TIME", sim_end - sim_start
 
@@ -58,7 +57,6 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
         return self.agentname
 
     def select_action(self, current_state):
-
         current_turn = current_state.get_current_state()["current_player"]
         self.simulator.change_simulator_state(current_state)
         valid_actions = self.simulator.get_valid_actions()
@@ -127,10 +125,10 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
                 process_list = []
                 output_que = Queue(self.threadcount)
                 for proc in xrange(self.threadcount):
-                    worker_proc = threading.Thread(target=_simulate_game, args=(self.rollout_policy.create_copy(),
+                    worker_proc = Process(target=_simulate_game, args=(self.rollout_policy.create_copy(),
                                                                        current_pull.create_copy(), self.horizon,
                                                                        output_que,))
-                    #worker_proc.daemon = True
+                    worker_proc.daemon = True
                     process_list.append(worker_proc)
                     #print "PST", timeit.default_timer()
                     worker_proc.start()
@@ -143,7 +141,7 @@ class LeafParallelUCTClass(absagent.AbstractAgent):
                 jst = timeit.default_timer()
                 global sim_results
                 for thread in xrange(self.threadcount):
-                    temp_reward = sim_results[thread]
+                    temp_reward = output_que.get()
                     sim_reward = [x+y for x,y in zip(temp_reward, sim_reward)]
                 jend = timeit.default_timer()
                 #print "\n\nQUEUE TIME", jend - jst

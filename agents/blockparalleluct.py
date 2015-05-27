@@ -7,7 +7,6 @@ import timeit
 import threading
 
 total_count = 0
-overall_results = []
 start_time = None
 
 class uctnode:
@@ -102,7 +101,7 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
             process_list = []
             output_que = Queue(threadcount)
             for proc in xrange(threadcount):
-                worker_proc = threading.Thread(target=_simulate_game, args=(rollout.create_copy(),
+                worker_proc = Process(target=_simulate_game, args=(rollout.create_copy(),
                                                                    current_pull.create_copy(), hor,
                                                                    output_que,))
                 #worker_proc.daemon = True
@@ -147,6 +146,7 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
 
         end_time = timeit.default_timer()
 
+    print "BLK", curr_sim_count
     global  total_count
     total_count += curr_sim_count
 
@@ -157,7 +157,7 @@ def generate_tree(pnum, current_simulator, current_state, sim_count, tree_pol, r
         rewards.append(kid.reward[current_turn - 1])
         visits.append(kid.state_visit)
 
-    overall_results.append([rewards, visits])
+    out_q.put([rewards, visits])
 
 
 class BlockParallelUCTClass(absagent.AbstractAgent):
@@ -210,7 +210,7 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
 
         process_list = []
         for proc in xrange(self.ensemble_count):
-            worker_proc = threading.Thread(target=generate_tree, args=(proc,
+            worker_proc = Process(target=generate_tree, args=(proc,
                                                               self.simulator.create_copy(),
                                                               current_state.create_copy(),
                                                               self.simulation_count,
@@ -228,11 +228,12 @@ class BlockParallelUCTClass(absagent.AbstractAgent):
             worker.join()
 
         for val in xrange(self.ensemble_count):
-            reward_values.append(overall_results[val][0])
-            visit_counts.append(overall_results[val][1])
+            q_output = output_que.get()
+            reward_values.append(q_output[0])
+            visit_counts.append(q_output[1])
 
         global total_count
-        print "BLK", total_count
+        #print "BLK", total_count
 
         # NEED NOT WORRY ABOUT SPECIFYING CURRENT PLAYER'S TURN HERE. WE PASS THE TURN
         # WHILE CREATING UCT AGENT AND WE RETRIEVE ONLY THE PLAYER OF INTEREST'S

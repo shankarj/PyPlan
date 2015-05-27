@@ -1,4 +1,13 @@
 <jobs>
+    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-lp-connect4.csv">
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
+        <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="2.0"/>
+    </job>
+     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-bp-connect4.csv">
+        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
+        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="0.8" horizon="50"
+                time_limit="2.0"/>
+    </job>
     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-gm-connect4.csv">
         <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
         <player number="11" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
@@ -7,15 +16,6 @@
         <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
         <player number="6" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1"
                 time_limit="2.0"/>
-    </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-bp-connect4.csv">
-        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
-        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="0.8" horizon="50"
-                time_limit="2.0"/>
-    </job>
-    <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-lp-connect4.csv">
-        <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
-        <player number="9" num_simulations="256" num_threads="16" uct_constant="0.8" horizon="50" time_limit="2.0"/>
     </job>
     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/lm-uct-connect4.csv">
         <player number="8" num_simulations="32" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
@@ -33,7 +33,7 @@
     </job>
     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-bp-connect4.csv">
         <player number="11" num_simulations="8" threadcount="32" uct_constant="0.8" horizon="50" time_limit="2.0"/>
-        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="0.8" horizon="50"
+        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="0.8" horizon="50"
                 time_limit="2.0"/>
     </job>
     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/gm-lp-connect4.csv">
@@ -58,7 +58,7 @@
     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-bp-connect4.csv">
         <player number="6" num_simulations="8" ensembles="32" uct_constant="0.8" horizon="50" parallel="1"
                 time_limit="2.0"/>
-        <player number="10" num_simulations="16" ensembles="28" threadcount="4" uct_constant="0.8" horizon="50"
+        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="0.8" horizon="50"
                 time_limit="2.0"/>
     </job>
     <job playercount="2" sim_count="50" sim_horizon="50" game="connect4" output_file="Results/rp-lp-connect4.csv">
@@ -71,6 +71,5 @@
                 time_limit="2.0"/>
         <player number="5" num_simulations="1024" uct_constant="0.8" horizon="50" time_limit="2.0"/>
     </job>
-
 </jobs>
 
