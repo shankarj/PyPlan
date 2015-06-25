@@ -12,6 +12,13 @@ Basic Architecture
 
 Usage
 =====
+Import all the three main Python files.
+
+```
+import dealer
+from agents import *
+from simulators import *
+```
 
 The DealerClass initiates a simulation between a given number of agents for the chosen simulator. The constructor is given below.
 
