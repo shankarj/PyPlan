@@ -13,10 +13,10 @@ Basic Architecture
 Usage examples
 ==============
 
-There are three ways of using PyPlan
-1. Using a XML jobs file.
-2. Using mysimulation.py.
-3. Write custom simulations and obtaining the results.
+There are three ways of using PyPlan  
+1. Using a XML jobs file.  
+2. Using mysimulation.py.  
+3. Write custom simulations and obtaining the results.  
 
 The second way of using mysimulation.py is the easiest way to get your simulations running. The details of using this are given below. For more details regarding the other methods please refer to the wiki.
 
@@ -69,8 +69,8 @@ python main.py
 Command line options
 --------------------
 
--v - Verbose. Outputs simulation details on the command prompt. Ex: python main.py -v
--j - Run custom jobs files. Ex: python main.py -j jobs.xml
+-v - Verbose. Outputs simulation details on the command prompt. Ex: python main.py -v  
+-j - Run custom jobs files. Ex: python main.py -j jobs.xml  
 
 Modules available
 =================
