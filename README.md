@@ -3,7 +3,9 @@ PyPlan
 
 PyPlan is a set of modular Monte-Carlo planning libraries for Python. The main goal of this project is to offer easy-to-use and flexible planning algorithms. Flexibility is offered in terms of input parameters to the algorithms and easily altering the parameters of execution environments.
 
-This python library provides an API to easily create planning algorithms, domains and also easily interface between them. Using this, any developer would be easily able to create various domains and agents, plug various other agents for the same domain and make effective comparisons.
+This python library provides an API to easily create planning algorithms, domains and also easily interface between them. Using this, any developer would be easily able to create various domains and agents, plug various other agents for the same domain and make effective comparisons.  
+
+Python version : 2.7.6
 
 Basic Architecture
 ==================
