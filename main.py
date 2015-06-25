@@ -42,7 +42,7 @@ def call_dealer():
 
 
     # CHECK IF WE NEED TO PARSE JOBS FILE OR RUN MY SIMULATIONS
-    if 1:
+    if read_jobs_file:
         job_file = "jobs.xml"
         job_count = jobparser.get_job_count(job_file)
         current_job_number = 0
