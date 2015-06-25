@@ -31,6 +31,7 @@ class TreeSpace(object):
         self.node_dictionary = {}
         self.initialized = False
         self.locks = {}
+        self.process_wait_time = ""
 
     def initialize_space(self, node_current_state, node_valid_actions, tree_policy, rollout_pol, horizon, uct_constant):
         self.root = uctnode(node_current_state, node_valid_actions, True, False)
@@ -62,7 +63,7 @@ class TreeSpace(object):
         self.locks[0].acquire()
         #print "GBL", pnum
         e_t = timeit.default_timer()
-        #print "BPL", e_t - s_t
+        self.process_wait_time += "\nPW " + str(pnum) + str(float(e_t - s_t))
 
         for node in xrange(len(visit_stack) - 1, -1, -1):
             node_id = visit_stack[node]
@@ -83,7 +84,8 @@ class TreeSpace(object):
         self.locks[node_id].acquire()
         #print "LOCK", node_id, pnum
         e_t = timeit.default_timer()
-        #print "LW", e_t - s_t
+        self.process_wait_time += "\nPW " + str(pnum) + str(float(e_t - s_t))
+
         return self.node_dictionary[node_id]
 
     def release_lock(self, node_id, pnum):
@@ -105,10 +107,15 @@ class TreeSpace(object):
     def increase_visit_count(self, node_id):
         self.node_dictionary[node_id].state_visit += 1
 
+    def get_wait_times(self):
+        return self.process_wait_time
+
 TreeSpaceManager.register('TreeSpace', TreeSpace)
 
 # PARALLEL CODE. THIS IS THE CODE THAT RUNS ON INDIVIDUAL PROCESS'S SPACE.
 def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constant, sim_count, horizon, time_limit, start_time):
+    e_t = timeit.default_timer()
+    print "PS", e_t - start_time
     sim_c = 0
 
     while sim_c < sim_count:
@@ -201,6 +208,7 @@ def worker_code(pnum, mgr_obj, sim_obj, tree_policy, rollout_policy, uct_constan
     sim_count_file.write(str(sim_c) + "\n")
     sim_count_file.close()
 
+    print mgr_obj.get_wait_times()
 
 class TreeParallelUCTNVLClass(absagent.AbstractAgent):
     myname = "UCT-TP-NVL"

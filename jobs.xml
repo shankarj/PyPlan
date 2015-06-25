@@ -1,25 +1,13 @@
 <jobs>
-     <job playercount="1" sim_count="100" sim_horizon="100" game="yahtzee" output_file="Results/uct-yahtzee.csv">
-        <player number="5" num_simulations="1024" uct_constant="6" horizon="100" time_limit="1.0"/>
-    </job>
-    <job playercount="1" sim_count="100" sim_horizon="100" game="yahtzee" output_file="Results/lp-yahtzee.csv">
-        <player number="9" num_simulations="256" num_threads="16" uct_constant="6" horizon="100" time_limit="1.0"/>
-    </job>
-     <job playercount="1" sim_count="100" sim_horizon="100" game="yahtzee" output_file="Results/lm-yahtzee.csv">
-         <player number="8" num_simulations="32" threadcount="32" uct_constant="6" horizon="100" time_limit="1.0"/>
-    </job>
-    <job playercount="1" sim_count="100" sim_horizon="100" game="yahtzee" output_file="Results/bp-yahtzee.csv">
-        <player number="10" num_simulations="16" ensembles="16" threadcount="16" uct_constant="6" horizon="100"
-                time_limit="1.0"/>
-    </job>
-    <job playercount="1" sim_count="100" sim_horizon="100" game="yahtzee" output_file="Results/gm-yahtzee.csv">
-        <player number="11" num_simulations="8" threadcount="32" uct_constant="6" horizon="100" time_limit="1.0"/>
+     <job playercount="2" sim_count="1" sim_horizon="100" game="tictactoe" output_file="Results/1.csv">
+       <player number="4" />
+         <player number="4" />
     </job>
 
-    <job playercount="1" sim_count="100" sim_horizon="100" game="yahtzee" output_file="Results/rp-yahtzee.csv">
-        <player number="6" num_simulations="8" ensembles="32" uct_constant="6" horizon="100" parallel="1"
-                time_limit="1.0"/>
+      <job playercount="1" sim_count="1" sim_horizon="100" game="tetris" output_file="Results/2.csv">
+       <player number="4" />
     </job>
+
 
 </jobs>
 

@@ -6,7 +6,7 @@ import os
 import subprocess
 
 class DealerClass:
-    def __init__(self, agents_list, simulator, num_simulations, sim_horizon, results_file, verbose=True):
+    def __init__(self, agents_list, simulator, num_simulations, sim_horizon, results_file, verbose=False):
         self.simulator = simulator
         self.playerlist = agents_list
         self.playercount = len(agents_list)
@@ -76,6 +76,7 @@ class DealerClass:
 
         for player in xrange(self.playercount):
             self.output_file.write("AVERAGE TIME/MOVE FOR " + str(player + 1) + ",")
+
         self.output_file.write("\n")
 
         if self.verbose:
@@ -86,7 +87,9 @@ class DealerClass:
         print_output += str("-" * 50) + "\nSIMULATION RESULTS :"
 
         for count in xrange(self.simulation_count):
-            print "CURRENT SIMULATION : " + str(count)
+            if self.verbose:
+                print "CURRENT SIMULATION : " + str(count)
+
             print_output += "\n\nSIMULATION NUMBER : " + str(count)
             game_history = []
             current_play = 0
@@ -95,51 +98,45 @@ class DealerClass:
 
             while self.simulator.gameover == False and h < self.simulation_horizon:
                 actual_agent_id = self.simulator.current_state.get_current_state()["current_player"] - 1
-                #print "-" * 50
-                print "AGENT", actual_agent_id
 
+                # ASK FOR AN ACTION FROM THE AGENT. MOVE TIME CALCULATION.
                 move_start_time = timeit.default_timer()
-                #print self.simulator.current_state.get_current_state()["state_val"]["dice_config"]
                 action_to_take = self.playerlist[actual_agent_id].select_action(self.simulator.current_state)
-                #print "ACTION", action_to_take.get_action()
                 move_end_time = timeit.default_timer()
+
+                # ADD THE TIME VALUES TO A VARIABLE TO CALCULATE AVG TIME PER MOVE.
                 time_values.append([actual_agent_id, move_end_time - move_start_time])
-                print "TIME FOR LAST MOVE ", move_end_time - move_start_time
 
-
-                # print "SHAPE : " + str(action_to_take.get_action()["piece_number"])
-                # print "ROT : " + str(action_to_take.get_action()["rot_number"])
-                # print "POSITION : " + str(action_to_take.get_action()["position"])
-                # print "---------------------------------------------------------"
+                # TAKE THE RETURNED ACTION ON SIMULATOR.
                 reward = self.simulator.take_action(action_to_take)
-                #print self.simulator.print_board()
-                # if reward[0] > 0.0:
-                # print "something"
                 game_history.append([reward, action_to_take])
                 self.simulator.change_turn()
                 h += 1
 
-            print self.simulator.print_board()
-            # --------------------
-            # ADDED THIS SECTION JUST TO PRINT THE STATISTICS OF A GAME AT ITS END RATHER THAN WAITING FOR
-            # ALL THE SIMULATIONS. ALSO WRITES TO THE CSV FILE.
-            # REMOVE THIS SECTION IF YOU WOULD LIKE TO SEE THE RESULTS AFTER THE ALL THE GAMES GET DONE.
-            # --------------------
+                if self.verbose:
+                    print "AGENT", actual_agent_id
+                    print "TIME FOR LAST MOVE ", move_end_time - move_start_time
+                    print self.simulator.print_board()
+
+            # ----------------------
+            # STATISTICS OF THE GAME.
+            # ----------------------
             total_game_rew = [0.0] * self.playercount
             for turn in xrange(len(game_history)):
                 total_game_rew = [x + y for x, y in zip(total_game_rew, game_history[turn][0])]
 
             winner = self.simulator.winningplayer
-
-            print "\nREWARDS :", total_game_rew
-            print "WINNER :", str(winner)
-            print "-" * 50
+            if self.verbose:
+                print "\nREWARDS :", total_game_rew
+                print "WINNER :", str(winner)
+                print "-" * 50
 
             for player in xrange(self.playercount):
                 self.output_file.write(str(total_game_rew[player]) + ",")
 
             self.output_file.write(str(winner))
 
+            # CALCULATE AVG TIME PER MOVE
             time_sums = [0.0] * self.playercount
             moves_per_player = float(h / self.playercount)
             for val in time_values:
@@ -154,7 +151,7 @@ class DealerClass:
             self.output_file.write("\n")
             self.output_file.flush()
             # --------------
-            # END OF SECTION
+            # END OF STATISTICS
             # ---------------
 
 
@@ -167,7 +164,7 @@ class DealerClass:
             self.simulator.reset_simulator()
 
         stop_time = timeit.default_timer()
-        print_output += "\nTOTAL TIME : " + str(stop_time - start_time) + "\n\n"
+        print_output += "\nTOTAL TIME FOR " + str(self.simulation_count) + " SIMULATIONS: " + str(stop_time - start_time) + "\n\n"
 
         if self.verbose:
             print print_output

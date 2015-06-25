@@ -143,7 +143,7 @@ class UCTAgentClass(absagent.AbstractAgent):
         sim_count_file.close()
 
         # print "NUM NODES : ", str(num_nodes)
-        print "UCT", str(sim_count)
+        # print "UCT", str(sim_count)
         # # exit()
 
         best_arm = 0
