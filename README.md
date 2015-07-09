@@ -22,7 +22,7 @@ There are three ways of using PyPlan
 2. Using mysimulation.py.  
 3. Write custom simulations and obtaining the results.  
 
-The second way of using mysimulation.py is the easiest way to get your simulations running. The details of using this are given below. For more details regarding the other methods please refer to the wiki.
+The second way of using mysimulation.py is the ***quickest way to get your simulations running***. The details of using this are given below. For more details regarding the other methods please refer to the wiki.
 
 Using mysimulation.py
 ---------------------
