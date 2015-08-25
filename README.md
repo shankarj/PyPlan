@@ -7,6 +7,8 @@ This python library provides an API to easily create planning algorithms, domain
 
 Python version : 2.7.6
 
+Current Stable branch : stable/v1 ***(Please checkout this branch. Not the master)***.
+
 Project Wiki : https://github.com/shankarj/PyPlan/wiki
 
 Basic Architecture
